@@ -9,6 +9,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(BUILD_GAMES    OFF CACHE BOOL "" FORCE)
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
+set(USE_STATIC_LIBS ON CACHE BOOL "" FORCE)
 set(GLFW_BUILD_WAYLAND ON CACHE BOOL "" FORCE)
 set(PLATFORM Desktop)
 
@@ -22,7 +23,11 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(raylib)
 
-set(FILE_IN src/main.cpp src/window.cpp)
+set(FILE_IN
+    src/main.cpp
+    src/Window/window.cpp
+    src/TextureWrapper/texture_wrapper.cpp
+)
 
 add_executable(${PROJECT_NAME} ${FILE_IN})
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
