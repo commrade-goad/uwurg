@@ -5,6 +5,7 @@
 
 struct TextWrapper {
   public:
+    const char *mFilePath;
     Texture2D mTexture;
     bool mSuccess;
 

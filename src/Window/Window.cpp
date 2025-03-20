@@ -1,5 +1,4 @@
-#include "window.hpp"
-#include "../Object/object.hpp"
+#include "Window.hpp"
 
 Window::Window(Vector2 size, const char *title) {
     mDefaultBgColor = BLACK;

@@ -1,4 +1,4 @@
-#include "texture_wrapper.hpp"
+#include "TextureWrapper.hpp"
 
 TextWrapper::TextWrapper(const char *path) {
     mTexture = LoadTexture(path);
@@ -6,6 +6,7 @@ TextWrapper::TextWrapper(const char *path) {
         mSuccess = false;
         return;
     }
+    mFilePath = path;
     mSuccess = true;
 }
 
