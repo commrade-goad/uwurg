@@ -1,6 +1,6 @@
 # UwUrg
 
-a port of [turg]() from C to C++ with OOP for `OOP Class` Project.
+a port of [turg](https://github.com/commrade-goad/turg) from C to C++ with OOP for `OOP Class` Project.
 
 ## Build
 __Build:__
