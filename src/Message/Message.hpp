@@ -4,8 +4,8 @@
 enum MessageType { OK, FAILED, CHANGE_WINDOW_S };
 
 struct Message {
-    enum MessageType mMsgT;
-    void *data;
+    MessageType mMsgT;
+    void *mData;
 };
 
 #endif // MESSAGE_H_
