@@ -3,6 +3,7 @@
 
 #include <cstddef>
 #include <raylib.h>
+#include "../Game/Game.hpp"
 
 struct Window {
   private:
@@ -13,9 +14,11 @@ struct Window {
     size_t mFPS;
     Color mDefaultBgColor;
 
-    void Phandle_drawing();
-    void Phandle_key();
-    void Phandle_logic();
+    /*Game mGame;*/
+
+    void _handle_drawing();
+    void _handle_key();
+    void _handle_logic();
 
   public:
     Window(Vector2 size, const char *title);
@@ -30,6 +33,14 @@ struct Window {
 
     void set_bg_color(Color color);
     Color get_bg_color();
+
+    void set_fps_target(size_t fps);
+    size_t get_fps_target();
+
+    void set_exit_key(int key);
+    size_t get_exit_key();
+
+    const char *get_name();
 };
 
 #endif // WINDOW_H_

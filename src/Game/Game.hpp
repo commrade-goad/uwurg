@@ -1,0 +1,20 @@
+#ifndef GAME_H_
+#define GAME_H_
+
+#include "../ObjectManager/ObjectManager.hpp"
+#include "../TextureManager/TextureManager.hpp"
+#include "../Message/Message.h"
+#include <raylib.h>
+
+struct Game {
+  public:
+    TextureManager mTexMan;
+    ObjectManager mObjMan;
+    // TODO: Msg is still wip will take care other stuff first.
+    Message mMsg;
+
+    Game();
+    ~Game();
+};
+
+#endif // GAME_H_

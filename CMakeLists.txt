@@ -24,11 +24,13 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(raylib)
 
 set(FILE_IN
-    src/main.cpp
-    src/Window/Window.cpp
     src/TextureWrapper/TextureWrapper.cpp
-    src/Object/Object.cpp
+    src/TextureManager/TextureManager.cpp
     src/ObjectManager/ObjectManager.cpp
+    src/Window/Window.cpp
+    src/Object/Object.cpp
+    src/Game/Game.cpp
+    src/main.cpp
 )
 
 add_executable(${PROJECT_NAME} ${FILE_IN})
