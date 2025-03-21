@@ -15,6 +15,11 @@ struct Game {
 
     Game();
     ~Game();
+
+    void init();
+    void handle_logic();
+    void handle_drawing();
+    void handle_key();
 };
 
 #endif // GAME_H_

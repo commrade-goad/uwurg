@@ -14,11 +14,12 @@ struct Window {
     size_t mFPS;
     Color mDefaultBgColor;
 
-    /*Game mGame;*/
+    Game mGame;
 
-    void _handle_drawing();
-    void _handle_key();
-    void _handle_logic();
+    void _handle_drawing(float dt);
+    void _handle_key(float dt);
+    void _handle_logic(float dt);
+    void _check_msg();
 
   public:
     Window(Vector2 size, const char *title);
