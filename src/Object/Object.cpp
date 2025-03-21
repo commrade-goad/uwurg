@@ -35,6 +35,6 @@ const char *Object::get_name() {
 }
 
 void Object::logic() {
-    // do object logic here...
+    // TODO: do object logic here...
 }
 void Object::draw() { DrawRectangleRec(mRec, RED); }

@@ -85,6 +85,7 @@ size_t Window::get_exit_key() { return mExitKey; }
 const char *Window::get_name() { return mName; }
 
 void Window::_check_msg() {
+    // TODO: add case as used.
     switch (mGame.mMsg.mMsgT) {
     default:
         break;

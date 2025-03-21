@@ -8,7 +8,7 @@ Game::Game() {
 Game::~Game() {}
 
 void Game::init() {
-    // additional stuff inside `mTexMan` and `mObjMan` that
+    // TODO: additional stuff inside `mTexMan` and `mObjMan` that
     // need to be initialized.
 }
 
