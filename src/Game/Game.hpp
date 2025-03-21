@@ -3,7 +3,7 @@
 
 #include "../ObjectManager/ObjectManager.hpp"
 #include "../TextureManager/TextureManager.hpp"
-#include "../Message/Message.h"
+#include "../Message/Message.hpp"
 #include <raylib.h>
 
 struct Game {

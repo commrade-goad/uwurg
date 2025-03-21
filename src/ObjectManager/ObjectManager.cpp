@@ -37,3 +37,7 @@ Object *ObjectManager::get_object(const char *name) {
     }
     return nullptr;
 }
+
+std::vector<Object> *ObjectManager::get_all_object() {
+    return &mData;
+}

@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <vector>
 
+// TODO: add z-index
 struct ObjectManager {
   private:
     std::vector<Object> mData;
@@ -19,6 +20,7 @@ struct ObjectManager {
     bool del_object(const char *name);
 
     Object *get_object(const char *name);
+    std::vector<Object> *get_all_object();
 };
 
 #endif // OBJECT_MANAGER_H_
