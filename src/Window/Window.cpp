@@ -37,13 +37,13 @@ Vector2 Window::get_window_size() { return mSize; }
 
 bool Window::start_window_loop() {
     while (!WindowShouldClose()) {
-        p_start_logic();
-        p_start_drawing();
+        Phandle_logic();
+        Phandle_drawing();
     }
     return true;
 }
 
-void Window::p_start_drawing() {
+void Window::Phandle_drawing() {
     BeginDrawing();
 
     ClearBackground(mDefaultBgColor);
@@ -51,7 +51,7 @@ void Window::p_start_drawing() {
     EndDrawing();
 }
 
-void Window::p_start_logic() {
+void Window::Phandle_logic() {
     // do some logic here...
 }
 

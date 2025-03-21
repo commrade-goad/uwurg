@@ -2,6 +2,7 @@
 #define OBJECT_MANAGER_H_
 
 #include "../Object/Object.hpp"
+#include <unordered_map>
 #include <vector>
 
 struct ObjectManager {
@@ -9,11 +10,13 @@ struct ObjectManager {
     std::vector<Object> mData;
 
   public:
+    std::unordered_map<int, Object> mPubData;
+
     ObjectManager();
     ~ObjectManager();
 
-    bool add_object(Object *obj);
-    bool delete_object(const char *name);
+    void add_object(Object obj);
+    bool del_object(const char *name);
 
     Object *get_object(const char *name);
 };

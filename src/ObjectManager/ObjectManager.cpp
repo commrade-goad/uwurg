@@ -3,19 +3,16 @@
 ObjectManager::ObjectManager() { mData.reserve(20); }
 
 ObjectManager::~ObjectManager() {
-    for (Object &data : mData) {
+    for (auto &data: mData) {
         data.set_text(nullptr);
     }
 }
 
-bool ObjectManager::add_object(Object *obj) {
-    if (obj == nullptr)
-        return false;
-    mData.push_back(*obj);
-    return true;
+void ObjectManager::add_object(Object obj) {
+    mData.push_back(obj);
 }
 
-bool ObjectManager::delete_object(const char *name) {
+bool ObjectManager::del_object(const char *name) {
     int idx = -1;
     for (size_t i = 0; i < mData.size(); i++) {
         Object *obj = &mData[i];

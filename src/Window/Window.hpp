@@ -13,8 +13,9 @@ struct Window {
     size_t mFPS;
     Color mDefaultBgColor;
 
-    void p_start_drawing();
-    void p_start_logic();
+    void Phandle_drawing();
+    void Phandle_key();
+    void Phandle_logic();
 
   public:
     Window(Vector2 size, const char *title);

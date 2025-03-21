@@ -4,6 +4,7 @@
 #include "../TextureWrapper/TextureWrapper.hpp"
 #include <memory>
 #include <raylib.h>
+#include <string>
 
 // TODO: add z index later.
 struct Object {
