@@ -1,22 +1,20 @@
 #ifndef TEXTURE_MANAGER_H_
 #define TEXTURE_MANAGER_H_
 
-#include "../TextureWrapper/TextureWrapper.hpp"
-#include <memory>
 #include <raylib.h>
-#include <vector>
+#include <string>
+#include <unordered_map>
 
 struct TextureManager {
-  private:
-    std::vector<std::shared_ptr<TextWrapper>> mData;
-
   public:
+    std::unordered_map<std::string, Texture2D> mData;
+
     TextureManager();
     ~TextureManager();
 
-    std::shared_ptr<TextWrapper> add_textwrapper(TextWrapper txt);
-    bool del_textrapper(const char *str);
-    void cleanup_texture();
+    Texture2D *loadAssets(std::string name, std::string img_path);
+    Texture2D *GetTexture(std::string name);
+    void unLoadTexture(std::string name);
 };
 
 #endif // TEXTURE_MANAGER_H_

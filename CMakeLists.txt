@@ -25,7 +25,6 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(raylib)
 
 set(FILE_IN
-    src/TextureWrapper/TextureWrapper.cpp
     src/TextureManager/TextureManager.cpp
     src/ObjectManager/ObjectManager.cpp
     src/Window/Window.cpp

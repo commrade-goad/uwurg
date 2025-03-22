@@ -1,46 +1,41 @@
 #include "TextureManager.hpp"
 
-TextureManager::TextureManager() { mData.reserve(20); }
-TextureManager::~TextureManager() { mData.clear(); }
+TextureManager::TextureManager() { mData.reserve(20); };
 
-std::shared_ptr<TextWrapper> TextureManager::add_textwrapper(TextWrapper txt) {
+Texture2D *TextureManager::GetTexture(std::string name) {
     for (auto &data : mData) {
-        if (data.get()->mFilePath == txt.mFilePath)
-            return nullptr;
-    }
-    std::shared_ptr<TextWrapper> new_texture =
-        std::make_shared<TextWrapper>(txt);
-    mData.push_back(new_texture);
-    return new_texture;
-}
-
-bool TextureManager::del_textrapper(const char *str) {
-    int idx = -1;
-    for (size_t i = 0; i < mData.size(); i++) {
-        TextWrapper *data = mData[i].get();
-        if (data->mFilePath == str) {
-            idx = i;
-            break;
+        if (data.first == name) {
+            return &data.second;
         }
     }
-    if (idx >= 0)
-        mData.erase(mData.begin() + idx);
-    else
-        return false;
-    return true;
+    return nullptr;
+};
+
+Texture2D *TextureManager::loadAssets(std::string name, std::string img_path) {
+    Texture2D *ctxt = GetTexture(name);
+    if (ctxt != nullptr) {
+        return nullptr;
+    }
+    Texture2D txt = LoadTexture(img_path.c_str());
+    mData.insert_or_assign(name, txt);
+    return &mData[name];
 }
 
-void TextureManager::cleanup_texture() {
-    std::vector<size_t> idx;
-    idx.reserve(mData.size());
-
-    for (size_t i = 0; i < mData.size(); i++) {
-        if (mData[i]->mFilePath == nullptr || mData[i]->mFilePath[0] == '\0' ||
-            mData[i]->mSuccess == false)
-            idx.insert(idx.begin(), i);
-    }
-
-    for (const auto &i : idx) {
-        mData.erase(mData.begin() + i);
+void TextureManager::unLoadTexture(std::string name) {
+    Texture2D *ctxt = GetTexture(name);
+    if (ctxt != nullptr) {
+        for (auto &data : mData) {
+            if (data.first == name) {
+                UnloadTexture(data.second);
+                break;
+            }
+        }
+        mData.erase(name);
     }
 }
+
+TextureManager::~TextureManager() {
+    for (auto &data : mData) {
+        UnloadTexture(data.second);
+    }
+};

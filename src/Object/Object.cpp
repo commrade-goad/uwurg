@@ -1,37 +1,27 @@
 #include "Object.hpp"
 
-Object::Object(std::string name) {
+Object::Object(Rectangle rec, int z_index, std::string name) {
+    mRec = rec;
+    mZIndex = z_index;
     mName = name;
-    mRec = {0, 0, 0, 0};
     mText = nullptr;
 }
 
-Object::Object(std::string name, Rectangle rec) {
-    mName = name;
+Object::Object(Rectangle rec, int z_index, std::string name, Texture2D *text) {
     mRec = rec;
-    mText = nullptr;
-}
-
-Object::Object(std::string name, Rectangle rec,
-               std::shared_ptr<TextWrapper> text) {
+    mZIndex = z_index;
     mName = name;
-    mRec = rec;
     mText = text;
 }
 
-Object::~Object() { mText = nullptr; }
+Object::~Object() {}
 
-void Object::set_rec(Rectangle rec) { mRec = rec; }
-
-Rectangle *Object::get_rec() { return &mRec; }
-
-void Object::set_text(std::shared_ptr<TextWrapper> text) { mText = text; }
-std::shared_ptr<TextWrapper> Object::get_text() { return mText; }
-
-void Object::set_name(const char *name) { mName = name; }
-const char *Object::get_name() { return mName.c_str(); }
-
-void Object::logic() {
-    // TODO: do object logic here...
+void Object::render() {
+    if (mText != nullptr && mText->width > 0 && mText->height > 0) {
+        DrawTextureRec(*mText, Rectangle(0, 0, mText->width, mText->height),
+                       Vector2(0, 0), WHITE);
+    } else
+        DrawRectangleRec(mRec, RED);
 }
-void Object::draw() { DrawRectangleRec(mRec, RED); }
+
+void Object::logic(float dt) {}

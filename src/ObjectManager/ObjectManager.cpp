@@ -1,39 +1,41 @@
 #include "ObjectManager.hpp"
 
-ObjectManager::ObjectManager() { mData.reserve(20); }
+ObjectManager::ObjectManager() {
+    mData.reserve(20);
+}
 
-ObjectManager::~ObjectManager() {
-    for (auto &data : mData) {
-        data.set_text(nullptr);
+ObjectManager::~ObjectManager() {}
+
+sptr_t<Object> ObjectManager::addObject(Object obj) {
+    mData[obj.mZIndex] = std::make_shared<Object>(obj);
+    return mData[obj.mZIndex];
+}
+
+void ObjectManager::remObject(sptr_t<Object> obj) {
+    auto ur_pos = mData.find(obj->mZIndex);
+    if (ur_pos != mData.end()) {
+        mData[obj->mZIndex] = nullptr;
     }
 }
 
-void ObjectManager::add_object(Object obj) { mData.push_back(obj); }
+void ObjectManager::remObject(size_t z_index) {
+    mData[z_index] = nullptr;
+}
 
-bool ObjectManager::del_object(const char *name) {
-    int idx = -1;
-    for (size_t i = 0; i < mData.size(); i++) {
-        Object *obj = &mData[i];
-        if (obj->get_name() == name) {
-            idx = i;
-            break;
+void ObjectManager::remObject(std::string &name) {
+    for (auto [z_index, object] : mData) {
+        if (object->mName == name) {
+            mData[z_index] = nullptr;
+            return;
         }
     }
-    if (idx >= 0)
-        mData.erase(mData.begin() + idx);
-    else
-        return false;
-    return true;
 }
 
-Object *ObjectManager::get_object(const char *name) {
-    for (size_t i = 0; i < mData.size(); i++) {
-        Object *obj = &mData[i];
-        if (obj->get_name() == name) {
-            return obj;
+sptr_t<Object> ObjectManager::getObject(std::string &name) {
+    for (const auto& [z_index, object] : mData) {
+        if (object->mName == name) {
+            return object;
         }
     }
     return nullptr;
 }
-
-std::vector<Object> *ObjectManager::get_all_object() { return &mData; }

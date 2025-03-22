@@ -1,36 +1,25 @@
 #ifndef OBJECT_H_
 #define OBJECT_H_
 
-#include "../TextureWrapper/TextureWrapper.hpp"
-#include <memory>
 #include <raylib.h>
 #include <string>
 
-// TODO: add z index later.
 struct Object {
-  private:
+  public:
     std::string mName;
     Rectangle mRec;
-    std::shared_ptr<TextWrapper> mText;
+    Texture2D *mText;
+    int mZIndex;
 
-  public:
-    Object(std::string name);
-    Object(std::string name, Rectangle rec);
-    Object(std::string name, Rectangle rec, std::shared_ptr<TextWrapper> text);
+    bool operator==(const Object &other) const {
+        return mName == other.mName;
+    }
 
+    Object(Rectangle rec, int z_index, std::string name);
+    Object(Rectangle rec, int z_index, std::string name, Texture2D *text);
     virtual ~Object();
-
-    void set_rec(Rectangle rec);
-    Rectangle *get_rec();
-
-    void set_text(std::shared_ptr<TextWrapper> text);
-    std::shared_ptr<TextWrapper> get_text();
-
-    void set_name(const char *name);
-    const char *get_name();
-
-    virtual void draw();
-    virtual void logic();
+    virtual void render();
+    virtual void logic(float dt);
 };
 
 #endif // OBJECT_H_
