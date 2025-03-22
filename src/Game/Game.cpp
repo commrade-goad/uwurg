@@ -13,13 +13,15 @@ void Game::init() {
     );
 }
 
-void Game::handle_logic() {}
+void Game::handle_logic(float dt) {
 
-void Game::handle_drawing() {
+}
+
+void Game::handle_drawing(float dt) {
     std::vector<Object> *obj_vec = mObjMan.get_all_object();
     for (Object &data: *obj_vec) {
         data.draw();
     }
 }
 
-void Game::handle_key() {}
+void Game::handle_key(float dt) {}

@@ -1,9 +1,9 @@
 #ifndef WINDOW_H_
 #define WINDOW_H_
 
+#include "../Game/Game.hpp"
 #include <cstddef>
 #include <raylib.h>
-#include "../Game/Game.hpp"
 
 struct Window {
   private:

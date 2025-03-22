@@ -1,6 +1,7 @@
 #ifndef TEXTURE_WRAPPER_H_
 #define TEXTURE_WRAPPER_H_
 
+#include <cstddef>
 #include <raylib.h>
 
 struct TextWrapper {
@@ -10,6 +11,8 @@ struct TextWrapper {
     bool mSuccess;
 
     TextWrapper(const char *path);
+    TextWrapper(const char *name, unsigned char *image, size_t image_len,
+                const char *file_type);
     ~TextWrapper();
 };
 

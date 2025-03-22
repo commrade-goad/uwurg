@@ -1,9 +1,9 @@
 #ifndef GAME_H_
 #define GAME_H_
 
+#include "../Message/Message.hpp"
 #include "../ObjectManager/ObjectManager.hpp"
 #include "../TextureManager/TextureManager.hpp"
-#include "../Message/Message.hpp"
 #include <raylib.h>
 
 struct Game {
@@ -17,9 +17,9 @@ struct Game {
     ~Game();
 
     void init();
-    void handle_logic();
-    void handle_drawing();
-    void handle_key();
+    void handle_logic(float dt);
+    void handle_drawing(float dt);
+    void handle_key(float dt);
 };
 
 #endif // GAME_H_

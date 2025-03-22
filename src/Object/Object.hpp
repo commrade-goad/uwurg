@@ -14,7 +14,6 @@ struct Object {
     std::shared_ptr<TextWrapper> mText;
 
   public:
-
     Object(std::string name);
     Object(std::string name, Rectangle rec);
     Object(std::string name, Rectangle rec, std::shared_ptr<TextWrapper> text);

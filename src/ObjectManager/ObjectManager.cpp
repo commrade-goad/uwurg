@@ -3,14 +3,12 @@
 ObjectManager::ObjectManager() { mData.reserve(20); }
 
 ObjectManager::~ObjectManager() {
-    for (auto &data: mData) {
+    for (auto &data : mData) {
         data.set_text(nullptr);
     }
 }
 
-void ObjectManager::add_object(Object obj) {
-    mData.push_back(obj);
-}
+void ObjectManager::add_object(Object obj) { mData.push_back(obj); }
 
 bool ObjectManager::del_object(const char *name) {
     int idx = -1;
@@ -38,6 +36,4 @@ Object *ObjectManager::get_object(const char *name) {
     return nullptr;
 }
 
-std::vector<Object> *ObjectManager::get_all_object() {
-    return &mData;
-}
+std::vector<Object> *ObjectManager::get_all_object() { return &mData; }

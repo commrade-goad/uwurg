@@ -56,14 +56,14 @@ void Window::_handle_drawing(float dt) {
 
     ClearBackground(mDefaultBgColor);
 
-    mGame.handle_drawing();
+    mGame.handle_drawing(dt);
 
     EndDrawing();
 }
 
-void Window::_handle_logic(float dt) { mGame.handle_logic(); }
+void Window::_handle_logic(float dt) { mGame.handle_logic(dt); }
 
-void Window::_handle_key(float dt) { mGame.handle_key(); }
+void Window::_handle_key(float dt) { mGame.handle_key(dt); }
 
 Color Window::get_bg_color() { return mDefaultBgColor; }
 

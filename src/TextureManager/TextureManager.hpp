@@ -14,8 +14,9 @@ struct TextureManager {
     TextureManager();
     ~TextureManager();
 
-    void add_textwrapper(TextWrapper txt);
+    std::shared_ptr<TextWrapper> add_textwrapper(TextWrapper txt);
     bool del_textrapper(const char *str);
+    void cleanup_texture();
 };
 
 #endif // TEXTURE_MANAGER_H_

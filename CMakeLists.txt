@@ -14,6 +14,7 @@ set(GLFW_BUILD_WAYLAND ON CACHE BOOL "" FORCE)
 set(PLATFORM Desktop)
 
 # SET(CMAKE_CXX_FLAGS -ggdb)
+add_compile_options(-Wall -Wextra -pedantic)
 
 FetchContent_Declare(
     raylib
