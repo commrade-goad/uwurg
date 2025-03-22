@@ -15,8 +15,8 @@ struct Object {
         return mName == other.mName;
     }
 
-    Object(Rectangle rec, int z_index, std::string name);
-    Object(Rectangle rec, int z_index, std::string name, Texture2D *text);
+    Object(Rectangle rec, int z_index, const char *name);
+    Object(Rectangle rec, int z_index, const char *name, Texture2D *text);
     virtual ~Object();
     virtual void render();
     virtual void logic(float dt);

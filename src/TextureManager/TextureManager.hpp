@@ -13,8 +13,8 @@ struct TextureManager {
     ~TextureManager();
 
     Texture2D *loadAssets(std::string name, std::string img_path);
-    Texture2D *GetTexture(std::string name);
-    void unLoadTexture(std::string name);
+    Texture2D *GetTexture(const char *name);
+    void unLoadTexture(const char *name);
 };
 
 #endif // TEXTURE_MANAGER_H_

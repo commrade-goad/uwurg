@@ -2,7 +2,7 @@
 
 TextureManager::TextureManager() { mData.reserve(20); };
 
-Texture2D *TextureManager::GetTexture(std::string name) {
+Texture2D *TextureManager::GetTexture(const char *name) {
     for (auto &data : mData) {
         if (data.first == name) {
             return &data.second;
@@ -12,7 +12,7 @@ Texture2D *TextureManager::GetTexture(std::string name) {
 };
 
 Texture2D *TextureManager::loadAssets(std::string name, std::string img_path) {
-    Texture2D *ctxt = GetTexture(name);
+    Texture2D *ctxt = GetTexture(name.c_str());
     if (ctxt != nullptr) {
         return nullptr;
     }
@@ -21,7 +21,7 @@ Texture2D *TextureManager::loadAssets(std::string name, std::string img_path) {
     return &mData[name];
 }
 
-void TextureManager::unLoadTexture(std::string name) {
+void TextureManager::unLoadTexture(const char *name) {
     Texture2D *ctxt = GetTexture(name);
     if (ctxt != nullptr) {
         for (auto &data : mData) {

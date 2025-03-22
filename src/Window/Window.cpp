@@ -40,10 +40,9 @@ void Window::set_window_size(Vector2 size) {
 Vector2 Window::get_window_size() { return mSize; }
 
 bool Window::start_window_loop() {
-    mGame.init();
+    mGame.init(this);
     while (!WindowShouldClose()) {
         float dt = GetFrameTime();
-        _check_msg();
         _handle_key(dt);
         _handle_logic(dt);
         _handle_drawing(dt);
@@ -83,11 +82,3 @@ void Window::set_exit_key(int key) {
 size_t Window::get_exit_key() { return mExitKey; }
 
 const char *Window::get_name() { return mName; }
-
-void Window::_check_msg() {
-    // TODO: add case as used.
-    switch (mGame.mMsg.mMsgT) {
-    default:
-        break;
-    }
-}

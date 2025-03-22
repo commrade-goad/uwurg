@@ -1,13 +1,13 @@
 #include "Object.hpp"
 
-Object::Object(Rectangle rec, int z_index, std::string name) {
+Object::Object(Rectangle rec, int z_index, const char *name) {
     mRec = rec;
     mZIndex = z_index;
     mName = name;
     mText = nullptr;
 }
 
-Object::Object(Rectangle rec, int z_index, std::string name, Texture2D *text) {
+Object::Object(Rectangle rec, int z_index, const char *name, Texture2D *text) {
     mRec = rec;
     mZIndex = z_index;
     mName = name;
