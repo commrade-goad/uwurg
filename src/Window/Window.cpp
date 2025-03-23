@@ -4,8 +4,6 @@ void Window::_apply_option(const char *title) {
     mName = title;
     mDefaultBgColor = BLACK;
     mGame = Game();
-    // IDK resize still didnt work.
-    // SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(mSize.x, mSize.y, mName);
     SetTargetFPS(mFPS);
     SetExitKey(mExitKey);

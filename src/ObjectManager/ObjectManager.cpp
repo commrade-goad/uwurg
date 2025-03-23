@@ -6,23 +6,23 @@ ObjectManager::ObjectManager() {
 
 ObjectManager::~ObjectManager() {}
 
-sptr_t<Object> ObjectManager::addObject(Object obj) {
+sptr_t<Object> ObjectManager::add_object(Object obj) {
     mData[obj.mZIndex] = std::make_shared<Object>(obj);
     return mData[obj.mZIndex];
 }
 
-void ObjectManager::remObject(sptr_t<Object> obj) {
+void ObjectManager::rem_object(sptr_t<Object> obj) {
     auto ur_pos = mData.find(obj->mZIndex);
     if (ur_pos != mData.end()) {
         mData[obj->mZIndex] = nullptr;
     }
 }
 
-void ObjectManager::remObject(size_t z_index) {
+void ObjectManager::rem_object(size_t z_index) {
     mData[z_index] = nullptr;
 }
 
-void ObjectManager::remObject(std::string &name) {
+void ObjectManager::rem_object(std::string &name) {
     for (auto [z_index, object] : mData) {
         if (object->mName == name) {
             mData[z_index] = nullptr;
@@ -31,7 +31,7 @@ void ObjectManager::remObject(std::string &name) {
     }
 }
 
-sptr_t<Object> ObjectManager::getObject(std::string &name) {
+sptr_t<Object> ObjectManager::get_object(const char *name) {
     for (const auto& [z_index, object] : mData) {
         if (object->mName == name) {
             return object;

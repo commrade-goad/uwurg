@@ -9,6 +9,9 @@
 struct Window;
 
 struct Game {
+  private:
+    void _recalculate_center(int scale);
+
   public:
     TextureManager mTexMan;
     ObjectManager mObjMan;

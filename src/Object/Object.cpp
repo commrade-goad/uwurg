@@ -18,10 +18,17 @@ Object::~Object() {}
 
 void Object::render() {
     if (mText != nullptr && mText->width > 0 && mText->height > 0) {
-        DrawTextureRec(*mText, Rectangle(0, 0, mText->width, mText->height),
-                       Vector2(0, 0), WHITE);
-    } else
+        DrawTexturePro(
+            *mText,
+            Rectangle(0, 0, mText->width, mText->height),
+            mRec,
+            Vector2(0,0),
+            0.0f,
+            WHITE
+        );
+    } else {
         DrawRectangleRec(mRec, RED);
+    }
 }
 
 void Object::logic(float dt) {}

@@ -11,10 +11,16 @@ Game::Game() {
 Game::~Game() {}
 
 void Game::init(Window *w) {
+    static const int SCALE = 4;
     mWindow_ptr = w;
-    Texture2D *white = mTexMan.loadAssets("white_beads", "./assets/white.png");
-    sptr_t<Object> obj =
-        mObjMan.addObject(Object({0, 0, 100, 100}, 1, "player1", white));
+    Vector2 wsize = mWindow_ptr->get_window_size();
+    Texture2D *white =
+        mTexMan.load_texture("board_txt", "./assets/board-real.png");
+    sptr_t<Object> obj = mObjMan.add_object(
+        Object({(wsize.x - (white->width * SCALE)) / 2,
+                (wsize.y - (white->height * SCALE)) / 2,
+                (float)white->width * SCALE, (float)white->height * SCALE},
+               1, "board", white));
 }
 
 void Game::handle_logic(float dt) { (void)dt; }
@@ -39,9 +45,21 @@ void Game::handle_drawing(float dt) {
 void Game::handle_key(float dt) {
     (void)dt;
     if (IsKeyPressed(KEY_F)) {
-        if (mWindow_ptr->get_window_size().x == 1280)
+        if (mWindow_ptr->get_window_size().x == 1280) {
             mWindow_ptr->set_window_size(Vector2(800, 600));
-        else
+            _recalculate_center(3);
+        } else {
             mWindow_ptr->set_window_size(Vector2(1280, 720));
+            _recalculate_center(4);
+        }
     }
+}
+
+void Game::_recalculate_center(int scale) {
+    Vector2 wsize = mWindow_ptr->get_window_size();
+    auto board = mObjMan.get_object("board");
+    board->mRec = {(wsize.x - (board->mText->width * scale)) / 2,
+                   (wsize.y - (board->mText->height * scale)) / 2,
+                   (float)board->mText->width * scale,
+                   (float)board->mText->height * scale};
 }

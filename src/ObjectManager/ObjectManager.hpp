@@ -12,11 +12,11 @@ struct ObjectManager {
     ObjectManager();
     ~ObjectManager();
 
-    sptr_t<Object> addObject(Object obj);
-    void remObject(sptr_t<Object> obj);
-    void remObject(std::string &name);
-    void remObject(size_t z_index);
-    sptr_t<Object> getObject(std::string &name);
+    sptr_t<Object> add_object(Object obj);
+    void rem_object(sptr_t<Object> obj);
+    void rem_object(std::string &name);
+    void rem_object(size_t z_index);
+    sptr_t<Object> get_object(const char *name);
 };
 
 #endif // OBJECT_MANAGER_H_
