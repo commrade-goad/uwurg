@@ -1,6 +1,7 @@
 #ifndef OBJECT_H_
 #define OBJECT_H_
 
+#include "../Game/GameState.hpp"
 #include <raylib.h>
 #include <string>
 
@@ -11,6 +12,7 @@ struct Object {
     Texture2D *mText;
     int mZIndex;
     bool mShow;
+    GameState mTag;
 
     bool operator==(const Object &other) const {
         return mName == other.mName;

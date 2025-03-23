@@ -6,6 +6,7 @@ Object::Object(Rectangle rec, int z_index, const char *name) {
     mName = name;
     mText = nullptr;
     mShow = true;
+    mTag = GameState::NONE;
 }
 
 Object::Object(Rectangle rec, int z_index, const char *name, Texture2D *text) {
@@ -14,6 +15,7 @@ Object::Object(Rectangle rec, int z_index, const char *name, Texture2D *text) {
     mName = name;
     mText = text;
     mShow = true;
+    mTag = GameState::NONE;
 }
 
 void Object::render() {

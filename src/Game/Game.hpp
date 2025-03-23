@@ -18,7 +18,7 @@ struct Game {
     ObjectManager mObjMan;
     Window *mWindow_ptr;
 
-    GameState mState;
+    GameState mStateOrTag;
     int mScale;
 
     Game();

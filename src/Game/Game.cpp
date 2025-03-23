@@ -6,7 +6,7 @@ Game::Game() {
     mTexMan = TextureManager();
     mObjMan = ObjectManager();
     mWindow_ptr = nullptr;
-    mState = MENU;
+    mStateOrTag = GameState::MENU;
     mScale = 0;
 }
 
@@ -22,10 +22,11 @@ void Game::init(Window *w) {
     sptr_t<Object> board_obj =
         mObjMan.add_object(mk_sptr<Object>(Object({}, 1, "board", board_txt)));
     _center_board(board_obj);
-    board_obj->mShow = false;
+    board_obj->mTag = GameState::INGAME | GameState::MENU;
 
     sptr_t<Object> title_obj = mObjMan.add_object(mk_sptr<ObjText>(
         Rectangle{0, 0, 0, 0}, 2, "title", "UwUrg", WHITE, 40));
+    title_obj->mTag = GameState::MENU;
 }
 
 void Game::handle_logic(float dt) { (void)dt; }
@@ -33,19 +34,9 @@ void Game::handle_logic(float dt) { (void)dt; }
 void Game::handle_drawing(float dt) {
     (void)dt;
 
-    switch (mState) {
-    case MENU:
-        break;
-    case INGAME:
-        break;
-    case PAUSE:
-        break;
-    default:
-        break;
-    }
-
     for (auto &[_, object] : mObjMan.mData) {
-        object->render();
+        if (has_flag(object->mTag, mStateOrTag))
+            object->render();
     }
 }
 
