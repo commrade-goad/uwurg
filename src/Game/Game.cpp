@@ -19,12 +19,12 @@ void Game::init(Window *w) {
     Texture2D *board_txt =
         mTexMan.load_texture("board_txt", "./assets/board-real.png");
 
-    sptr_t<Object> board_obj = mObjMan.add_object(
-        std::make_shared<Object>(Object({}, 1, "board", board_txt)));
+    sptr_t<Object> board_obj =
+        mObjMan.add_object(mk_sptr<Object>(Object({}, 1, "board", board_txt)));
     _center_board(board_obj);
-    board_obj->mShow = true;
+    board_obj->mShow = false;
 
-    sptr_t<Object> title_obj = mObjMan.add_object(std::make_shared<ObjText>(
+    sptr_t<Object> title_obj = mObjMan.add_object(mk_sptr<ObjText>(
         Rectangle{0, 0, 100, 120}, 2, "title", "UwU rg", WHITE, 40));
 }
 

@@ -3,7 +3,6 @@
 
 #include "Object.hpp"
 
-// make it a subclass of Object
 struct ObjText : public Object {
   private:
     std::string mText;
