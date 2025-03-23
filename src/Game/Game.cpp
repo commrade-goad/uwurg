@@ -25,7 +25,7 @@ void Game::init(Window *w) {
     board_obj->mShow = false;
 
     sptr_t<Object> title_obj = mObjMan.add_object(mk_sptr<ObjText>(
-        Rectangle{0, 0, 100, 120}, 2, "title", "UwU rg", WHITE, 40));
+        Rectangle{0, 0, 0, 0}, 2, "title", "UwUrg", WHITE, 40));
 }
 
 void Game::handle_logic(float dt) { (void)dt; }

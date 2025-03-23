@@ -29,7 +29,6 @@ set(FILE_IN
     src/ObjectManager/ObjectManager.cpp
     src/Window/Window.cpp
     src/Object/Object.cpp
-    src/Object/ObjText.cpp
     src/Game/Game.cpp
     src/main.cpp
 )
