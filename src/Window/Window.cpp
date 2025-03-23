@@ -37,7 +37,7 @@ void Window::set_window_size(Vector2 size) {
     SetWindowSize(mSize.x, mSize.y);
 }
 
-Vector2 Window::get_window_size() { return mSize; }
+Vector2 *Window::get_window_size() { return &mSize; }
 
 bool Window::start_window_loop() {
     mGame.init(this);

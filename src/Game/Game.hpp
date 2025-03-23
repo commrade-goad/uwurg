@@ -10,7 +10,9 @@ struct Window;
 
 struct Game {
   private:
-    void _recalculate_center();
+    void _center_object(const char *obj_name);
+    void _center_object(sptr_t<Object> object);
+    void _sync_scale();
 
   public:
     TextureManager mTexMan;

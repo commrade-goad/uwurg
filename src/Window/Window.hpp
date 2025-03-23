@@ -31,7 +31,7 @@ struct Window {
     bool start_window_loop();
 
     void set_window_size(Vector2 size);
-    Vector2 get_window_size();
+    Vector2 *get_window_size();
 
     void set_bg_color(Color color);
     Color get_bg_color();
