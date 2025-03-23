@@ -10,13 +10,14 @@ struct Window;
 
 struct Game {
   private:
-    void _recalculate_center(int scale);
+    void _recalculate_center();
 
   public:
     TextureManager mTexMan;
     ObjectManager mObjMan;
     Window *mWindow_ptr;
     GameState mState;
+    int mScale;
 
     Game();
     ~Game();

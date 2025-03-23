@@ -6,21 +6,22 @@ Game::Game() {
     mObjMan = ObjectManager();
     mWindow_ptr = nullptr;
     mState = MENU;
+    // Change it later..
+    mScale = 4;
 }
 
 Game::~Game() {}
 
 void Game::init(Window *w) {
-    static const int SCALE = 4;
     mWindow_ptr = w;
     Vector2 wsize = mWindow_ptr->get_window_size();
-    Texture2D *white =
+    Texture2D *board_txt =
         mTexMan.load_texture("board_txt", "./assets/board-real.png");
     sptr_t<Object> obj = mObjMan.add_object(
-        Object({(wsize.x - (white->width * SCALE)) / 2,
-                (wsize.y - (white->height * SCALE)) / 2,
-                (float)white->width * SCALE, (float)white->height * SCALE},
-               1, "board", white));
+        Object({(wsize.x - (board_txt->width * mScale)) / 2,
+                (wsize.y - (board_txt->height * mScale)) / 2,
+                (float)board_txt->width * mScale, (float)board_txt->height * mScale},
+               1, "board", board_txt));
 }
 
 void Game::handle_logic(float dt) { (void)dt; }
@@ -47,19 +48,20 @@ void Game::handle_key(float dt) {
     if (IsKeyPressed(KEY_F)) {
         if (mWindow_ptr->get_window_size().x == 1280) {
             mWindow_ptr->set_window_size(Vector2(800, 600));
-            _recalculate_center(3);
+            mScale = 3;
         } else {
             mWindow_ptr->set_window_size(Vector2(1280, 720));
-            _recalculate_center(4);
+            mScale = 4;
         }
+        _recalculate_center();
     }
 }
 
-void Game::_recalculate_center(int scale) {
+void Game::_recalculate_center() {
     Vector2 wsize = mWindow_ptr->get_window_size();
     auto board = mObjMan.get_object("board");
-    board->mRec = {(wsize.x - (board->mText->width * scale)) / 2,
-                   (wsize.y - (board->mText->height * scale)) / 2,
-                   (float)board->mText->width * scale,
-                   (float)board->mText->height * scale};
+    board->mRec = {(wsize.x - (board->mText->width * mScale)) / 2,
+                   (wsize.y - (board->mText->height * mScale)) / 2,
+                   (float)board->mText->width * mScale,
+                   (float)board->mText->height * mScale};
 }
