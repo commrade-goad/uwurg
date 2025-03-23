@@ -12,7 +12,7 @@ struct ObjectManager {
     ObjectManager();
     ~ObjectManager();
 
-    sptr_t<Object> add_object(Object obj);
+    sptr_t<Object> add_object(sptr_t<Object> obj);
     void rem_object(sptr_t<Object> obj);
     void rem_object(std::string &name);
     void rem_object(size_t z_index);

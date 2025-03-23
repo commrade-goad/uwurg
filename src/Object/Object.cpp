@@ -5,6 +5,7 @@ Object::Object(Rectangle rec, int z_index, const char *name) {
     mZIndex = z_index;
     mName = name;
     mText = nullptr;
+    mShow = true;
 }
 
 Object::Object(Rectangle rec, int z_index, const char *name, Texture2D *text) {
@@ -12,23 +13,19 @@ Object::Object(Rectangle rec, int z_index, const char *name, Texture2D *text) {
     mZIndex = z_index;
     mName = name;
     mText = text;
+    mShow = true;
 }
 
-Object::~Object() {}
-
 void Object::render() {
+    if (!mShow)
+        return;
+
     if (mText != nullptr && mText->width > 0 && mText->height > 0) {
-        DrawTexturePro(
-            *mText,
-            Rectangle(0, 0, mText->width, mText->height),
-            mRec,
-            Vector2(0,0),
-            0.0f,
-            WHITE
-        );
+        DrawTexturePro(*mText, Rectangle(0, 0, mText->width, mText->height),
+                       mRec, Vector2(0, 0), 0.0f, WHITE);
     } else {
         DrawRectangleRec(mRec, RED);
     }
 }
 
-void Object::logic(float dt) {}
+void Object::logic(float dt) { (void)dt; }

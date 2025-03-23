@@ -6,9 +6,9 @@ ObjectManager::ObjectManager() {
 
 ObjectManager::~ObjectManager() {}
 
-sptr_t<Object> ObjectManager::add_object(Object obj) {
-    mData[obj.mZIndex] = std::make_shared<Object>(obj);
-    return mData[obj.mZIndex];
+sptr_t<Object> ObjectManager::add_object(sptr_t<Object> obj) {
+    mData[obj->mZIndex] = obj;
+    return obj;
 }
 
 void ObjectManager::rem_object(sptr_t<Object> obj) {

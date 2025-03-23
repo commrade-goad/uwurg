@@ -10,14 +10,14 @@ struct Window;
 
 struct Game {
   private:
-    void _center_object(const char *obj_name);
-    void _center_object(sptr_t<Object> object);
+    void _center_board(sptr_t<Object> object);
     void _sync_scale();
 
   public:
     TextureManager mTexMan;
     ObjectManager mObjMan;
     Window *mWindow_ptr;
+
     GameState mState;
     int mScale;
 

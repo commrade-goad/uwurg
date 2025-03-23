@@ -10,6 +10,7 @@ struct Object {
     Rectangle mRec;
     Texture2D *mText;
     int mZIndex;
+    bool mShow;
 
     bool operator==(const Object &other) const {
         return mName == other.mName;
@@ -17,7 +18,7 @@ struct Object {
 
     Object(Rectangle rec, int z_index, const char *name);
     Object(Rectangle rec, int z_index, const char *name, Texture2D *text);
-    virtual ~Object();
+    virtual ~Object() = default;
     virtual void render();
     virtual void logic(float dt);
 };
