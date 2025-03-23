@@ -20,6 +20,7 @@ struct Window {
     void _handle_key(float dt);
     void _handle_logic(float dt);
     void _check_msg();
+    void _apply_option(const char *title);
 
   public:
     Window(Vector2 size, const char *title);

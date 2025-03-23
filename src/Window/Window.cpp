@@ -1,33 +1,35 @@
 #include "Window.hpp"
 
-Window::Window(Vector2 size, const char *title) {
+void Window::_apply_option(const char *title) {
+    mName = title;
     mDefaultBgColor = BLACK;
-    mFPS = 60;
-    mExitKey = KEY_Q;
     mGame = Game();
-    InitWindow(size.x, size.y, title);
+    // IDK resize still didnt work.
+    // SetConfigFlags(FLAG_WINDOW_RESIZABLE);
+    InitWindow(mSize.x, mSize.y, mName);
     SetTargetFPS(mFPS);
     SetExitKey(mExitKey);
+}
+
+Window::Window(Vector2 size, const char *title) {
+    mSize = size;
+    mFPS = 60;
+    mExitKey = KEY_Q;
+    _apply_option(title);
 }
 
 Window::Window(Vector2 size, const char *title, size_t fps) {
-    mDefaultBgColor = BLACK;
+    mSize = size;
     mFPS = fps;
     mExitKey = KEY_Q;
-    mGame = Game();
-    InitWindow(size.x, size.y, title);
-    SetTargetFPS(mFPS);
-    SetExitKey(mExitKey);
+    _apply_option(title);
 }
 
 Window::Window(Vector2 size, const char *title, size_t fps, int exit_key) {
-    mDefaultBgColor = BLACK;
+    mSize = size;
     mFPS = fps;
     mExitKey = exit_key;
-    mGame = Game();
-    InitWindow(size.x, size.y, title);
-    SetTargetFPS(mFPS);
-    SetExitKey(mExitKey);
+    _apply_option(title);
 }
 
 Window::~Window() { CloseWindow(); }

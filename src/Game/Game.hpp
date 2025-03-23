@@ -3,6 +3,7 @@
 
 #include "../ObjectManager/ObjectManager.hpp"
 #include "../TextureManager/TextureManager.hpp"
+#include "GameState.hpp"
 #include <raylib.h>
 
 struct Window;
@@ -12,6 +13,7 @@ struct Game {
     TextureManager mTexMan;
     ObjectManager mObjMan;
     Window *mWindow_ptr;
+    GameState mState;
 
     Game();
     ~Game();
