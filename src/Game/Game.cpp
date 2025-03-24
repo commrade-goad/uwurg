@@ -2,7 +2,6 @@
 #include "../Object/ObjButton.hpp"
 #include "../Object/ObjText.hpp"
 #include "../Window/Window.hpp"
-#include <iostream>
 
 Game::Game() {
     mTexMan = TextureManager();
@@ -44,10 +43,11 @@ void Game::init(Window *w) {
     static const int title_font_size = 64;
     static const float title_text_len =
         (float)MeasureText(title_name, title_font_size);
-    sptr_t<Object> title_obj = mObjMan.add_object(mk_sptr<ObjText>(
-        Rectangle{(wsize->x - title_text_len) / 2, wsize->y - title_text_len / 2,
-                  title_text_len, title_font_size},
-        z_index, "title", title_name, WHITE, title_font_size));
+    sptr_t<Object> title_obj = mObjMan.add_object(
+        mk_sptr<ObjText>(Rectangle{(wsize->x - title_text_len) / 2,
+                                   wsize->y - title_text_len / 2,
+                                   title_text_len, title_font_size},
+                         z_index, "title", title_name, WHITE, title_font_size));
     title_obj->mTag = GameState::MENU;
 
     z_index++;
@@ -59,10 +59,11 @@ void Game::init(Window *w) {
 
     sptr_t<Object> play_b_obj = mObjMan.add_object(mk_sptr<ObjButton>(
         Rectangle{(wsize->x - play_button_size) / 2,
-                  (wsize->y - button_font_size) / 2,
-                  play_button_size, button_font_size},
-        z_index, "play_obj", play_button, PURPLE, WHITE,
-        button_font_size, 10));
+                  (wsize->y - button_font_size) / 2, play_button_size,
+                  button_font_size},
+        z_index, "play_obj", play_button, PURPLE, WHITE, button_font_size, 10,
+        [this]() { this->mStateOrTag = GameState::INGAME; }));
+    play_b_obj->mTag = GameState::MENU;
 
     z_index++;
 
@@ -72,10 +73,11 @@ void Game::init(Window *w) {
 
     sptr_t<Object> exit_b_obj = mObjMan.add_object(mk_sptr<ObjButton>(
         Rectangle{(wsize->x - exit_button_size) / 2,
-                  play_b_obj->mRec.y + play_b_obj->mRec.height + button_font_size,
+                  play_b_obj->mRec.y + play_b_obj->mRec.height +
+                      button_font_size,
                   exit_button_size, button_font_size},
-        z_index, "exit_obj", exit_button, RED, WHITE,
-        button_font_size, 10));
+        z_index, "exit_obj", exit_button, RED, WHITE, button_font_size, 10,
+        [this]() { this->exit_game(); }));
 
     z_index++;
 }
@@ -141,6 +143,4 @@ void Game::_center_board(sptr_t<Object> object) {
                     (float)object->mText->height * mScale};
 }
 
-void Game::exit_game() {
-    mWantExit = true;
-}
+void Game::exit_game() { mWantExit = true; }

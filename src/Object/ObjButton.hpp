@@ -4,6 +4,7 @@
 // TODO: Make padding autoapply so it didnt need to be edited on rendering only
 #include "../Game/Game.hpp"
 #include "Object.hpp"
+#include <functional>
 
 struct ObjButton : public Object {
   public:
@@ -15,41 +16,17 @@ struct ObjButton : public Object {
     int mPad;
     int mSize;
     bool mHovered;
-
-    ObjButton(Rectangle rec, int z_index, const char *name)
-        : Object(rec, z_index, name) {
-        mSize = 24;
-        mText = "";
-        mColor = WHITE;
-        mBgColor = BLACK;
-        mHoverColor = BLACK;
-        mHoverBgColor = WHITE;
-        mPad = 20;
-        mHovered = false;
-    }
+    std::function<void()> mOnClick = nullptr;
 
     ObjButton(Rectangle rec, int z_index, const char *name, const char *text,
-              Color color, Color bg_color, int size, int padding)
-        : Object(rec, z_index, name) {
+              Color color, Color bg_color, int size, int padding,
+              std::function<void()> onClick)
+        : Object(rec, z_index, name), mOnClick(onClick) {
         mText = text;
         mColor = color;
         mBgColor = bg_color;
         mHoverColor = bg_color;
         mHoverBgColor = color;
-        mSize = size;
-        mPad = padding;
-        mHovered = false;
-    }
-
-    ObjButton(Rectangle rec, int z_index, const char *name, const char *text,
-              Color color, Color bg_color, Color hover_color,
-              Color hover_bg_color, int size, int padding)
-        : Object(rec, z_index, name) {
-        mText = text;
-        mColor = color;
-        mBgColor = bg_color;
-        mHoverColor = hover_color;
-        mHoverBgColor = hover_bg_color;
         mSize = size;
         mPad = padding;
         mHovered = false;
@@ -82,7 +59,8 @@ struct ObjButton : public Object {
             Rectangle(mRec.x - mPad, mRec.y - mPad, mRec.width + (mPad * 2),
                       mRec.height + (mPad * 2));
         if (CheckCollisionPointRec(mGame_ptr->mCursorPos, calculated_rec)) {
-            if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) mGame_ptr->exit_game();
+            if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON))
+                mOnClick();
             mHovered = true;
         } else {
             mHovered = false;
