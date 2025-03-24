@@ -1,4 +1,5 @@
 #include "Game.hpp"
+#include "../Object/ObjButton.hpp"
 #include "../Object/ObjText.hpp"
 #include "../Window/Window.hpp"
 
@@ -22,12 +23,18 @@ void Game::init(Window *w) {
     sptr_t<Object> board_obj =
         mObjMan.add_object(mk_sptr<Object>(Object({}, 1, "board", board_txt)));
     _center_board(board_obj);
-    board_obj->mTag = GameState::INGAME | GameState::MENU;
+    board_obj->mTag = GameState::INGAME;
 
-    sptr_t<Object> title_obj = mObjMan.add_object(
-        mk_sptr<ObjText>(Rectangle{100, 100, (float)MeasureText("UwUrg", 40), 40},
-                         2, "title", "UwUrg", WHITE, RED, 40, 10));
+    static const char *name = "UwUrg";
+    sptr_t<Object> title_obj = mObjMan.add_object(mk_sptr<ObjText>(
+        Rectangle{100, 100, (float)MeasureText(name, 40), 40}, 2, "title",
+        name, WHITE, RED, 40, 10));
     title_obj->mTag = GameState::MENU;
+
+    static const char *play = "Play";
+    sptr_t<Object> button_ojb = mObjMan.add_object(mk_sptr<ObjButton>(
+        Rectangle{200, 200, (float)MeasureText(play, 40), 40}, 3, "button_obj",
+        play, WHITE, RED, 40, 10));
 }
 
 void Game::handle_logic(float dt) { (void)dt; }
@@ -39,6 +46,7 @@ void Game::handle_drawing(float dt) {
         if (has_flag(object->mTag, mStateOrTag))
             object->render();
     }
+    _render_version();
 }
 
 void Game::handle_key(float dt) {
@@ -73,4 +81,11 @@ void Game::_center_board(sptr_t<Object> object) {
                     (wsize->y - (object->mText->height * mScale)) / 2,
                     (float)object->mText->width * mScale,
                     (float)object->mText->height * mScale};
+}
+
+inline void Game::_render_version() {
+    static const char *version = "0.1";
+    auto wsize = mWindow_ptr->get_window_size();
+    DrawText(version, 0 + 10, wsize->y - MeasureText(version, 28) - 10, 28,
+             WHITE);
 }

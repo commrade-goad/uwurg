@@ -12,6 +12,7 @@ struct Game {
   private:
     void _center_board(sptr_t<Object> object);
     void _sync_scale();
+    void _render_version();
 
   public:
     TextureManager mTexMan;

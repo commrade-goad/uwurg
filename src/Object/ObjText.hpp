@@ -56,13 +56,13 @@ struct ObjText : public Object {
             return;
 
         if (mRec.width > 0 && mRec.height > 0)
-            DrawRectangleRec(Rectangle(mRec.x - mPad, mRec.y - mPad,
+            DrawRectangleRec(Rectangle(mRec.x, mRec.y,
                                        mRec.width + (mPad * 2),
                                        mRec.height + (mPad * 2)),
                              mBgColor);
 
         if (mText != "") {
-            DrawText(mText.c_str(), mRec.x, mRec.y, mSize, mColor);
+            DrawText(mText.c_str(), mRec.x + mPad, mRec.y + mPad, mSize, mColor);
         }
     }
     virtual ~ObjText() {};
