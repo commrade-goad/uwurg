@@ -43,6 +43,7 @@ bool Window::start_window_loop() {
     mGame.init(this);
     mGame.mWindow_ptr = this;
     while (!WindowShouldClose()) {
+        if (mGame.mWantExit) break;
         float dt = GetFrameTime();
         _handle_key(dt);
         _handle_logic(dt);

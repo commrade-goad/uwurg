@@ -10,9 +10,11 @@ struct Window;
 
 struct Game {
   private:
+    // HELPER FUNCTION
     void _center_board(sptr_t<Object> object);
-    void _sync_scale();
     void _render_version();
+
+    void _sync_scale();
 
   public:
     TextureManager mTexMan;
@@ -24,6 +26,7 @@ struct Game {
     int mScale;
 
     Vector2 mCursorPos;
+    bool mWantExit;
 
     Game();
     ~Game();
@@ -32,6 +35,7 @@ struct Game {
     void handle_logic(float dt);
     void handle_drawing(float dt);
     void handle_key(float dt);
+    void exit_game();
 };
 
 #endif // GAME_H_

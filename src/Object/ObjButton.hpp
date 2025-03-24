@@ -78,9 +78,11 @@ struct ObjButton : public Object {
         (void)dt;
         if (mGame_ptr->mWindow_ptr == nullptr)
             return;
-        Rectangle calculated_rec = Rectangle(
-            mRec.x - mPad, mRec.y - mPad, mRec.width + (mPad * 2), mRec.height + (mPad * 2));
+        Rectangle calculated_rec =
+            Rectangle(mRec.x - mPad, mRec.y - mPad, mRec.width + (mPad * 2),
+                      mRec.height + (mPad * 2));
         if (CheckCollisionPointRec(mGame_ptr->mCursorPos, calculated_rec)) {
+            if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) mGame_ptr->exit_game();
             mHovered = true;
         } else {
             mHovered = false;

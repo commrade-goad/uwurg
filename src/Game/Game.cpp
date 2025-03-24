@@ -2,6 +2,7 @@
 #include "../Object/ObjButton.hpp"
 #include "../Object/ObjText.hpp"
 #include "../Window/Window.hpp"
+#include <iostream>
 
 Game::Game() {
     mTexMan = TextureManager();
@@ -10,6 +11,8 @@ Game::Game() {
     mStateOrTag = GameState::MENU;
     mScale = 0;
     mFont = Font();
+    mCursorPos = Vector2();
+    mWantExit = false;
 }
 
 Game::~Game() { UnloadFont(mFont); }
@@ -49,31 +52,30 @@ void Game::init(Window *w) {
 
     z_index++;
 
+    static const int button_font_size = 40;
     static const char *play_button = "PLAY";
-    static const int play_button_font_size = 40;
     static const float play_button_size =
-        (float)MeasureText(play_button, play_button_font_size);
+        (float)MeasureText(play_button, button_font_size);
 
     sptr_t<Object> play_b_obj = mObjMan.add_object(mk_sptr<ObjButton>(
         Rectangle{(wsize->x - play_button_size) / 2,
-                  (wsize->y - play_button_font_size) / 2,
-                  play_button_size, play_button_font_size},
+                  (wsize->y - button_font_size) / 2,
+                  play_button_size, button_font_size},
         z_index, "play_obj", play_button, PURPLE, WHITE,
-        play_button_font_size, 10));
+        button_font_size, 10));
 
     z_index++;
 
     static const char *exit_button = "EXIT";
-    static const int exit_button_font_size = 40;
     static const float exit_button_size =
-        (float)MeasureText(exit_button, exit_button_font_size);
+        (float)MeasureText(exit_button, button_font_size);
 
     sptr_t<Object> exit_b_obj = mObjMan.add_object(mk_sptr<ObjButton>(
         Rectangle{(wsize->x - exit_button_size) / 2,
-                  play_b_obj->mRec.y + play_b_obj->mRec.height + exit_button_font_size,
-                  exit_button_size, exit_button_font_size},
+                  play_b_obj->mRec.y + play_b_obj->mRec.height + button_font_size,
+                  exit_button_size, button_font_size},
         z_index, "exit_obj", exit_button, RED, WHITE,
-        exit_button_font_size, 10));
+        button_font_size, 10));
 
     z_index++;
 }
@@ -99,15 +101,16 @@ void Game::handle_drawing(float dt) {
 
 void Game::handle_key(float dt) {
     (void)dt;
-    /*if (IsKeyPressed(KEY_F)) {*/
-    /*    if (mScale == 4)*/
-    /*        mWindow_ptr->set_window_size(Vector2(854, 480));*/
-    /*    else*/
-    /*        mWindow_ptr->set_window_size(Vector2(1280, 720));*/
-    /*    _sync_scale();*/
-    /*    sptr_t<Object> b = mObjMan.get_object("board");*/
-    /*    _center_board(b);*/
-    /*}*/
+    /*
+    if (IsKeyPressed(KEY_F)) {
+        if (mScale == 4)
+            mWindow_ptr->set_window_size(Vector2(854, 480));
+        else
+            mWindow_ptr->set_window_size(Vector2(1280, 720));
+        _sync_scale();
+        sptr_t<Object> b = mObjMan.get_object("board");
+        _center_board(b);
+    } */
 }
 
 void Game::_sync_scale() {
@@ -118,6 +121,13 @@ void Game::_sync_scale() {
         mScale = 4;
     if (wsize->y >= 1080)
         mScale = 5;
+}
+
+inline void Game::_render_version() {
+    static const char *version = "0.1";
+    auto wsize = mWindow_ptr->get_window_size();
+    DrawText(version, 0 + 10, wsize->y - MeasureText(version, 28) - 10, 28,
+             WHITE);
 }
 
 void Game::_center_board(sptr_t<Object> object) {
@@ -131,9 +141,6 @@ void Game::_center_board(sptr_t<Object> object) {
                     (float)object->mText->height * mScale};
 }
 
-inline void Game::_render_version() {
-    static const char *version = "0.1";
-    auto wsize = mWindow_ptr->get_window_size();
-    DrawText(version, 0 + 10, wsize->y - MeasureText(version, 28) - 10, 28,
-             WHITE);
+void Game::exit_game() {
+    mWantExit = true;
 }
