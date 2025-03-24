@@ -17,6 +17,7 @@ void Game::init(Window *w) {
     mWindow_ptr = w;
     _sync_scale();
 
+    Vector2 *wsize = w->get_window_size();
     Texture2D *board_txt =
         mTexMan.load_texture("board_txt", "./assets/board-real.png");
 
@@ -26,15 +27,17 @@ void Game::init(Window *w) {
     board_obj->mTag = GameState::INGAME;
 
     static const char *name = "UwUrg";
+    static const int font_size = 48;
+    static const float text_len = (float)MeasureText(name, font_size);
     sptr_t<Object> title_obj = mObjMan.add_object(mk_sptr<ObjText>(
-        Rectangle{100, 100, (float)MeasureText(name, 40), 40}, 2, "title",
-        name, WHITE, RED, 40, 10));
+        Rectangle{(wsize->x - text_len) / 2, text_len, text_len, font_size}, 2, "title",
+        name, WHITE, PURPLE, font_size, 10));
     title_obj->mTag = GameState::MENU;
 
     static const char *play = "Play";
     sptr_t<Object> button_ojb = mObjMan.add_object(mk_sptr<ObjButton>(
         Rectangle{200, 200, (float)MeasureText(play, 40), 40}, 3, "button_obj",
-        play, WHITE, RED, 40, 10));
+        play, PURPLE, WHITE, 40, 10));
 }
 
 void Game::handle_logic(float dt, Vector2 curpos) {
