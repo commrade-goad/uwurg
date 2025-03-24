@@ -24,8 +24,9 @@ void Game::init(Window *w) {
     _center_board(board_obj);
     board_obj->mTag = GameState::INGAME | GameState::MENU;
 
-    sptr_t<Object> title_obj = mObjMan.add_object(mk_sptr<ObjText>(
-        Rectangle{0, 0, 0, 0}, 2, "title", "UwUrg", WHITE, 40));
+    sptr_t<Object> title_obj = mObjMan.add_object(
+        mk_sptr<ObjText>(Rectangle{100, 100, (float)MeasureText("UwUrg", 40), 40},
+                         2, "title", "UwUrg", WHITE, RED, 40, 10));
     title_obj->mTag = GameState::MENU;
 }
 
