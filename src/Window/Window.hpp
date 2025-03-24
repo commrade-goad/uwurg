@@ -18,7 +18,7 @@ struct Window {
 
     void _handle_drawing(float dt);
     void _handle_key(float dt);
-    void _handle_logic(float dt, Vector2 cupos);
+    void _handle_logic(float dt);
     void _check_msg();
     void _apply_option(const char *title);
 

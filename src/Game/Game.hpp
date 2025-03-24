@@ -18,15 +18,18 @@ struct Game {
     TextureManager mTexMan;
     ObjectManager mObjMan;
     Window *mWindow_ptr;
+    Font mFont;
 
     GameState mStateOrTag;
     int mScale;
+
+    Vector2 mCursorPos;
 
     Game();
     ~Game();
 
     void init(Window *w);
-    void handle_logic(float dt, Vector2 curpos);
+    void handle_logic(float dt);
     void handle_drawing(float dt);
     void handle_key(float dt);
 };

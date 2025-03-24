@@ -5,6 +5,8 @@
 #include <raylib.h>
 #include <string>
 
+struct Game;
+
 struct Object {
   public:
     std::string mName;
@@ -13,6 +15,7 @@ struct Object {
     int mZIndex;
     bool mShow;
     GameState mTag;
+    Game *mGame_ptr;
 
     bool operator==(const Object &other) const {
         return mName == other.mName;
@@ -22,7 +25,7 @@ struct Object {
     Object(Rectangle rec, int z_index, const char *name, Texture2D *text);
     virtual ~Object() = default;
     virtual void render();
-    virtual void logic(float dt, Vector2 curpos);
+    virtual void logic(float dt);
 };
 
 #endif // OBJECT_H_

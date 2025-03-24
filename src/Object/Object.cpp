@@ -30,4 +30,4 @@ void Object::render() {
     }
 }
 
-void Object::logic(float dt, Vector2 curpos) { (void)dt; }
+void Object::logic(float dt) { (void)dt; }

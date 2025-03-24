@@ -9,11 +9,15 @@ Game::Game() {
     mWindow_ptr = nullptr;
     mStateOrTag = GameState::MENU;
     mScale = 0;
+    mFont = Font();
 }
 
-Game::~Game() {}
+Game::~Game() {
+    UnloadFont(mFont);
+}
 
 void Game::init(Window *w) {
+    mFont = LoadFont("./assets/Pixelify_Sans/PixelifySans-VariableFont_wght.ttf");
     mWindow_ptr = w;
     _sync_scale();
 
@@ -38,14 +42,15 @@ void Game::init(Window *w) {
     sptr_t<Object> button_ojb = mObjMan.add_object(mk_sptr<ObjButton>(
         Rectangle{200, 200, (float)MeasureText(play, 40), 40}, 3, "button_obj",
         play, PURPLE, WHITE, 40, 10));
+    button_ojb->mGame_ptr = this;
 }
 
-void Game::handle_logic(float dt, Vector2 curpos) {
+void Game::handle_logic(float dt) {
     (void)dt;
 
     for (auto &[_, object] : mObjMan.mData) {
         if (has_flag(object->mTag, mStateOrTag))
-            object->logic(dt, curpos);
+            object->logic(dt);
     }
 }
 

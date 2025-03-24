@@ -2,6 +2,8 @@
 #define OBJ_BUTTON_H_
 
 #include "Object.hpp"
+#include "../Game/Game.hpp"
+#include <iostream>
 
 struct ObjButton : public Object {
   public:
@@ -70,10 +72,11 @@ struct ObjButton : public Object {
         }
     }
 
-    virtual void logic(float dt, Vector2 curpos) override {
+    virtual void logic(float dt) override {
         (void)dt;
+        if (mGame_ptr->mWindow_ptr == nullptr) return;
         Rectangle calculated_rec = Rectangle(mRec.x, mRec.y, mRec.width + (mPad * 2), mRec.height + (mPad * 2));
-        if (CheckCollisionPointRec(curpos, calculated_rec)) {
+        if (CheckCollisionPointRec(mGame_ptr->mCursorPos, calculated_rec)) {
             mHovered = true;
         } else {
             mHovered = false;
