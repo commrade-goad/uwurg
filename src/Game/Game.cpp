@@ -37,7 +37,14 @@ void Game::init(Window *w) {
         play, WHITE, RED, 40, 10));
 }
 
-void Game::handle_logic(float dt) { (void)dt; }
+void Game::handle_logic(float dt, Vector2 curpos) {
+    (void)dt;
+
+    for (auto &[_, object] : mObjMan.mData) {
+        if (has_flag(object->mTag, mStateOrTag))
+            object->logic(dt, curpos);
+    }
+}
 
 void Game::handle_drawing(float dt) {
     (void)dt;

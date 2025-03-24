@@ -26,7 +26,7 @@ struct Game {
     ~Game();
 
     void init(Window *w);
-    void handle_logic(float dt);
+    void handle_logic(float dt, Vector2 curpos);
     void handle_drawing(float dt);
     void handle_key(float dt);
 };

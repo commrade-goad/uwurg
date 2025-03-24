@@ -57,16 +57,28 @@ struct ObjButton : public Object {
         if (!mShow)
             return;
 
+        Color &fgcolor = mHovered ? mBgColor : mColor;
+        Color &bgcolor = mHovered ? mColor   : mBgColor;
         if (mRec.width > 0 && mRec.height > 0)
             DrawRectangleRec(Rectangle(mRec.x, mRec.y, mRec.width + (mPad * 2),
                                        mRec.height + (mPad * 2)),
-                             mBgColor);
+                             bgcolor);
 
         if (mText != "") {
             DrawText(mText.c_str(), mRec.x + mPad, mRec.y + mPad, mSize,
-                     mColor);
+                     fgcolor);
         }
     }
+
+    virtual void logic(float dt, Vector2 curpos) override {
+        (void)dt;
+        Rectangle calculated_rec = Rectangle(mRec.x, mRec.y, mRec.width + (mPad * 2), mRec.height + (mPad * 2));
+        if (CheckCollisionPointRec(curpos, calculated_rec)) {
+            mHovered = true;
+        } else {
+            mHovered = false;
+        }
+    };
 
     virtual ~ObjButton() {};
 };

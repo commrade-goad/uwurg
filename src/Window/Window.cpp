@@ -43,8 +43,9 @@ bool Window::start_window_loop() {
     mGame.init(this);
     while (!WindowShouldClose()) {
         float dt = GetFrameTime();
+        Vector2 curpos = GetMousePosition();
         _handle_key(dt);
-        _handle_logic(dt);
+        _handle_logic(dt, curpos);
         _handle_drawing(dt);
     }
     return true;
@@ -60,7 +61,7 @@ void Window::_handle_drawing(float dt) {
     EndDrawing();
 }
 
-void Window::_handle_logic(float dt) { mGame.handle_logic(dt); }
+void Window::_handle_logic(float dt, Vector2 curpos) { mGame.handle_logic(dt, curpos);}
 
 void Window::_handle_key(float dt) { mGame.handle_key(dt); }
 

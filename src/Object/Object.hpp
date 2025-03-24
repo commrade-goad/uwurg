@@ -22,7 +22,7 @@ struct Object {
     Object(Rectangle rec, int z_index, const char *name, Texture2D *text);
     virtual ~Object() = default;
     virtual void render();
-    virtual void logic(float dt);
+    virtual void logic(float dt, Vector2 curpos);
 };
 
 #endif // OBJECT_H_
