@@ -8,6 +8,7 @@
 struct ObjectManager {
   public:
     std::unordered_map<int, sptr_t<Object>> mData;
+    Game *mGame_ptr;
 
     ObjectManager();
     ~ObjectManager();

@@ -1,9 +1,9 @@
 #ifndef OBJ_BUTTON_H_
 #define OBJ_BUTTON_H_
 
-#include "Object.hpp"
+// TODO: Make padding autoapply so it didnt need to be edited on rendering only
 #include "../Game/Game.hpp"
-#include <iostream>
+#include "Object.hpp"
 
 struct ObjButton : public Object {
   public:
@@ -60,22 +60,26 @@ struct ObjButton : public Object {
             return;
 
         Color &fgcolor = mHovered ? mBgColor : mColor;
-        Color &bgcolor = mHovered ? mColor   : mBgColor;
+        Color &bgcolor = mHovered ? mColor : mBgColor;
         if (mRec.width > 0 && mRec.height > 0)
-            DrawRectangleRec(Rectangle(mRec.x, mRec.y, mRec.width + (mPad * 2),
+            DrawRectangleRec(Rectangle(mRec.x - mPad, mRec.y - mPad,
+                                       mRec.width + (mPad * 2),
                                        mRec.height + (mPad * 2)),
                              bgcolor);
 
         if (mText != "") {
-            DrawText(mText.c_str(), mRec.x + mPad, mRec.y + mPad, mSize,
-                     fgcolor);
+            DrawTextPro(mGame_ptr->mFont, mText.c_str(),
+                        Vector2(mRec.x, mRec.y), Vector2(0, 0), 0.0f, mSize,
+                        (float)mSize / 5, fgcolor);
         }
     }
 
     virtual void logic(float dt) override {
         (void)dt;
-        if (mGame_ptr->mWindow_ptr == nullptr) return;
-        Rectangle calculated_rec = Rectangle(mRec.x, mRec.y, mRec.width + (mPad * 2), mRec.height + (mPad * 2));
+        if (mGame_ptr->mWindow_ptr == nullptr)
+            return;
+        Rectangle calculated_rec = Rectangle(
+            mRec.x - mPad, mRec.y - mPad, mRec.width + (mPad * 2), mRec.height + (mPad * 2));
         if (CheckCollisionPointRec(mGame_ptr->mCursorPos, calculated_rec)) {
             mHovered = true;
         } else {

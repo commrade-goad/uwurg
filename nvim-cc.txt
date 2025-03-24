@@ -1,1 +1,1 @@
-cd build && make -j8 && ./uwurg
+cd build && make -j8 && cd .. && ./build/uwurg

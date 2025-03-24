@@ -2,11 +2,13 @@
 
 ObjectManager::ObjectManager() {
     mData.reserve(20);
+    mGame_ptr = nullptr;
 }
 
 ObjectManager::~ObjectManager() {}
 
 sptr_t<Object> ObjectManager::add_object(sptr_t<Object> obj) {
+    obj->mGame_ptr = mGame_ptr;
     mData[obj->mZIndex] = obj;
     return obj;
 }

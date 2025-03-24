@@ -12,37 +12,70 @@ Game::Game() {
     mFont = Font();
 }
 
-Game::~Game() {
-    UnloadFont(mFont);
-}
+Game::~Game() { UnloadFont(mFont); }
 
 void Game::init(Window *w) {
-    mFont = LoadFont("./assets/Pixelify_Sans/PixelifySans-VariableFont_wght.ttf");
     mWindow_ptr = w;
+    mObjMan.mGame_ptr = this;
+    int z_index = 1;
+
+    mFont =
+        LoadFontEx("./assets/Pixelify_Sans/PixelifySans-VariableFont_wght.ttf",
+                   96, NULL, 95);
+
     _sync_scale();
 
+    // TODO: make it dynamic and generate the font size using the mScale value
     Vector2 *wsize = w->get_window_size();
     Texture2D *board_txt =
         mTexMan.load_texture("board_txt", "./assets/board-real.png");
 
-    sptr_t<Object> board_obj =
-        mObjMan.add_object(mk_sptr<Object>(Object({}, 1, "board", board_txt)));
+    sptr_t<Object> board_obj = mObjMan.add_object(
+        mk_sptr<Object>(Object({}, z_index, "board", board_txt)));
     _center_board(board_obj);
     board_obj->mTag = GameState::INGAME;
 
-    static const char *name = "UwUrg";
-    static const int font_size = 48;
-    static const float text_len = (float)MeasureText(name, font_size);
+    z_index++;
+
+    static const char *title_name = "UwUrg";
+    static const int title_font_size = 64;
+    static const float title_text_len =
+        (float)MeasureText(title_name, title_font_size);
     sptr_t<Object> title_obj = mObjMan.add_object(mk_sptr<ObjText>(
-        Rectangle{(wsize->x - text_len) / 2, text_len, text_len, font_size}, 2, "title",
-        name, WHITE, PURPLE, font_size, 10));
+        Rectangle{(wsize->x - title_text_len) / 2, wsize->y - title_text_len / 2,
+                  title_text_len, title_font_size},
+        z_index, "title", title_name, WHITE, title_font_size));
     title_obj->mTag = GameState::MENU;
 
-    static const char *play = "Play";
-    sptr_t<Object> button_ojb = mObjMan.add_object(mk_sptr<ObjButton>(
-        Rectangle{200, 200, (float)MeasureText(play, 40), 40}, 3, "button_obj",
-        play, PURPLE, WHITE, 40, 10));
-    button_ojb->mGame_ptr = this;
+    z_index++;
+
+    static const char *play_button = "PLAY";
+    static const int play_button_font_size = 40;
+    static const float play_button_size =
+        (float)MeasureText(play_button, play_button_font_size);
+
+    sptr_t<Object> play_b_obj = mObjMan.add_object(mk_sptr<ObjButton>(
+        Rectangle{(wsize->x - play_button_size) / 2,
+                  (wsize->y - play_button_font_size) / 2,
+                  play_button_size, play_button_font_size},
+        z_index, "play_obj", play_button, PURPLE, WHITE,
+        play_button_font_size, 10));
+
+    z_index++;
+
+    static const char *exit_button = "EXIT";
+    static const int exit_button_font_size = 40;
+    static const float exit_button_size =
+        (float)MeasureText(exit_button, exit_button_font_size);
+
+    sptr_t<Object> exit_b_obj = mObjMan.add_object(mk_sptr<ObjButton>(
+        Rectangle{(wsize->x - exit_button_size) / 2,
+                  play_b_obj->mRec.y + play_b_obj->mRec.height + exit_button_font_size,
+                  exit_button_size, exit_button_font_size},
+        z_index, "exit_obj", exit_button, RED, WHITE,
+        exit_button_font_size, 10));
+
+    z_index++;
 }
 
 void Game::handle_logic(float dt) {
