@@ -55,7 +55,7 @@ void Game::init(Window *w) {
                                       titleText->mSpacing)
                             .x) /
             2;
-        titleText->mRec.y = wsize->y - titleText->mSize * 2;
+        titleText->mRec.y = titleText->mSize * 2;
     }
 
     z_index++;
@@ -80,6 +80,23 @@ void Game::init(Window *w) {
 
     z_index++;
 
+    static const char *settings_button = "Settings";
+    sptr_t<Object> settings_b_obj = mObjMan.add_object(mk_sptr<ObjButton>(
+        Rectangle{}, z_index, "settings_obj", settings_button, PURPLE, WHITE,
+        button_font_size, 10, []() { TraceLog(LOG_INFO, "WIP Please be patien."); }));
+    settings_b_obj->mTag = GameState::MENU;
+
+    if (auto settButton = std::dynamic_pointer_cast<ObjButton>(settings_b_obj)) {
+        auto textSize = MeasureTextEx(mFont, settings_button, settButton->mSize,
+                                      settButton->mSpacing);
+        settButton->mRec.x = (wsize->x - textSize.x) / 2;
+        settButton->mRec.y = play_b_obj->mRec.y + play_b_obj->mRec.height + settButton->mSize;
+        settButton->mRec.width = textSize.x;
+        settButton->mRec.height = settButton->mSize;
+    }
+
+    z_index++;
+
     static const char *exit_button = "EXIT";
 
     sptr_t<Object> exit_b_obj = mObjMan.add_object(mk_sptr<ObjButton>(
@@ -88,10 +105,10 @@ void Game::init(Window *w) {
     exit_b_obj->mTag = GameState::MENU;
 
     if (auto exitButton = std::dynamic_pointer_cast<ObjButton>(exit_b_obj)) {
-        auto textSize = MeasureTextEx(mFont, play_button, exitButton->mSize,
+        auto textSize = MeasureTextEx(mFont, exit_button, exitButton->mSize,
                                       exitButton->mSpacing);
         exitButton->mRec.x = (wsize->x - textSize.x) / 2;
-        exitButton->mRec.y = play_b_obj->mRec.y + play_b_obj->mRec.height + exitButton->mSize;
+        exitButton->mRec.y = settings_b_obj->mRec.y + settings_b_obj->mRec.height + exitButton->mSize;
         exitButton->mRec.width = textSize.x;
         exitButton->mRec.height = exitButton->mSize;
     }
