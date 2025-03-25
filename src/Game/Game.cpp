@@ -45,7 +45,7 @@ void Game::init(Window *w) {
     static const char *title_name = "UwUrg";
     static const int title_font_size = 64;
     sptr_t<Object> title_obj = mObjMan.add_object(mk_sptr<ObjText>(
-        Rectangle{}, z_index, "title", title_name, WHITE, title_font_size));
+        Rectangle{}, z_index, "title", title_name, GetColor(0xfffb96FF), title_font_size));
     title_obj->mTag = GameState::MENU;
 
     // CAN BE REFACTORED TO A FUNCTION LATER.
@@ -64,7 +64,7 @@ void Game::init(Window *w) {
     static const char *play_button = "PLAY";
 
     sptr_t<Object> play_b_obj = mObjMan.add_object(mk_sptr<ObjButton>(
-        Rectangle{}, z_index, "play_obj", play_button, PURPLE, WHITE,
+        Rectangle{}, z_index, "play_obj", play_button, GetColor(0x153CB4FF), WHITE,
         button_font_size, 10,
         [this]() { this->mStateOrTag = GameState::INGAME; }));
     play_b_obj->mTag = GameState::MENU;
@@ -82,15 +82,18 @@ void Game::init(Window *w) {
 
     static const char *settings_button = "Settings";
     sptr_t<Object> settings_b_obj = mObjMan.add_object(mk_sptr<ObjButton>(
-        Rectangle{}, z_index, "settings_obj", settings_button, PURPLE, WHITE,
-        button_font_size, 10, []() { TraceLog(LOG_INFO, "WIP Please be patien."); }));
+        Rectangle{}, z_index, "settings_obj", settings_button, GetColor(0x153CB4FF), WHITE,
+        button_font_size, 10,
+        []() { TraceLog(LOG_INFO, "WIP Please be patien."); }));
     settings_b_obj->mTag = GameState::MENU;
 
-    if (auto settButton = std::dynamic_pointer_cast<ObjButton>(settings_b_obj)) {
+    if (auto settButton =
+            std::dynamic_pointer_cast<ObjButton>(settings_b_obj)) {
         auto textSize = MeasureTextEx(mFont, settings_button, settButton->mSize,
                                       settButton->mSpacing);
         settButton->mRec.x = (wsize->x - textSize.x) / 2;
-        settButton->mRec.y = play_b_obj->mRec.y + play_b_obj->mRec.height + settButton->mSize;
+        settButton->mRec.y =
+            play_b_obj->mRec.y + play_b_obj->mRec.height + settButton->mSize;
         settButton->mRec.width = textSize.x;
         settButton->mRec.height = settButton->mSize;
     }
@@ -100,7 +103,7 @@ void Game::init(Window *w) {
     static const char *exit_button = "EXIT";
 
     sptr_t<Object> exit_b_obj = mObjMan.add_object(mk_sptr<ObjButton>(
-        Rectangle{}, z_index, "exit_obj", exit_button, RED, WHITE,
+        Rectangle{}, z_index, "exit_obj", exit_button, GetColor(0xE93479FF), WHITE,
         button_font_size, 10, [this]() { this->exit_game(); }));
     exit_b_obj->mTag = GameState::MENU;
 
@@ -108,7 +111,8 @@ void Game::init(Window *w) {
         auto textSize = MeasureTextEx(mFont, exit_button, exitButton->mSize,
                                       exitButton->mSpacing);
         exitButton->mRec.x = (wsize->x - textSize.x) / 2;
-        exitButton->mRec.y = settings_b_obj->mRec.y + settings_b_obj->mRec.height + exitButton->mSize;
+        exitButton->mRec.y = settings_b_obj->mRec.y +
+                             settings_b_obj->mRec.height + exitButton->mSize;
         exitButton->mRec.width = textSize.x;
         exitButton->mRec.height = exitButton->mSize;
     }
@@ -129,6 +133,12 @@ void Game::handle_drawing(float dt) {
     (void)dt;
 
     Shader *s = mSMan.get_shader("menu");
+    int sWidth = GetShaderLocation(*s, "sWidth");
+    int sHeight = GetShaderLocation(*s, "sHeight");
+
+    Vector2 *wsize = mWindow_ptr->get_window_size();
+    SetShaderValue(*s, sWidth, &wsize->x, SHADER_UNIFORM_FLOAT);
+    SetShaderValue(*s, sHeight, &wsize->y, SHADER_UNIFORM_FLOAT);
 
     BeginShaderMode(*s);
 
@@ -146,7 +156,6 @@ void Game::handle_drawing(float dt) {
 
 void Game::handle_key(float dt) {
     (void)dt;
-    /*
     if (IsKeyPressed(KEY_F)) {
         if (mScale == 4)
             mWindow_ptr->set_window_size(Vector2(854, 480));
@@ -155,7 +164,7 @@ void Game::handle_key(float dt) {
         _sync_scale();
         sptr_t<Object> b = mObjMan.get_object("board");
         _center_board(b);
-    } */
+    }
 }
 
 void Game::_sync_scale() {
@@ -169,9 +178,10 @@ void Game::_sync_scale() {
 }
 
 inline void Game::_render_version() {
-    static const char *version = "0.1";
+    static const int font_size = 16;
+    static const char *version = "Ver 0.0.1-development";
     auto wsize = mWindow_ptr->get_window_size();
-    DrawText(version, 0 + 10, wsize->y - MeasureText(version, 28) - 10, 28,
+    DrawText(version, 0 + 10, wsize->y - font_size - (font_size * 0.5), font_size,
              WHITE);
 }
 

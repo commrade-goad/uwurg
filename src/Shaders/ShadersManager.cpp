@@ -10,8 +10,11 @@ ShadersManager::~ShadersManager() {
 
 Shader *ShadersManager::add_shader(const char *name, const char *vertex,
                                    const char *fragment) {
-    if (vertex == nullptr || vertex[0] == '\0') mData[name] = LoadShader(NULL, fragment);
-    mData[name] = LoadShader(vertex, fragment);
+    if (vertex == nullptr || vertex[0] == '\0')
+        mData[name] = LoadShader(NULL, fragment);
+    else
+        mData[name] = LoadShader(vertex, fragment);
+
     return &mData[name];
 }
 
