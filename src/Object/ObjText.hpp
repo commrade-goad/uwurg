@@ -10,12 +10,18 @@ struct ObjText : public Object {
     std::string mText;
     Color mColor;
     int mSize;
+    int mSpacing;
 
     ObjText(Rectangle rec, int z_index, const char *name)
         : Object(rec, z_index, name) {
         mSize = 24;
         mText = "";
         mColor = WHITE;
+        // RIPPED from raylib straight up.
+        int defaultFontSize = 10;
+        if (mSize < defaultFontSize)
+            mSize = defaultFontSize;
+        mSpacing = mSize / defaultFontSize;
     }
 
     ObjText(Rectangle rec, int z_index, const char *name, const char *text,
@@ -24,6 +30,12 @@ struct ObjText : public Object {
         mText = text;
         mColor = color;
         mSize = size;
+        mSpacing = 10;
+        // RIPPED from raylib straight up.
+        int defaultFontSize = 10;
+        if (mSize < defaultFontSize)
+            mSize = defaultFontSize;
+        mSpacing = mSize / defaultFontSize;
     }
 
     virtual void render() override {
@@ -31,15 +43,9 @@ struct ObjText : public Object {
             return;
 
         if (mText != "") {
-            // RIPPED from raylib straight up.
-            int defaultFontSize = 10;
-            if (mSize < defaultFontSize)
-                mSize = defaultFontSize;
-            int spacing = mSize / defaultFontSize;
-
             DrawTextPro(mGame_ptr->mFont, mText.c_str(),
                         Vector2(mRec.x, mRec.y), Vector2(0, 0), 0.0f, mSize,
-                        spacing, mColor);
+                        mSpacing, mColor);
         }
     }
     virtual ~ObjText() {};

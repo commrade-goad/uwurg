@@ -15,6 +15,7 @@ struct ObjButton : public Object {
     Color mHoverBgColor;
     int mPad;
     int mSize;
+    int mSpacing;
     bool mHovered;
     std::function<void()> mOnClick = nullptr;
 
@@ -30,6 +31,11 @@ struct ObjButton : public Object {
         mSize = size;
         mPad = padding;
         mHovered = false;
+        // RIPPED from raylib straight up.
+        int defaultFontSize = 10;
+        if (mSize < defaultFontSize)
+            mSize = defaultFontSize;
+        mSpacing = mSize / defaultFontSize;
     }
 
     virtual void render() override {
@@ -47,10 +53,11 @@ struct ObjButton : public Object {
         if (mText != "") {
             DrawTextPro(mGame_ptr->mFont, mText.c_str(),
                         Vector2(mRec.x, mRec.y), Vector2(0, 0), 0.0f, mSize,
-                        (float)mSize / 5, fgcolor);
+                        mSpacing, fgcolor);
         }
     }
 
+    // TODO: make calculated_rec apply mRec
     virtual void logic(float dt) override {
         (void)dt;
         if (mGame_ptr->mWindow_ptr == nullptr)

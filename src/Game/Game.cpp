@@ -41,45 +41,57 @@ void Game::init(Window *w) {
 
     static const char *title_name = "UwUrg";
     static const int title_font_size = 64;
-    static const float title_text_len =
-        (float)MeasureText(title_name, title_font_size);
-    sptr_t<Object> title_obj = mObjMan.add_object(
-        mk_sptr<ObjText>(Rectangle{(wsize->x - title_text_len) / 2,
-                                   wsize->y - title_text_len / 2,
-                                   title_text_len, title_font_size},
-                         z_index, "title", title_name, WHITE, title_font_size));
+    sptr_t<Object> title_obj = mObjMan.add_object(mk_sptr<ObjText>(
+        Rectangle{}, z_index, "title", title_name, WHITE, title_font_size));
     title_obj->mTag = GameState::MENU;
+
+    // CAN BE REFACTORED TO A FUNCTION LATER.
+    if (auto titleText = std::dynamic_pointer_cast<ObjText>(title_obj)) {
+        titleText->mRec.x =
+            (wsize->x - MeasureTextEx(mFont, title_name, titleText->mSize,
+                                      titleText->mSpacing)
+                            .x) /
+            2;
+        titleText->mRec.y = wsize->y - titleText->mSize * 2;
+    }
 
     z_index++;
 
     static const int button_font_size = 40;
     static const char *play_button = "PLAY";
-    static const float play_button_size =
-        (float)MeasureText(play_button, button_font_size);
 
     sptr_t<Object> play_b_obj = mObjMan.add_object(mk_sptr<ObjButton>(
-        Rectangle{(wsize->x - play_button_size) / 2,
-                  (wsize->y - button_font_size) / 2, play_button_size,
-                  button_font_size},
-        z_index, "play_obj", play_button, PURPLE, WHITE, button_font_size, 10,
+        Rectangle{}, z_index, "play_obj", play_button, PURPLE, WHITE,
+        button_font_size, 10,
         [this]() { this->mStateOrTag = GameState::INGAME; }));
     play_b_obj->mTag = GameState::MENU;
+
+    if (auto playButton = std::dynamic_pointer_cast<ObjButton>(play_b_obj)) {
+        auto textSize = MeasureTextEx(mFont, play_button, playButton->mSize,
+                                      playButton->mSpacing);
+        playButton->mRec.x = (wsize->x - textSize.x) / 2;
+        playButton->mRec.y = (wsize->y - playButton->mSize) / 2;
+        playButton->mRec.width = textSize.x;
+        playButton->mRec.height = playButton->mSize;
+    }
 
     z_index++;
 
     static const char *exit_button = "EXIT";
-    static const float exit_button_size =
-        (float)MeasureText(exit_button, button_font_size);
 
     sptr_t<Object> exit_b_obj = mObjMan.add_object(mk_sptr<ObjButton>(
-        Rectangle{(wsize->x - exit_button_size) / 2,
-                  play_b_obj->mRec.y + play_b_obj->mRec.height +
-                      button_font_size,
-                  exit_button_size, button_font_size},
-        z_index, "exit_obj", exit_button, RED, WHITE, button_font_size, 10,
-        [this]() { this->exit_game(); }));
-
+        Rectangle{}, z_index, "exit_obj", exit_button, RED, WHITE,
+        button_font_size, 10, [this]() { this->exit_game(); }));
     exit_b_obj->mTag = GameState::MENU;
+
+    if (auto exitButton = std::dynamic_pointer_cast<ObjButton>(exit_b_obj)) {
+        auto textSize = MeasureTextEx(mFont, play_button, exitButton->mSize,
+                                      exitButton->mSpacing);
+        exitButton->mRec.x = (wsize->x - textSize.x) / 2;
+        exitButton->mRec.y = play_b_obj->mRec.y + play_b_obj->mRec.height + exitButton->mSize;
+        exitButton->mRec.width = textSize.x;
+        exitButton->mRec.height = exitButton->mSize;
+    }
 
     z_index++;
 }
