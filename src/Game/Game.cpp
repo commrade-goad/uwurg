@@ -79,24 +79,26 @@ void Game::init(Window *w) {
         z_index, "exit_obj", exit_button, RED, WHITE, button_font_size, 10,
         [this]() { this->exit_game(); }));
 
+    exit_b_obj->mTag = GameState::MENU;
+
     z_index++;
 }
 
 void Game::handle_logic(float dt) {
     (void)dt;
 
-    for (auto &[_, object] : mObjMan.mData) {
-        if (has_flag(object->mTag, mStateOrTag))
-            object->logic(dt);
+    for (auto &d : mObjMan.mData) {
+        if (has_flag(d->mTag, mStateOrTag))
+            d->logic(dt);
     }
 }
 
 void Game::handle_drawing(float dt) {
     (void)dt;
 
-    for (auto &[_, object] : mObjMan.mData) {
-        if (has_flag(object->mTag, mStateOrTag))
-            object->render();
+    for (auto &d : mObjMan.mData) {
+        if (has_flag(d->mTag, mStateOrTag))
+            d->render();
     }
     _render_version();
 }

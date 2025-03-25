@@ -3,11 +3,11 @@
 
 #include "../Object/Object.hpp"
 #include "../def.hpp"
-#include <unordered_map>
+#include <vector>
 
 struct ObjectManager {
   public:
-    std::unordered_map<int, sptr_t<Object>> mData;
+    std::vector<sptr_t<Object>> mData;
     Game *mGame_ptr;
 
     ObjectManager();
