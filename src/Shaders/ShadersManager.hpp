@@ -14,8 +14,8 @@ struct ShadersManager {
     ShadersManager();
     ~ShadersManager();
 
-    void add_shader(std::string, const char *file_path);
-    Shader *get_shader(std::string);
+    Shader *add_shader(const char *name, const char *vertex, const char *fragment);
+    Shader *get_shader(const char *name);
 };
 
 #endif // SHADERS_MANAGER_H_

@@ -3,6 +3,7 @@
 
 #include "../ObjectManager/ObjectManager.hpp"
 #include "../TextureManager/TextureManager.hpp"
+#include "../Shaders/ShadersManager.hpp"
 #include "GameState.hpp"
 #include <raylib.h>
 
@@ -19,6 +20,7 @@ struct Game {
   public:
     TextureManager mTexMan;
     ObjectManager mObjMan;
+    ShadersManager mSMan;
     Window *mWindow_ptr;
     Font mFont;
 

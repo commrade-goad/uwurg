@@ -27,6 +27,7 @@ FetchContent_MakeAvailable(raylib)
 set(FILE_IN
     src/TextureManager/TextureManager.cpp
     src/ObjectManager/ObjectManager.cpp
+    src/Shaders/ShadersManager.cpp
     src/Window/Window.cpp
     src/Object/Object.cpp
     src/Game/Game.cpp

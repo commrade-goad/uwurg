@@ -6,6 +6,7 @@
 Game::Game() {
     mTexMan = TextureManager();
     mObjMan = ObjectManager();
+    mSMan = ShadersManager();
     mWindow_ptr = nullptr;
     mStateOrTag = GameState::MENU;
     mScale = 0;
@@ -24,6 +25,8 @@ void Game::init(Window *w) {
     mFont =
         LoadFontEx("./assets/Pixelify_Sans/PixelifySans-VariableFont_wght.ttf",
                    96, NULL, 95);
+
+    mSMan.add_shader("menu", nullptr, "./src/Shaders/menu_fragment.glsl");
 
     _sync_scale();
 
@@ -108,6 +111,15 @@ void Game::handle_logic(float dt) {
 void Game::handle_drawing(float dt) {
     (void)dt;
 
+    Shader *s = mSMan.get_shader("menu");
+
+    BeginShaderMode(*s);
+
+    DrawRectangle(0, 0, 1280, 720, WHITE);
+
+    EndShaderMode();
+    // if i move DrawRectangle here its working
+    // DrawRectangle(0, 0, 1280, 720, WHITE);
     for (auto &d : mObjMan.mData) {
         if (has_flag(d->mTag, mStateOrTag))
             d->render();
