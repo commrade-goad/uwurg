@@ -51,7 +51,7 @@ void _position_menu_object(Game *game) {
 
     if (auto titleText = std::dynamic_pointer_cast<ObjText>(title)) {
         titleText->mRec.x = (wsize->x - titleText->get_width()) / 2;
-        titleText->mRec.y = titleText->mSize * 2;
+        titleText->mRec.y = titleText->mSize * (game->mScale / 3.0);
     }
 
     if (auto playButton = std::dynamic_pointer_cast<ObjButton>(play_btn)) {
@@ -88,7 +88,7 @@ void _create_settings_object(Game *game, int *z_index) {
     Texture2D *board_txt = game->mTexMan.load_texture("board_txt", "./assets/board-real.png");
     sptr_t<Object> board_obj = game->mObjMan.add_object(
         mk_sptr<Object>(Object({}, *z_index, "board", board_txt)));
-    game->_center_board(board_obj);
+    _center_board(game, board_obj);
     board_obj->mTag = GameState::INGAME;
     z_index++;
 }
@@ -99,4 +99,15 @@ void _render_version(Game *game) {
     auto wsize = game->mWindow_ptr->get_window_size();
     DrawText(version, 0 + 10, wsize->y - font_size - (font_size * 0.5),
              font_size, WHITE);
+}
+
+void _center_board(Game *game, sptr_t<Object> object) {
+    if (object->mText->width <= 0 && object->mText->height <= 0)
+        return;
+
+    Vector2 *wsize = game->mWindow_ptr->get_window_size();
+    object->mRec = {(wsize->x - (object->mText->width * game->mScale)) / 2,
+                    (wsize->y - (object->mText->height * game->mScale)) / 2,
+                    (float)object->mText->width * game->mScale,
+                    (float)object->mText->height * game->mScale};
 }

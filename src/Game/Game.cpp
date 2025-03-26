@@ -80,7 +80,8 @@ void Game::handle_key(float dt) {
             mWindow_ptr->set_window_size(Vector2(1280, 720));
         _sync_scale();
         sptr_t<Object> b = mObjMan.get_object("board");
-        _center_board(b);
+        _center_board(this, b);
+        _position_menu_object(this);
     }
 }
 
@@ -92,17 +93,6 @@ void Game::_sync_scale() {
         mScale = 4;
     if (wsize->y >= 1080)
         mScale = 5;
-}
-
-void Game::_center_board(sptr_t<Object> object) {
-    if (object->mText->width <= 0 && object->mText->height <= 0)
-        return;
-
-    Vector2 *wsize = mWindow_ptr->get_window_size();
-    object->mRec = {(wsize->x - (object->mText->width * mScale)) / 2,
-                    (wsize->y - (object->mText->height * mScale)) / 2,
-                    (float)object->mText->width * mScale,
-                    (float)object->mText->height * mScale};
 }
 
 void Game::exit_game() { mWantExit = true; }

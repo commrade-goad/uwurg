@@ -34,9 +34,6 @@ struct Game {
     void handle_drawing(float dt);
     void handle_key(float dt);
     void exit_game();
-
-    // HELPER FUNCTION
-    void _center_board(sptr_t<Object> object);
 };
 
 #endif // GAME_H_
