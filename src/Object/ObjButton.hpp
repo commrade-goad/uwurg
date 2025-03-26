@@ -39,9 +39,12 @@ struct ObjButton : public Object {
     }
 
     int get_width() {
-        Vector2 size =
-            MeasureTextEx(mGame_ptr->mFont, mText.c_str(), mSize, mSpacing);
-        return size.x;
+        if (mGame_ptr != nullptr) {
+            Vector2 size =
+                MeasureTextEx(mGame_ptr->mFont, mText.c_str(), mSize, mSpacing);
+            return size.x;
+        }
+        return -1;
     }
 
     virtual void render() override {

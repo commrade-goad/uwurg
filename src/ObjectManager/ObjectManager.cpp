@@ -1,5 +1,8 @@
 #include "ObjectManager.hpp"
 
+// TODO: Make it store randomly then a function that will return
+// the correct z-index.
+
 ObjectManager::ObjectManager() {
     mData.reserve(20);
     mGame_ptr = nullptr;
@@ -14,6 +17,12 @@ sptr_t<Object> ObjectManager::add_object(sptr_t<Object> obj) {
         return obj;
     }
     mData.insert(mData.begin() + obj->mZIndex, obj);
+
+    for (size_t i = obj->mZIndex; i < mData.size(); i++) {
+        auto &current = mData[i];
+        current->mZIndex = i;
+    }
+
     return obj;
 }
 
@@ -26,7 +35,9 @@ void ObjectManager::rem_object(sptr_t<Object> obj) {
     }
 }
 
-void ObjectManager::rem_object(size_t z_index) { mData[z_index] = nullptr; }
+void ObjectManager::rem_object(size_t z_index) {
+    mData.erase(mData.begin() + z_index);
+}
 
 void ObjectManager::rem_object(std::string &name) {
     for (size_t i = 0; i < mData.size(); i++) {
@@ -39,10 +50,7 @@ void ObjectManager::rem_object(std::string &name) {
 
 sptr_t<Object> ObjectManager::get_object(const char *name) {
     for (size_t i = 0; i < mData.size(); i++) {
-        auto &d = mData[i];
-        if (d->mName == name)
-            return d;
-        break;
+        if (mData[i]->mName == name) return mData[i];
     }
     return nullptr;
 }

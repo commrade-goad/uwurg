@@ -2,6 +2,7 @@
 #include "../Object/ObjButton.hpp"
 #include "../Object/ObjText.hpp"
 #include "../Window/Window.hpp"
+#include "GameUtils.hpp"
 
 Game::Game() {
     mTexMan = TextureManager();
@@ -26,12 +27,12 @@ void Game::init(Window *w) {
         LoadFontEx("./assets/Pixelify_Sans/PixelifySans-VariableFont_wght.ttf",
                    96, NULL, 95);
 
+    // TODO: Move the shaders to assets or embed to the executeable.
     mSMan.add_shader("menu", nullptr, "./src/Shaders/menu_fragment.glsl");
 
     _sync_scale();
 
     // TODO: make it dynamic and generate the font size using the mScale value
-    Vector2 *wsize = w->get_window_size();
     Texture2D *board_txt =
         mTexMan.load_texture("board_txt", "./assets/board-real.png");
 
@@ -42,78 +43,8 @@ void Game::init(Window *w) {
 
     z_index++;
 
-    static const char *title_name = "UwUrg";
-    static const int title_font_size = 64;
-    sptr_t<Object> title_obj = mObjMan.add_object(
-        mk_sptr<ObjText>(Rectangle{}, z_index, "title", title_name,
-                         GetColor(0xfffb96FF), title_font_size));
-    title_obj->mTag = GameState::MENU;
-
-    // CAN BE REFACTORED TO A FUNCTION LATER.
-    if (auto titleText = std::dynamic_pointer_cast<ObjText>(title_obj)) {
-        titleText->mRec.x = (wsize->x - titleText->get_width()) / 2;
-        titleText->mRec.y = titleText->mSize * 2;
-    }
-
-    z_index++;
-
-    static const int button_font_size = 40;
-    static const char *play_button = "PLAY";
-
-    sptr_t<Object> play_b_obj = mObjMan.add_object(mk_sptr<ObjButton>(
-        Rectangle{}, z_index, "play_obj", play_button, GetColor(0x153CB4FF),
-        WHITE, button_font_size, 10,
-        [this]() { this->mStateOrTag = GameState::INGAME; }));
-    play_b_obj->mTag = GameState::MENU;
-
-    if (auto playButton = std::dynamic_pointer_cast<ObjButton>(play_b_obj)) {
-        int text_width = playButton->get_width();
-        playButton->mRec.x = (wsize->x - text_width) / 2;
-        playButton->mRec.y = (wsize->y - playButton->mSize) / 2;
-        playButton->mRec.width = text_width;
-        playButton->mRec.height = playButton->mSize;
-    }
-
-    z_index++;
-
-    static const char *settings_button = "Settings";
-    sptr_t<Object> settings_b_obj = mObjMan.add_object(mk_sptr<ObjButton>(
-        Rectangle{}, z_index, "settings_obj", settings_button,
-        GetColor(0x153CB4FF), WHITE, button_font_size, 10,
-        []() { TraceLog(LOG_INFO, "WIP Please be patien."); }));
-    settings_b_obj->mTag = GameState::MENU;
-
-    if (auto settButton =
-            std::dynamic_pointer_cast<ObjButton>(settings_b_obj)) {
-
-        int text_width = settButton->get_width();
-        settButton->mRec.x = (wsize->x - text_width) / 2;
-        settButton->mRec.y =
-            play_b_obj->mRec.y + play_b_obj->mRec.height + settButton->mSize;
-        settButton->mRec.width = text_width;
-        settButton->mRec.height = settButton->mSize;
-    }
-
-    z_index++;
-
-    static const char *exit_button = "EXIT";
-
-    sptr_t<Object> exit_b_obj = mObjMan.add_object(mk_sptr<ObjButton>(
-        Rectangle{}, z_index, "exit_obj", exit_button, GetColor(0xE93479FF),
-        WHITE, button_font_size, 10, [this]() { this->exit_game(); }));
-    exit_b_obj->mTag = GameState::MENU;
-
-    if (auto exitButton = std::dynamic_pointer_cast<ObjButton>(exit_b_obj)) {
-        auto textSize = MeasureTextEx(mFont, exit_button, exitButton->mSize,
-                                      exitButton->mSpacing);
-        exitButton->mRec.x = (wsize->x - textSize.x) / 2;
-        exitButton->mRec.y = settings_b_obj->mRec.y +
-                             settings_b_obj->mRec.height + exitButton->mSize;
-        exitButton->mRec.width = textSize.x;
-        exitButton->mRec.height = exitButton->mSize;
-    }
-
-    z_index++;
+    create_menu_object(this, &z_index);
+    position_menu_object(this, w);
 }
 
 void Game::handle_logic(float dt) {

@@ -31,6 +31,7 @@ set(FILE_IN
     src/Window/Window.cpp
     src/Object/Object.cpp
     src/Game/Game.cpp
+    src/Game/GameUtils.cpp
     src/main.cpp
 )
 
