@@ -5,7 +5,6 @@
 #include "Object.hpp"
 
 struct ObjText : public Object {
-
   public:
     std::string mText;
     Color mColor;
@@ -36,6 +35,13 @@ struct ObjText : public Object {
         if (mSize < defaultFontSize)
             mSize = defaultFontSize;
         mSpacing = mSize / defaultFontSize;
+        /*_set_rec_width();*/
+    }
+
+    int get_width() {
+        Vector2 size =
+            MeasureTextEx(mGame_ptr->mFont, mText.c_str(), mSize, mSpacing);
+        return size.x;
     }
 
     virtual void render() override {

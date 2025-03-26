@@ -13,7 +13,7 @@ void main() {
 
     // Calculate position along the 45-degree angle
     vec2 normalizedCoord = gl_FragCoord.xy / vec2(sWidth, sHeight);
-    float gradientPosition = (normalizedCoord.x + normalizedCoord.y) / 2.0;
+    float gradientPosition = (normalizedCoord.x + normalizedCoord.y) / 2.5;
 
     // Add a slight power function to make the gradient more interesting
     gradientPosition = pow(gradientPosition, 1.2);

@@ -38,6 +38,12 @@ struct ObjButton : public Object {
         mSpacing = mSize / defaultFontSize;
     }
 
+    int get_width() {
+        Vector2 size =
+            MeasureTextEx(mGame_ptr->mFont, mText.c_str(), mSize, mSpacing);
+        return size.x;
+    }
+
     virtual void render() override {
         if (!mShow)
             return;
