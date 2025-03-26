@@ -32,19 +32,9 @@ void Game::init(Window *w) {
 
     _sync_scale();
 
-    // TODO: make it dynamic and generate the font size using the mScale value
-    Texture2D *board_txt =
-        mTexMan.load_texture("board_txt", "./assets/board-real.png");
-
-    sptr_t<Object> board_obj = mObjMan.add_object(
-        mk_sptr<Object>(Object({}, z_index, "board", board_txt)));
-    _center_board(board_obj);
-    board_obj->mTag = GameState::INGAME;
-
-    z_index++;
-
-    create_menu_object(this, &z_index);
-    position_menu_object(this, w);
+    _create_settings_object(this, &z_index);
+    _create_menu_object(this, &z_index);
+    _position_menu_object(this);
 }
 
 void Game::handle_logic(float dt) {
@@ -78,7 +68,7 @@ void Game::handle_drawing(float dt) {
         if (has_flag(d->mTag, mStateOrTag))
             d->render();
     }
-    _render_version();
+    _render_version(this);
 }
 
 void Game::handle_key(float dt) {
@@ -102,14 +92,6 @@ void Game::_sync_scale() {
         mScale = 4;
     if (wsize->y >= 1080)
         mScale = 5;
-}
-
-inline void Game::_render_version() {
-    static const int font_size = 16;
-    static const char *version = "Ver 0.0.1-development";
-    auto wsize = mWindow_ptr->get_window_size();
-    DrawText(version, 0 + 10, wsize->y - font_size - (font_size * 0.5),
-             font_size, WHITE);
 }
 
 void Game::_center_board(sptr_t<Object> object) {

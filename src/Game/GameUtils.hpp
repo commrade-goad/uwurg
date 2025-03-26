@@ -7,7 +7,9 @@
 
 // Utility or all of the misc function that used on Game.cpp
 
-void create_menu_object(Game *game, int *z_index);
-void position_menu_object(Game *game, Window *w);
+void _create_menu_object(Game *game, int *z_index);
+void _position_menu_object(Game *game);
+void _create_settings_object(Game *game, int *z_index);
+void _render_version(Game *game);
 
 #endif // GAME_UTILS_H_

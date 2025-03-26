@@ -1,7 +1,7 @@
 #include "GameUtils.hpp"
 #include "../Window/Window.hpp"
 
-void create_menu_object(Game *game, int *z_index) {
+void _create_menu_object(Game *game, int *z_index) {
     // Create title
     static const char *title_name = "UwUrg";
     static const int title_font_size = 64;
@@ -42,8 +42,8 @@ void create_menu_object(Game *game, int *z_index) {
     z_index++;
 }
 
-void position_menu_object(Game *game, Window *w) {
-    Vector2 *wsize = w->get_window_size();
+void _position_menu_object(Game *game) {
+    Vector2 *wsize = game->mWindow_ptr->get_window_size();
     sptr_t<Object> title = game->mObjMan.get_object("title");
     sptr_t<Object> play_btn = game->mObjMan.get_object("play_obj");
     sptr_t<Object> sett_btn = game->mObjMan.get_object("settings_obj");
@@ -81,4 +81,22 @@ void position_menu_object(Game *game, Window *w) {
         exitButton->mRec.width = textSize;
         exitButton->mRec.height = exitButton->mSize;
     }
+}
+
+void _create_settings_object(Game *game, int *z_index) {
+    // TODO: make it dynamic and generate the font size using the mScale value
+    Texture2D *board_txt = game->mTexMan.load_texture("board_txt", "./assets/board-real.png");
+    sptr_t<Object> board_obj = game->mObjMan.add_object(
+        mk_sptr<Object>(Object({}, *z_index, "board", board_txt)));
+    game->_center_board(board_obj);
+    board_obj->mTag = GameState::INGAME;
+    z_index++;
+}
+
+void _render_version(Game *game) {
+    static const int font_size = 16;
+    static const char *version = "Ver 0.0.1-development";
+    auto wsize = game->mWindow_ptr->get_window_size();
+    DrawText(version, 0 + 10, wsize->y - font_size - (font_size * 0.5),
+             font_size, WHITE);
 }

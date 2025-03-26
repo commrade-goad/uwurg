@@ -2,8 +2,8 @@
 #define GAME_H_
 
 #include "../ObjectManager/ObjectManager.hpp"
-#include "../TextureManager/TextureManager.hpp"
 #include "../Shaders/ShadersManager.hpp"
+#include "../TextureManager/TextureManager.hpp"
 #include "GameState.hpp"
 #include <raylib.h>
 
@@ -11,10 +11,6 @@ struct Window;
 
 struct Game {
   private:
-    // HELPER FUNCTION
-    void _center_board(sptr_t<Object> object);
-    void _render_version();
-
     void _sync_scale();
 
   public:
@@ -38,6 +34,9 @@ struct Game {
     void handle_drawing(float dt);
     void handle_key(float dt);
     void exit_game();
+
+    // HELPER FUNCTION
+    void _center_board(sptr_t<Object> object);
 };
 
 #endif // GAME_H_
