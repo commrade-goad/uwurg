@@ -83,7 +83,7 @@ void _position_menu_object(Game *game) {
     }
 }
 
-void _create_settings_object(Game *game, int *z_index) {
+void _create_ingame_object(Game *game, int *z_index) {
     // TODO: make it dynamic and generate the font size using the mScale value
     Texture2D *board_txt = game->mTexMan.load_texture("board_txt", "./assets/board-real.png");
     sptr_t<Object> board_obj = game->mObjMan.add_object(
@@ -91,6 +91,27 @@ void _create_settings_object(Game *game, int *z_index) {
     _center_board(game);
     board_obj->mTag = GameState::INGAME;
     z_index++;
+}
+
+void _create_settings_object(Game *game, int *z_index) {
+    static const char *title_name = "Settings";
+    static const int title_font_size = 64;
+
+    sptr_t<Object> settings_title = game->mObjMan.add_object(
+        mk_sptr<ObjText>(Rectangle{}, *z_index, "settings_text", title_name,
+                         GetColor(0xfffb96FF), title_font_size));
+    settings_title->mTag = GameState::SETTINGS;
+    z_index++;
+}
+
+void _position_settings_object(Game *game) {
+    sptr_t<Object> settings_obj = game->mObjMan.get_object("settings_text");
+
+    Vector2 *wsize = game->mWindow_ptr->get_window_size();
+    if (auto titleText = std::dynamic_pointer_cast<ObjText>(settings_obj)) {
+        titleText->mRec.x = (wsize->x - titleText->get_width()) / 2;
+        titleText->mRec.y = titleText->mSize * (game->mScale / 3.0);
+    }
 }
 
 void _render_version(Game *game) {

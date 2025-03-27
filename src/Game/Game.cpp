@@ -30,9 +30,11 @@ void Game::init(Window *w) {
 
     _sync_scale();
 
-    _create_settings_object(this, &z_index);
+    _create_ingame_object(this, &z_index);
     _create_menu_object(this, &z_index);
+    _create_settings_object(this, &z_index);
     _position_menu_object(this);
+    _position_settings_object(this);
 }
 
 void Game::handle_logic(float dt) {
@@ -78,6 +80,7 @@ void Game::handle_key(float dt) {
         _sync_scale();
         _center_board(this);
         _position_menu_object(this);
+        _position_settings_object(this);
     }
 }
 
