@@ -94,8 +94,8 @@ void _create_ingame_object(Game *game, int *z_index) {
 
 void _create_settings_object(Game *game, int *z_index) {
     static const char *title_name = "Settings";
-    static const char *res1_text = "720p";
     static const char *back_txt = "Back";
+    std::string res1_text = "720p";
     std::string fs_button = "Fullscreen";
     static const int title_font_size = 64;
     static const int button_font_size = 36;
@@ -122,7 +122,7 @@ void _create_settings_object(Game *game, int *z_index) {
 
     // Create 720p button
     sptr_t<Object> hd_button = game->mObjMan.add_object(mk_sptr<ObjButton>(
-        Rectangle{}, *z_index, "res1", res1_text, GetColor(0x153CB4FF), WHITE,
+        Rectangle{}, *z_index, "res1", res1_text.c_str(), GetColor(0x153CB4FF), WHITE,
         button_font_size, 10, []() { TraceLog(LOG_INFO, "WIP"); }));
     hd_button->mTag = GameState::SETTINGS;
     z_index++;

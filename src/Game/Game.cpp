@@ -21,6 +21,8 @@ void Game::init(Window *w) {
     mObjMan.mGame_ptr = this;
     int z_index = 1;
 
+    mTexMan.load_texture("dice", "./assets/nayeon.png");
+
     mFont =
         LoadFontEx("./assets/Pixelify_Sans/PixelifySans-VariableFont_wght.ttf",
                    96, NULL, 95);
@@ -71,17 +73,17 @@ void Game::handle_drawing(float dt) {
 
 void Game::handle_key(float dt) {
     (void)dt;
-    if (IsKeyPressed(KEY_F)) {
-        if (mScale == 4)
-            mWindow_ptr->set_window_size(Vector2(854, 480));
-        else
-            mWindow_ptr->set_window_size(Vector2(1280, 720));
-
-        _sync_scale();
-        _center_board(this);
-        _position_menu_object(this);
-        _position_settings_object(this);
-    }
+    /*if (IsKeyPressed(KEY_F)) {*/
+    /*    if (mScale == 4)*/
+    /*        mWindow_ptr->set_window_size(Vector2(854, 480));*/
+    /*    else*/
+    /*        mWindow_ptr->set_window_size(Vector2(1280, 720));*/
+    /**/
+    /*    _sync_scale();*/
+    /*    _center_board(this);*/
+    /*    _position_menu_object(this);*/
+    /*    _position_settings_object(this);*/
+    /*}*/
 }
 
 void Game::_sync_scale() {
