@@ -16,5 +16,6 @@ void _position_settings_object(Game *game);
 
 void _render_version(Game *game);
 void _center_board(Game *game);
+void _change_text_from_obj(Game *game, const char *obj_name, const char *new_str);
 
 #endif // GAME_UTILS_H_
