@@ -7,7 +7,7 @@ void _create_menu_object(Game *game, int *z_index) {
     static const int title_font_size = 16 * game->mScale;
     static const int button_font_size = 10 * game->mScale;
     static const char *play_button = "PLAY";
-    static const char *settings_button = "Settings";
+    static const char *settings_button = "SETTINGS";
     static const char *exit_button = "EXIT";
 
     sptr_t<Object> title_obj = game->mObjMan.add_object(
@@ -91,10 +91,10 @@ void _create_ingame_object(Game *game, int *z_index) {
 }
 
 void _create_settings_object(Game *game, int *z_index) {
-    static const char *title_name = "Settings";
-    static const char *back_txt = "Back";
-    static const char *res1_text = "720p";
-    static const char *fs_button = "Fullscreen";
+    static const char *title_name = "SETTINGS";
+    static const char *back_txt = "BACK";
+    static const char *res1_text = "720P";
+    static const char *fs_button = "WINDOW";
     static const int title_font_size = 16 * game->mScale;
     static const int button_font_size = 10 * game->mScale;
 
@@ -113,8 +113,8 @@ void _create_settings_object(Game *game, int *z_index) {
                 game->mWindow_ptr->toggle_fullscreen();
                 _recalculate_all_pos(game);
                 _change_text_from_obj(game, "fscreen_btn",
-                                      IsWindowFullscreen() ? "Window"
-                                                           : "Fullscreen");
+                                      IsWindowFullscreen() ? "FULLSCREEN"
+                                                           : "WINDOW");
             }));
     fullscreen_button->mTag = GameState::SETTINGS;
     z_index++;
@@ -122,8 +122,20 @@ void _create_settings_object(Game *game, int *z_index) {
     // Create the res button
     sptr_t<Object> hd_button = game->mObjMan.add_object(mk_sptr<ObjButton>(
         Rectangle{}, *z_index, "res_btn", res1_text, GetColor(0x153CB4FF),
-        WHITE, button_font_size, 10,
-        []() { TraceLog(LOG_INFO, "called the hd_button"); }));
+        WHITE, button_font_size, 10, [game]() {
+            if (IsWindowFullscreen())
+                game->mWindow_ptr->toggle_fullscreen();
+            else if (game->mScale == 4)
+                game->mWindow_ptr->set_window_size(Vector2(854, 480));
+            else
+                game->mWindow_ptr->set_window_size(Vector2(1280, 720));
+            _recalculate_all_pos(game);
+            _change_text_from_obj(game, "fscreen_btn",
+                                  IsWindowFullscreen() ? "FULLSCREEN"
+                                                       : "WINDOW");
+            _change_text_from_obj(game, "res_btn",
+                                  game->mScale == 4 ? "720P" : "480P");
+        }));
     hd_button->mTag = GameState::SETTINGS;
     z_index++;
 
@@ -184,7 +196,7 @@ void _render_version(Game *game) {
     auto wsize = game->mWindow_ptr->get_window_size();
     DrawTextEx(game->mFont, version,
                Vector2(0 + 10, wsize->y - font_size - (font_size * 0.5)),
-               font_size, 5, WHITE);
+               font_size, 3, WHITE);
 }
 
 void _center_board(Game *game) {

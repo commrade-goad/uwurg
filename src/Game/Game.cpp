@@ -40,7 +40,12 @@ void Game::init(Window *w) {
 }
 
 void Game::handle_logic(float dt) {
+    GameState current_state = mStateOrTag;
     for (auto &d : mObjMan.mData) {
+        if (current_state != mStateOrTag) {
+            // TODO: Do something here...
+            break;
+        }
         if (has_flag(d->mTag, mStateOrTag))
             d->logic(dt);
     }
@@ -70,7 +75,6 @@ void Game::handle_drawing(float dt) {
 }
 
 void Game::handle_key(float dt) {
-    (void)dt;
     /*if (IsKeyPressed(KEY_F)) {*/
     /*    if (mScale == 4)*/
     /*        mWindow_ptr->set_window_size(Vector2(854, 480));*/
