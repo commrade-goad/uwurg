@@ -1,6 +1,4 @@
 #include "Game.hpp"
-#include "../Object/ObjButton.hpp"
-#include "../Object/ObjText.hpp"
 #include "../Window/Window.hpp"
 #include "GameUtils.hpp"
 
@@ -62,8 +60,6 @@ void Game::handle_drawing(float dt) {
     DrawRectangle(0, 0, 1280, 720, WHITE);
 
     EndShaderMode();
-    // if i move DrawRectangle here its working
-    // DrawRectangle(0, 0, 1280, 720, WHITE);
     for (auto &d : mObjMan.mData) {
         if (has_flag(d->mTag, mStateOrTag))
             d->render();
@@ -78,9 +74,9 @@ void Game::handle_key(float dt) {
             mWindow_ptr->set_window_size(Vector2(854, 480));
         else
             mWindow_ptr->set_window_size(Vector2(1280, 720));
+
         _sync_scale();
-        sptr_t<Object> b = mObjMan.get_object("board");
-        _center_board(this, b);
+        _center_board(this);
         _position_menu_object(this);
     }
 }

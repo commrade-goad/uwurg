@@ -88,7 +88,7 @@ void _create_settings_object(Game *game, int *z_index) {
     Texture2D *board_txt = game->mTexMan.load_texture("board_txt", "./assets/board-real.png");
     sptr_t<Object> board_obj = game->mObjMan.add_object(
         mk_sptr<Object>(Object({}, *z_index, "board", board_txt)));
-    _center_board(game, board_obj);
+    _center_board(game);
     board_obj->mTag = GameState::INGAME;
     z_index++;
 }
@@ -101,13 +101,14 @@ void _render_version(Game *game) {
              font_size, WHITE);
 }
 
-void _center_board(Game *game, sptr_t<Object> object) {
-    if (object->mText->width <= 0 && object->mText->height <= 0)
+void _center_board(Game *game) {
+    sptr_t<Object> b = game->mObjMan.get_object("board");
+    if (b->mText->width <= 0 && b->mText->height <= 0)
         return;
 
     Vector2 *wsize = game->mWindow_ptr->get_window_size();
-    object->mRec = {(wsize->x - (object->mText->width * game->mScale)) / 2,
-                    (wsize->y - (object->mText->height * game->mScale)) / 2,
-                    (float)object->mText->width * game->mScale,
-                    (float)object->mText->height * game->mScale};
+    b->mRec = {(wsize->x - (b->mText->width * game->mScale)) / 2,
+                    (wsize->y - (b->mText->height * game->mScale)) / 2,
+                    (float)b->mText->width * game->mScale,
+                    (float)b->mText->height * game->mScale};
 }

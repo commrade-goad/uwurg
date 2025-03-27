@@ -1,7 +1,7 @@
 #include "ObjectManager.hpp"
 
-// TODO: Make it store randomly then a function that will return
-// the correct z-index.
+// TODO: Make it store randomly then use cpp quick sort function using the
+// mZIndex to sort them. the correct z-index.
 
 ObjectManager::ObjectManager() {
     mData.reserve(20);
@@ -13,6 +13,7 @@ ObjectManager::~ObjectManager() {}
 sptr_t<Object> ObjectManager::add_object(sptr_t<Object> obj) {
     obj->mGame_ptr = mGame_ptr;
     if ((size_t)obj->mZIndex >= mData.size()) {
+        obj->mZIndex = mData.size() - 1;
         mData.push_back(obj);
         return obj;
     }
@@ -50,7 +51,8 @@ void ObjectManager::rem_object(std::string &name) {
 
 sptr_t<Object> ObjectManager::get_object(const char *name) {
     for (size_t i = 0; i < mData.size(); i++) {
-        if (mData[i]->mName == name) return mData[i];
+        if (mData[i]->mName == name)
+            return mData[i];
     }
     return nullptr;
 }
