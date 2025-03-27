@@ -1,5 +1,6 @@
 #include "GameUtils.hpp"
 #include "../Window/Window.hpp"
+#include <iostream>
 
 void _create_menu_object(Game *game, int *z_index) {
     // Create title
@@ -27,10 +28,8 @@ void _create_menu_object(Game *game, int *z_index) {
     // Create settings button
     sptr_t<Object> settings_b_obj = game->mObjMan.add_object(mk_sptr<ObjButton>(
         Rectangle{}, *z_index, "settings_obj", settings_button,
-        GetColor(0x153CB4FF), WHITE, button_font_size, 10, [game]() {
-            TraceLog(LOG_INFO, "Settings panel is WIP!");
-            game->mStateOrTag = GameState::SETTINGS;
-        }));
+        GetColor(0x153CB4FF), WHITE, button_font_size, 10,
+        [game]() { game->mStateOrTag = GameState::SETTINGS; }));
     settings_b_obj->mTag = GameState::MENU;
     z_index++;
 
@@ -62,8 +61,7 @@ void _position_menu_object(Game *game) {
         playButton->mRec.height = playButton->mSize;
     }
 
-    if (auto settButton =
-            std::dynamic_pointer_cast<ObjButton>(sett_btn)) {
+    if (auto settButton = std::dynamic_pointer_cast<ObjButton>(sett_btn)) {
 
         int text_width = settButton->get_width();
         settButton->mRec.x = (wsize->x - text_width) / 2;
@@ -76,8 +74,8 @@ void _position_menu_object(Game *game) {
     if (auto exitButton = std::dynamic_pointer_cast<ObjButton>(exit_btn)) {
         auto textSize = exitButton->get_width();
         exitButton->mRec.x = (wsize->x - textSize) / 2;
-        exitButton->mRec.y = sett_btn->mRec.y +
-                             sett_btn->mRec.height + exitButton->mSize;
+        exitButton->mRec.y =
+            sett_btn->mRec.y + sett_btn->mRec.height + exitButton->mSize;
         exitButton->mRec.width = textSize;
         exitButton->mRec.height = exitButton->mSize;
     }
@@ -85,7 +83,8 @@ void _position_menu_object(Game *game) {
 
 void _create_ingame_object(Game *game, int *z_index) {
     // TODO: make it dynamic and generate the font size using the mScale value
-    Texture2D *board_txt = game->mTexMan.load_texture("board_txt", "./assets/board-real.png");
+    Texture2D *board_txt =
+        game->mTexMan.load_texture("board_txt", "./assets/board-real.png");
     sptr_t<Object> board_obj = game->mObjMan.add_object(
         mk_sptr<Object>(Object({}, *z_index, "board", board_txt)));
     _center_board(game);
@@ -95,22 +94,79 @@ void _create_ingame_object(Game *game, int *z_index) {
 
 void _create_settings_object(Game *game, int *z_index) {
     static const char *title_name = "Settings";
+    static const char *res1_text = "720p";
+    static const char *back_txt = "Back";
+    std::string fs_button = "Fullscreen";
     static const int title_font_size = 64;
+    static const int button_font_size = 36;
 
+    // Create title
     sptr_t<Object> settings_title = game->mObjMan.add_object(
         mk_sptr<ObjText>(Rectangle{}, *z_index, "settings_text", title_name,
                          GetColor(0xfffb96FF), title_font_size));
     settings_title->mTag = GameState::SETTINGS;
     z_index++;
+
+    // Create fullscreen button
+    sptr_t<Object> fullscreen_button =
+        game->mObjMan.add_object(mk_sptr<ObjButton>(
+            Rectangle{}, *z_index, "fullres", fs_button.c_str(), GetColor(0x153CB4FF),
+            WHITE, button_font_size, 10, []() { TraceLog(LOG_INFO, "WIP"); }));
+    fullscreen_button->mTag = GameState::SETTINGS;
+    z_index++;
+
+    // Create 720p button
+    sptr_t<Object> hd_button = game->mObjMan.add_object(mk_sptr<ObjButton>(
+        Rectangle{}, *z_index, "res1", res1_text, GetColor(0x153CB4FF), WHITE,
+        button_font_size, 10, []() { TraceLog(LOG_INFO, "WIP"); }));
+    hd_button->mTag = GameState::SETTINGS;
+    z_index++;
+
+    // Create back button
+    sptr_t<Object> back_button = game->mObjMan.add_object(mk_sptr<ObjButton>(
+        Rectangle{}, *z_index, "back_to_menu", back_txt, GetColor(0xE93479FF), WHITE,
+        button_font_size, 10, [game]() { game->mStateOrTag = GameState::MENU; }));
+    back_button->mTag = GameState::SETTINGS;
+    z_index++;
 }
 
 void _position_settings_object(Game *game) {
+    int settings_title_font_size = -1;
+    int settings_button_padding = 10;
     sptr_t<Object> settings_obj = game->mObjMan.get_object("settings_text");
+    sptr_t<Object> res1_obj = game->mObjMan.get_object("res1");
+    sptr_t<Object> fullscreen_obj = game->mObjMan.get_object("fullres");
+    sptr_t<Object> back_obj = game->mObjMan.get_object("back_to_menu");
 
     Vector2 *wsize = game->mWindow_ptr->get_window_size();
     if (auto titleText = std::dynamic_pointer_cast<ObjText>(settings_obj)) {
         titleText->mRec.x = (wsize->x - titleText->get_width()) / 2;
         titleText->mRec.y = titleText->mSize * (game->mScale / 3.0);
+        settings_title_font_size = titleText->mSize;
+    }
+
+    if (auto fullscreenButton = std::dynamic_pointer_cast<ObjButton>(fullscreen_obj)) {
+        int text_width = fullscreenButton->get_width();
+        fullscreenButton->mRec.x = (wsize->x - text_width) / 2;
+        fullscreenButton->mRec.y = settings_obj->mRec.y + settings_title_font_size + game->mScale * 10;
+        fullscreenButton->mRec.width = text_width;
+        fullscreenButton->mRec.height = fullscreenButton->mSize;
+    }
+
+    if (auto hdButton = std::dynamic_pointer_cast<ObjButton>(res1_obj)) {
+        int text_width = hdButton->get_width();
+        hdButton->mRec.x = (wsize->x - text_width) / 2;
+        hdButton->mRec.y = fullscreen_obj->mRec.y + fullscreen_obj->mRec.height + (settings_button_padding * 2) + game->mScale * 2;
+        hdButton->mRec.width = text_width;
+        hdButton->mRec.height = hdButton->mSize;
+    }
+
+    if (auto backButton = std::dynamic_pointer_cast<ObjButton>(back_obj)) {
+        int text_width = backButton->get_width();
+        backButton->mRec.x = (wsize->x - text_width) / 2;
+        backButton->mRec.y = res1_obj->mRec.y + res1_obj->mRec.height + settings_button_padding * 2 + game->mScale * 2;
+        backButton->mRec.width = text_width;
+        backButton->mRec.height = backButton->mSize;
     }
 }
 
@@ -129,7 +185,7 @@ void _center_board(Game *game) {
 
     Vector2 *wsize = game->mWindow_ptr->get_window_size();
     b->mRec = {(wsize->x - (b->mText->width * game->mScale)) / 2,
-                    (wsize->y - (b->mText->height * game->mScale)) / 2,
-                    (float)b->mText->width * game->mScale,
-                    (float)b->mText->height * game->mScale};
+               (wsize->y - (b->mText->height * game->mScale)) / 2,
+               (float)b->mText->width * game->mScale,
+               (float)b->mText->height * game->mScale};
 }
