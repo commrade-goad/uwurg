@@ -1,4 +1,5 @@
 #include "Window.hpp"
+#include <iostream>
 
 void Window::_apply_option(const char *title) {
     mName = title;
@@ -87,3 +88,14 @@ void Window::set_exit_key(int key) {
 size_t Window::get_exit_key() { return mExitKey; }
 
 const char *Window::get_name() { return mName; }
+
+void Window::toggle_fullscreen() {
+    if (!IsWindowFullscreen()){
+        Vector2 display_size = Vector2{(float)GetMonitorWidth(0), (float)GetMonitorHeight(0)};
+        std::cout << display_size.x << ", " << display_size.y << std::endl;
+        this->set_window_size(display_size);
+    } else {
+        this->set_window_size(Vector2(1280, 720));
+    }
+    ToggleFullscreen();
+}

@@ -33,6 +33,8 @@ struct Window {
     void set_window_size(Vector2 size);
     Vector2 *get_window_size();
 
+    void toggle_fullscreen();
+
     void set_bg_color(Color color);
     Color get_bg_color();
 

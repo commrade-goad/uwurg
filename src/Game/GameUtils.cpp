@@ -111,7 +111,12 @@ void _create_settings_object(Game *game, int *z_index) {
     sptr_t<Object> fullscreen_button =
         game->mObjMan.add_object(mk_sptr<ObjButton>(
             Rectangle{}, *z_index, "fullres", fs_button.c_str(), GetColor(0x153CB4FF),
-            WHITE, button_font_size, 10, []() { TraceLog(LOG_INFO, "WIP"); }));
+            WHITE, button_font_size, 10, [game]() {
+                game->mWindow_ptr->toggle_fullscreen();
+                _center_board(game);
+                _position_menu_object(game);
+                _position_settings_object(game);
+            }));
     fullscreen_button->mTag = GameState::SETTINGS;
     z_index++;
 
@@ -156,7 +161,7 @@ void _position_settings_object(Game *game) {
     if (auto hdButton = std::dynamic_pointer_cast<ObjButton>(res1_obj)) {
         int text_width = hdButton->get_width();
         hdButton->mRec.x = (wsize->x - text_width) / 2;
-        hdButton->mRec.y = fullscreen_obj->mRec.y + fullscreen_obj->mRec.height + (settings_button_padding * 2) + game->mScale * 2;
+        hdButton->mRec.y = fullscreen_obj->mRec.y + fullscreen_obj->mRec.height + (settings_button_padding * 4) + game->mScale * 4;
         hdButton->mRec.width = text_width;
         hdButton->mRec.height = hdButton->mSize;
     }
@@ -164,7 +169,7 @@ void _position_settings_object(Game *game) {
     if (auto backButton = std::dynamic_pointer_cast<ObjButton>(back_obj)) {
         int text_width = backButton->get_width();
         backButton->mRec.x = (wsize->x - text_width) / 2;
-        backButton->mRec.y = res1_obj->mRec.y + res1_obj->mRec.height + settings_button_padding * 2 + game->mScale * 2;
+        backButton->mRec.y = res1_obj->mRec.y + res1_obj->mRec.height + settings_button_padding * 4 + game->mScale * 4;
         backButton->mRec.width = text_width;
         backButton->mRec.height = backButton->mSize;
     }
