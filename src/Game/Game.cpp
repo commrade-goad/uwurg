@@ -40,8 +40,6 @@ void Game::init(Window *w) {
 }
 
 void Game::handle_logic(float dt) {
-    (void)dt;
-
     for (auto &d : mObjMan.mData) {
         if (has_flag(d->mTag, mStateOrTag))
             d->logic(dt);

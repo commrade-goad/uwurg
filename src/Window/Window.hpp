@@ -16,6 +16,8 @@ struct Window {
 
     Game mGame;
 
+    Vector2 mOldSize;
+
     void _handle_drawing(float dt);
     void _handle_key(float dt);
     void _handle_logic(float dt);

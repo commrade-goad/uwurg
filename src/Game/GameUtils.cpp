@@ -81,7 +81,6 @@ void _position_menu_object(Game *game) {
 }
 
 void _create_ingame_object(Game *game, int *z_index) {
-    // TODO: make it dynamic and generate the font size using the mScale value
     Texture2D *board_txt =
         game->mTexMan.load_texture("board_txt", "./assets/board-real.png");
     sptr_t<Object> board_obj = game->mObjMan.add_object(
@@ -112,10 +111,7 @@ void _create_settings_object(Game *game, int *z_index) {
             Rectangle{}, *z_index, "fscreen_btn", fs_button,
             GetColor(0x153CB4FF), WHITE, button_font_size, 10, [game]() {
                 game->mWindow_ptr->toggle_fullscreen();
-                _center_board(game);
-                _position_menu_object(game);
-                _position_settings_object(game);
-                // TODO: add a function to change the text input later.
+                _recalculate_all_pos(game);
                 _change_text_from_obj(game, "fscreen_btn",
                                       IsWindowFullscreen() ? "Window"
                                                            : "Fullscreen");
@@ -127,7 +123,7 @@ void _create_settings_object(Game *game, int *z_index) {
     sptr_t<Object> hd_button = game->mObjMan.add_object(mk_sptr<ObjButton>(
         Rectangle{}, *z_index, "res_btn", res1_text, GetColor(0x153CB4FF),
         WHITE, button_font_size, 10,
-        []() { TraceLog(LOG_INFO, "Resolution Button is still WIP"); }));
+        []() { TraceLog(LOG_INFO, "called the hd_button"); }));
     hd_button->mTag = GameState::SETTINGS;
     z_index++;
 
@@ -212,5 +208,11 @@ void _change_text_from_obj(Game *game, const char *obj_name,
     if (auto castedObj = std::dynamic_pointer_cast<ObjButton>(obj)) {
         castedObj->mText = new_str;
     }
+    _position_settings_object(game);
+}
+
+void _recalculate_all_pos(Game *game) {
+    _center_board(game);
+    _position_menu_object(game);
     _position_settings_object(game);
 }

@@ -36,6 +36,7 @@ Window::~Window() { CloseWindow(); }
 void Window::set_window_size(Vector2 size) {
     mSize = size;
     SetWindowSize(mSize.x, mSize.y);
+    mGame._sync_scale();
 }
 
 Vector2 *Window::get_window_size() { return &mSize; }
@@ -44,7 +45,8 @@ bool Window::start_window_loop() {
     mGame.init(this);
     mGame.mWindow_ptr = this;
     while (!WindowShouldClose()) {
-        if (mGame.mWantExit) break;
+        if (mGame.mWantExit)
+            break;
         float dt = GetFrameTime();
         _handle_key(dt);
         _handle_logic(dt);
@@ -90,12 +92,13 @@ size_t Window::get_exit_key() { return mExitKey; }
 const char *Window::get_name() { return mName; }
 
 void Window::toggle_fullscreen() {
-    if (!IsWindowFullscreen()){
-        Vector2 display_size = Vector2{(float)GetMonitorWidth(0), (float)GetMonitorHeight(0)};
-        std::cout << display_size.x << ", " << display_size.y << std::endl;
+    if (!IsWindowFullscreen()) {
+        mOldSize = mSize;
+        Vector2 display_size =
+            Vector2{(float)GetMonitorWidth(0), (float)GetMonitorHeight(0)};
         this->set_window_size(display_size);
     } else {
-        this->set_window_size(Vector2(1280, 720));
+        this->set_window_size(mOldSize);
     }
     ToggleFullscreen();
 }

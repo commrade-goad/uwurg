@@ -5,7 +5,6 @@
 #include <string>
 #include <unordered_map>
 
-// TODO: Finish shaders manager
 struct ShadersManager {
   private:
     std::unordered_map<std::string, Shader> mData;

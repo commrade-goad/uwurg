@@ -10,9 +10,6 @@
 struct Window;
 
 struct Game {
-  private:
-    void _sync_scale();
-
   public:
     TextureManager mTexMan;
     ObjectManager mObjMan;
@@ -34,6 +31,8 @@ struct Game {
     void handle_drawing(float dt);
     void handle_key(float dt);
     void exit_game();
+
+    void _sync_scale();
 };
 
 #endif // GAME_H_
