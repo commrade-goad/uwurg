@@ -17,4 +17,5 @@ make -j`nproc`
 ## Note
 __!!! STILL WIP !!!__
 
-right now it implemented only the backend stuff... (ObjectManager and stuff)
+Main Menu and Settings menu are fully implemented.
+(MAYBE) Will add configuration read?
