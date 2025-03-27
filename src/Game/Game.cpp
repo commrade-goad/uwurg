@@ -57,7 +57,7 @@ void Game::handle_drawing(float dt) {
 
     BeginShaderMode(*s);
 
-    DrawRectangle(0, 0, 1280, 720, WHITE);
+    DrawRectangle(0, 0, wsize->x, wsize->y, WHITE);
 
     EndShaderMode();
     for (auto &d : mObjMan.mData) {
