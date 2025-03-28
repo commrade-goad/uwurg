@@ -1,5 +1,4 @@
 #include "Window.hpp"
-#include <iostream>
 
 void Window::_apply_option(const char *title) {
     mName = title;

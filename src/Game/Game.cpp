@@ -75,17 +75,7 @@ void Game::handle_drawing(float dt) {
 }
 
 void Game::handle_key(float dt) {
-    /*if (IsKeyPressed(KEY_F)) {*/
-    /*    if (mScale == 4)*/
-    /*        mWindow_ptr->set_window_size(Vector2(854, 480));*/
-    /*    else*/
-    /*        mWindow_ptr->set_window_size(Vector2(1280, 720));*/
-    /**/
-    /*    _sync_scale();*/
-    /*    _center_board(this);*/
-    /*    _position_menu_object(this);*/
-    /*    _position_settings_object(this);*/
-    /*}*/
+    (void)dt;
 }
 
 void Game::_sync_scale() {
@@ -95,7 +85,7 @@ void Game::_sync_scale() {
     if (wsize->y == 720)
         mScale = 4;
     if (wsize->y >= 1080)
-        mScale = 5;
+        mScale = 6;
 }
 
 void Game::exit_game() { mWantExit = true; }

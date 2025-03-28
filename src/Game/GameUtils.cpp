@@ -1,6 +1,7 @@
 #include "GameUtils.hpp"
 #include "../Window/Window.hpp"
 
+// TODO: Make the spacing of the button inside settings menu and main menu the same.
 void _create_menu_object(Game *game, int *z_index) {
     // Create title
     static const char *title_name = "UwUrg";
@@ -48,35 +49,40 @@ void _position_menu_object(Game *game) {
     sptr_t<Object> exit_btn = game->mObjMan.get_object("exit_obj");
 
     if (auto titleText = std::dynamic_pointer_cast<ObjText>(title)) {
+        titleText->mSize = 16 * game->mScale;
         titleText->mRec.x = (wsize->x - titleText->get_width()) / 2;
         titleText->mRec.y = titleText->mSize * (game->mScale / 3.0);
     }
 
     if (auto playButton = std::dynamic_pointer_cast<ObjButton>(play_btn)) {
+        playButton->mSize = 10 * game->mScale;
         int text_width = playButton->get_width();
-        playButton->mRec.x = (wsize->x - text_width) / 2;
-        playButton->mRec.y = (wsize->y - playButton->mSize) / 2;
-        playButton->mRec.width = text_width;
-        playButton->mRec.height = playButton->mSize;
+        playButton->mRec = {
+            .x = (wsize->x - text_width) / 2,
+            .y = (wsize->y - playButton->mSize) / 2,
+            .width = (float)text_width,
+            .height = (float)playButton->mSize,
+        };
     }
 
     if (auto settButton = std::dynamic_pointer_cast<ObjButton>(sett_btn)) {
-
+        settButton->mSize = 10 * game->mScale;
         int text_width = settButton->get_width();
-        settButton->mRec.x = (wsize->x - text_width) / 2;
-        settButton->mRec.y =
-            play_btn->mRec.y + play_btn->mRec.height + settButton->mSize;
-        settButton->mRec.width = text_width;
-        settButton->mRec.height = settButton->mSize;
+        settButton->mRec = {.x = (wsize->x - text_width) / 2,
+                            .y = play_btn->mRec.y + play_btn->mRec.height +
+                                 settButton->mSize,
+                            .width = (float)text_width,
+                            .height = (float)settButton->mSize};
     }
 
     if (auto exitButton = std::dynamic_pointer_cast<ObjButton>(exit_btn)) {
+        exitButton->mSize = 10 * game->mScale;
         auto textSize = exitButton->get_width();
-        exitButton->mRec.x = (wsize->x - textSize) / 2;
-        exitButton->mRec.y =
-            sett_btn->mRec.y + sett_btn->mRec.height + exitButton->mSize;
-        exitButton->mRec.width = textSize;
-        exitButton->mRec.height = exitButton->mSize;
+        exitButton->mRec = {.x = (wsize->x - textSize) / 2,
+                            .y = sett_btn->mRec.y + sett_btn->mRec.height +
+                                 exitButton->mSize,
+                            .width = (float)textSize,
+                            .height = (float)exitButton->mSize};
     }
 }
 
@@ -157,36 +163,40 @@ void _position_settings_object(Game *game) {
 
     Vector2 *wsize = game->mWindow_ptr->get_window_size();
     if (auto titleText = std::dynamic_pointer_cast<ObjText>(settings_obj)) {
+        titleText->mSize = 16 * game->mScale;
         titleText->mRec.x = (wsize->x - titleText->get_width()) / 2;
         titleText->mRec.y = titleText->mSize * (game->mScale / 3.0);
     }
 
     if (auto fullscreenButton =
             std::dynamic_pointer_cast<ObjButton>(fullscreen_obj)) {
+        fullscreenButton->mSize = 10 * game->mScale;
         int text_width = fullscreenButton->get_width();
-        fullscreenButton->mRec.x = (wsize->x - text_width) / 2;
-        fullscreenButton->mRec.y = (wsize->y - fullscreenButton->mSize) / 2;
-        fullscreenButton->mRec.width = text_width;
-        fullscreenButton->mRec.height = fullscreenButton->mSize;
+        fullscreenButton->mRec = {.x = (wsize->x - text_width) / 2,
+                                  .y = (wsize->y - fullscreenButton->mSize) / 2,
+                                  .width = (float)text_width,
+                                  .height = (float)fullscreenButton->mSize};
     }
 
     if (auto hdButton = std::dynamic_pointer_cast<ObjButton>(res1_obj)) {
+        hdButton->mSize = 10 * game->mScale;
         int text_width = hdButton->get_width();
-        hdButton->mRec.x = (wsize->x - text_width) / 2;
-        hdButton->mRec.y = fullscreen_obj->mRec.y +
-                           fullscreen_obj->mRec.height +
-                           (settings_button_padding * 4) + game->mScale * 4;
-        hdButton->mRec.width = text_width;
-        hdButton->mRec.height = hdButton->mSize;
+        hdButton->mRec = {.x = (wsize->x - text_width) / 2,
+                          .y = fullscreen_obj->mRec.y +
+                               fullscreen_obj->mRec.height +
+                               (settings_button_padding * 4) + game->mScale * 4,
+                          .width = (float)text_width,
+                          .height = (float)hdButton->mSize};
     }
 
     if (auto backButton = std::dynamic_pointer_cast<ObjButton>(back_obj)) {
+        backButton->mSize = 10 * game->mScale;
         int text_width = backButton->get_width();
-        backButton->mRec.x = (wsize->x - text_width) / 2;
-        backButton->mRec.y = res1_obj->mRec.y + res1_obj->mRec.height +
-                             settings_button_padding * 4 + game->mScale * 4;
-        backButton->mRec.width = text_width;
-        backButton->mRec.height = backButton->mSize;
+        backButton->mRec = {.x = (wsize->x - text_width) / 2,
+                            .y = res1_obj->mRec.y + res1_obj->mRec.height +
+                                 settings_button_padding * 4 + game->mScale * 4,
+                            .width = (float)text_width,
+                            .height = (float)backButton->mSize};
     }
 }
 
