@@ -20,4 +20,8 @@ void _change_text_from_obj(Game *game, const char *obj_name,
                            const char *new_str);
 void _recalculate_all_pos(Game *game);
 
+// IN-GAME FUNCTION
+void _ingame_next_turn(Game *game);
+void _ingame_getdice(Game *game);
+
 #endif // GAME_UTILS_H_

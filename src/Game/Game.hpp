@@ -5,6 +5,7 @@
 #include "../Shaders/ShadersManager.hpp"
 #include "../TextureManager/TextureManager.hpp"
 #include "GameState.hpp"
+#include "GameTurn.hpp"
 #include <raylib.h>
 
 struct Window;
@@ -22,6 +23,11 @@ struct Game {
 
     Vector2 mCursorPos;
     bool mWantExit;
+
+    // For the ingame
+    GameTurn mTurn;
+    uint8_t mDice;
+    bool mPaused;
 
     Game();
     ~Game();

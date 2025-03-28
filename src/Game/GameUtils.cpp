@@ -238,3 +238,12 @@ void _recalculate_all_pos(Game *game) {
     _position_menu_object(game);
     _position_settings_object(game);
 }
+
+void _ingame_next_turn(Game *game) {
+    game->mTurn = game->mTurn == GameTurn::PLAYER1 ? GameTurn::PLAYER2
+                                                   : GameTurn::PLAYER1;
+}
+
+void _ingame_getdice(Game *game) {
+    game->mDice = GetRandomValue(0, 4);
+}

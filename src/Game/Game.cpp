@@ -12,6 +12,11 @@ Game::Game() {
     mFont = Font();
     mCursorPos = Vector2();
     mWantExit = false;
+
+    // For the ingame
+    mTurn = GameTurn::PLAYER1;
+    mDice = GetRandomValue(0, 4);
+    mPaused = false;
 }
 
 Game::~Game() { UnloadFont(mFont); }
