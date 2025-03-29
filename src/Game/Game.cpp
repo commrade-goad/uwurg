@@ -36,8 +36,8 @@ void Game::init(Window *w) {
     _create_ingame_object(this, &z_index);
     _create_menu_object(this, &z_index);
     _create_settings_object(this, &z_index);
-    _position_menu_object(this);
-    _position_settings_object(this);
+
+    _recalculate_all_pos(this);
 
     _ingame_getdice(this);
 }

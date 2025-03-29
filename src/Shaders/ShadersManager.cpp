@@ -18,6 +18,17 @@ Shader *ShadersManager::add_shader(const char *name, const char *vertex,
     return &mData[name];
 }
 
+Shader *ShadersManager::add_shader_from_mem(const char *name,
+                                            const char *vertex,
+                                            const char *fragment) {
+    if (vertex == nullptr || vertex[0] == '\0')
+        mData[name] = LoadShaderFromMemory(NULL, fragment);
+    else
+        mData[name] = LoadShaderFromMemory(vertex, fragment);
+
+    return &mData[name];
+}
+
 Shader *ShadersManager::get_shader(const char *name) {
     auto it = mData.find(name);
     if (it != mData.end()) {

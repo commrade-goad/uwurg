@@ -1,8 +1,9 @@
 #include "GameUtils.hpp"
-#include "../Window/Window.hpp"
 #include "../Object/ObjBead.hpp"
+#include "../Window/Window.hpp"
 
-// TODO: Make the spacing of the button inside settings menu and main menu the same.
+#include <cmath>
+
 void _create_menu_object(Game *game, int *z_index) {
     // Create title
     static const char *title_name = "UwUrg";
@@ -71,7 +72,7 @@ void _position_menu_object(Game *game) {
         int text_width = settButton->get_width();
         settButton->mRec = {.x = (wsize->x - text_width) / 2,
                             .y = play_btn->mRec.y + play_btn->mRec.height +
-                                 settButton->mSize,
+                                 (10 * 4) + game->mScale * 4,
                             .width = (float)text_width,
                             .height = (float)settButton->mSize};
     }
@@ -81,7 +82,7 @@ void _position_menu_object(Game *game) {
         auto textSize = exitButton->get_width();
         exitButton->mRec = {.x = (wsize->x - textSize) / 2,
                             .y = sett_btn->mRec.y + sett_btn->mRec.height +
-                                 exitButton->mSize,
+                                 (10 * 4) + game->mScale * 4,
                             .width = (float)textSize,
                             .height = (float)exitButton->mSize};
     }
@@ -95,17 +96,18 @@ void _create_ingame_object(Game *game, int *z_index) {
     board_obj->mTag = GameState::INGAME;
     z_index++;
 
-    // TODO: Right now it use dice texture which is bad will change later
-    // when the bead texture is done.
-    game->mTexMan.load_texture("dice", "./assets/nayeon.png");
+    game->mTexMan.load_texture("dice", "./assets/white.png");
     sptr_t<Object> test_bead = game->mObjMan.add_object(
-        mk_sptr<ObjBead>(Rectangle{}, *z_index, "test_bead")
-    );
+        mk_sptr<ObjBead>(Rectangle{}, *z_index, "test_bead", board_obj));
+
     test_bead->mTag = GameState::INGAME;
     test_bead->mText = game->mTexMan.get_texture("dice");
-    z_index++;
+    if (test_bead->mText != nullptr) {
+        test_bead->mRec.width = 20 * game->mScale;
+        test_bead->mRec.height = 20 * game->mScale;
+    }
 
-    _position_ingame_object(game);
+    z_index++;
 }
 
 void _create_settings_object(Game *game, int *z_index) {
@@ -233,9 +235,6 @@ void _position_ingame_object(Game *game) {
                (wsize->y - (b->mText->height * game->mScale)) / 2,
                (float)b->mText->width * game->mScale,
                (float)b->mText->height * game->mScale};
-
-    // For the dice
-    bead->mRec = {0,0,100,100};
 }
 
 void _change_text_from_obj(Game *game, const char *obj_name,
@@ -261,6 +260,4 @@ void _ingame_next_turn(Game *game) {
                                                    : GameTurn::PLAYER1;
 }
 
-void _ingame_getdice(Game *game) {
-    game->mDice = GetRandomValue(0, 4);
-}
+void _ingame_getdice(Game *game) { game->mDice = GetRandomValue(0, 4); }

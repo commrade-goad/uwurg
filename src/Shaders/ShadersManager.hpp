@@ -14,6 +14,7 @@ struct ShadersManager {
     ~ShadersManager();
 
     Shader *add_shader(const char *name, const char *vertex, const char *fragment);
+    Shader *add_shader_from_mem(const char *name, const char *vertex, const char *fragment);
     Shader *get_shader(const char *name);
 };
 
