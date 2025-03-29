@@ -9,7 +9,12 @@
 - [x] use MeasureTextEx for the text.
 - [x] make object init init empty then fill in later
 - [x] gen MeasureTextEx from the object itself
+- [ ] UI Obj for the point
+- [ ] UI Obj for the dice
+- [ ] UI Obj for how much bead left
+- [ ] Add keyboard shortcut
 
 # Resource
-vaporwave 1 : [here](https://www.schemecolor.com/vaporwave.php)
-vaporwave 2 : [here](https://www.color-hex.com/color-palette/10221)
+
+- vaporwave 1 : [here](https://www.schemecolor.com/vaporwave.php)
+- vaporwave 2 : [here](https://www.color-hex.com/color-palette/10221)

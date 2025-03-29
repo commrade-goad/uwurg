@@ -1,6 +1,8 @@
 #include "Game.hpp"
 #include "../Window/Window.hpp"
+#include "../Object/ObjBead.hpp"
 #include "GameUtils.hpp"
+#include "../Shaders/menuShaders.hpp"
 
 Game::Game() {
     mTexMan = TextureManager();
@@ -29,7 +31,7 @@ void Game::init(Window *w) {
                    96, NULL, 95);
 
     // TODO: Move the shaders to assets or embed to the executeable.
-    mSMan.add_shader("menu", nullptr, "./src/Shaders/menu_fragment.glsl");
+    mSMan.add_shader_from_mem("menu", nullptr, menu_shaders);
 
     _sync_scale();
 
@@ -79,6 +81,12 @@ void Game::handle_drawing(float dt) {
 
 void Game::handle_key(float dt) {
     (void)dt;
+    if (IsKeyReleased(KEY_N)) {
+        sptr_t<Object> a = mObjMan.get_object("test_bead");
+        if (auto b = std::dynamic_pointer_cast<ObjBead>(a)) {
+            b->mPos++;
+        }
+    }
 }
 
 void Game::_sync_scale() {

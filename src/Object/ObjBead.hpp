@@ -3,6 +3,7 @@
 
 #include "../Game/Game.hpp"
 #include "Object.hpp"
+#include "../Game/GameTurn.hpp"
 
 struct ObjBead : public Object {
   private:
@@ -10,12 +11,13 @@ struct ObjBead : public Object {
         Vector2 res = {mBoard->mRec.x, mBoard->mRec.y};
         if (mPos > 0 && mPos <= 4) {
             res.x += (20 * mGame_ptr->mScale) * (3 + mPos);
+            if (mGroup == GameTurn::PLAYER1) res.y += (20 * mGame_ptr->mScale) * 2;
         } else if (mPos >= 5 && mPos <= 12) {
             res.x += (20 * mGame_ptr->mScale) * (12 - mPos);
             res.y += 20 * mGame_ptr->mScale;
         } else {
             res.x += (20 * mGame_ptr->mScale) * (mPos - 13);
-            res.y += (20 * mGame_ptr->mScale) * 2;
+            if (mGroup == GameTurn::PLAYER1) res.y += (20 * mGame_ptr->mScale) * 2;
         }
         return res;
     }
@@ -24,12 +26,14 @@ struct ObjBead : public Object {
   public:
     int mPos;
     bool mOut;
+    GameTurn mGroup;
 
-    ObjBead(Rectangle rec, int z_index, const char *name, sptr_t<Object> board)
+    ObjBead(Rectangle rec, int z_index, const char *name, sptr_t<Object> board, GameTurn group)
         : Object(rec, z_index, name) {
         mPos = 1;
         mOut = false;
         mBoard = board;
+        mGroup = group;
     }
 
     virtual void render() {
@@ -39,6 +43,9 @@ struct ObjBead : public Object {
         Vector2 new_pos = _xy_gen_helper();
         mRec.x = new_pos.x;
         mRec.y = new_pos.y;
+
+        mRec.width  = 20 * mGame_ptr->mScale;
+        mRec.height = 20 * mGame_ptr->mScale;
 
         if (mText != nullptr && mText->width > 0 && mText->height > 0) {
             DrawTexturePro(*mText, Rectangle(0, 0, mText->width, mText->height),

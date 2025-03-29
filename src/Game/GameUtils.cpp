@@ -90,7 +90,7 @@ void _position_menu_object(Game *game) {
 
 void _create_ingame_object(Game *game, int *z_index) {
     Texture2D *board_txt =
-        game->mTexMan.load_texture("board_txt", "./assets/board-real.png");
+        game->mTexMan.load_texture("board_txt", "./assets/board.png");
     sptr_t<Object> board_obj = game->mObjMan.add_object(
         mk_sptr<Object>(Object({}, *z_index, "board", board_txt)));
     board_obj->mTag = GameState::INGAME;
@@ -98,7 +98,7 @@ void _create_ingame_object(Game *game, int *z_index) {
 
     game->mTexMan.load_texture("dice", "./assets/white.png");
     sptr_t<Object> test_bead = game->mObjMan.add_object(
-        mk_sptr<ObjBead>(Rectangle{}, *z_index, "test_bead", board_obj));
+        mk_sptr<ObjBead>(Rectangle{}, *z_index, "test_bead", board_obj, GameTurn::PLAYER1));
 
     test_bead->mTag = GameState::INGAME;
     test_bead->mText = game->mTexMan.get_texture("dice");
