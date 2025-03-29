@@ -15,7 +15,7 @@ void _position_menu_object(Game *game);
 void _position_settings_object(Game *game);
 
 void _render_version(Game *game);
-void _center_board(Game *game);
+void _position_ingame_object(Game *game);
 void _change_text_from_obj(Game *game, const char *obj_name,
                            const char *new_str);
 void _recalculate_all_pos(Game *game);

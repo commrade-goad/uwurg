@@ -38,7 +38,7 @@ struct ObjBead : public Object {
 
     virtual void logic(float dt) { (void)dt; }
 
-    ~ObjBead();
+    virtual ~ObjBead() {}
 };
 
 #endif // OBJ_BEAD_H_

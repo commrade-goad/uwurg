@@ -13,9 +13,7 @@ Game::Game() {
     mCursorPos = Vector2();
     mWantExit = false;
 
-    // For the ingame
     mTurn = GameTurn::PLAYER1;
-    mDice = GetRandomValue(0, 4);
     mPaused = false;
 }
 
@@ -25,8 +23,6 @@ void Game::init(Window *w) {
     mWindow_ptr = w;
     mObjMan.mGame_ptr = this;
     int z_index = 1;
-
-    mTexMan.load_texture("dice", "./assets/nayeon.png");
 
     mFont =
         LoadFontEx("./assets/Pixelify_Sans/PixelifySans-VariableFont_wght.ttf",
@@ -42,6 +38,8 @@ void Game::init(Window *w) {
     _create_settings_object(this, &z_index);
     _position_menu_object(this);
     _position_settings_object(this);
+
+    _ingame_getdice(this);
 }
 
 void Game::handle_logic(float dt) {

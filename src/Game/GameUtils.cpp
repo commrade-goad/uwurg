@@ -1,5 +1,6 @@
 #include "GameUtils.hpp"
 #include "../Window/Window.hpp"
+#include "../Object/ObjBead.hpp"
 
 // TODO: Make the spacing of the button inside settings menu and main menu the same.
 void _create_menu_object(Game *game, int *z_index) {
@@ -91,9 +92,20 @@ void _create_ingame_object(Game *game, int *z_index) {
         game->mTexMan.load_texture("board_txt", "./assets/board-real.png");
     sptr_t<Object> board_obj = game->mObjMan.add_object(
         mk_sptr<Object>(Object({}, *z_index, "board", board_txt)));
-    _center_board(game);
     board_obj->mTag = GameState::INGAME;
     z_index++;
+
+    // TODO: Right now it use dice texture which is bad will change later
+    // when the bead texture is done.
+    game->mTexMan.load_texture("dice", "./assets/nayeon.png");
+    sptr_t<Object> test_bead = game->mObjMan.add_object(
+        mk_sptr<ObjBead>(Rectangle{}, *z_index, "test_bead")
+    );
+    test_bead->mTag = GameState::INGAME;
+    test_bead->mText = game->mTexMan.get_texture("dice");
+    z_index++;
+
+    _position_ingame_object(game);
 }
 
 void _create_settings_object(Game *game, int *z_index) {
@@ -209,8 +221,10 @@ void _render_version(Game *game) {
                font_size, 3, WHITE);
 }
 
-void _center_board(Game *game) {
+void _position_ingame_object(Game *game) {
+    // For the board itself
     sptr_t<Object> b = game->mObjMan.get_object("board");
+    sptr_t<Object> bead = game->mObjMan.get_object("test_bead");
     if (b->mText->width <= 0 && b->mText->height <= 0)
         return;
 
@@ -219,6 +233,9 @@ void _center_board(Game *game) {
                (wsize->y - (b->mText->height * game->mScale)) / 2,
                (float)b->mText->width * game->mScale,
                (float)b->mText->height * game->mScale};
+
+    // For the dice
+    bead->mRec = {0,0,100,100};
 }
 
 void _change_text_from_obj(Game *game, const char *obj_name,
@@ -234,7 +251,7 @@ void _change_text_from_obj(Game *game, const char *obj_name,
 }
 
 void _recalculate_all_pos(Game *game) {
-    _center_board(game);
+    _position_ingame_object(game);
     _position_menu_object(game);
     _position_settings_object(game);
 }
