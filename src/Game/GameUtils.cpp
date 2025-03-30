@@ -1,5 +1,8 @@
 #include "GameUtils.hpp"
 #include "../Object/ObjBead.hpp"
+#include "../Object/ObjButton.hpp"
+#include "../Object/ObjDiceRender.hpp"
+#include "../Object/ObjText.hpp"
 #include "../Window/Window.hpp"
 
 #include <cmath>
@@ -89,33 +92,43 @@ void _position_menu_object(Game *game) {
 }
 
 void _create_ingame_object(Game *game, int *z_index) {
+    Texture2D *bead_white_txt = game->mTexMan.load_texture("black_bead", "./assets/black.png");
+    Texture2D *bead_black_txt = game->mTexMan.load_texture("white_bead", "./assets/white.png");
     Texture2D *board_txt =
         game->mTexMan.load_texture("board_txt", "./assets/board.png");
+    Texture2D *dice_txt =
+        game->mTexMan.load_texture("dice_txt", "./assets/nayeon.png");
+
+    // Create board
     sptr_t<Object> board_obj = game->mObjMan.add_object(
         mk_sptr<Object>(Object({}, *z_index, "board", board_txt)));
     board_obj->mTag = GameState::INGAME;
     z_index++;
 
-    // TODO: WIP make gen more better.
+    // Create Dice obj
+    sptr_t<Object> dice_obj = game->mObjMan.add_object(
+        mk_sptr<ObjDiceRender>(ObjDiceRender(Rectangle{}, *z_index, "dice")));
+    dice_obj->mTag = GameState::INGAME;
+    dice_obj->mText = dice_txt;
+    z_index++;
+
     for (int i = 0; i < 7; i++) {
-        game->mTexMan.load_texture("white_bead", "./assets/white.png");
         sptr_t<Object> test_bead = game->mObjMan.add_object(
             mk_sptr<ObjBead>(Rectangle{}, *z_index, TextFormat("bead_%d", i),
                              board_obj, GameTurn::PLAYER1));
 
         test_bead->mTag = GameState::INGAME;
-        test_bead->mText = game->mTexMan.get_texture("white_bead");
+        test_bead->mText = bead_white_txt;
         z_index++;
     }
 
     for (int i = 0; i < 7; i++) {
-        game->mTexMan.load_texture("black_bead", "./assets/black.png");
         sptr_t<Object> test_bead = game->mObjMan.add_object(
             mk_sptr<ObjBead>(Rectangle{}, *z_index, TextFormat("bead_%d", i),
                              board_obj, GameTurn::PLAYER2));
 
         test_bead->mTag = GameState::INGAME;
-        test_bead->mText = game->mTexMan.get_texture("black_bead");
+        test_bead->mText = bead_black_txt;
         z_index++;
     }
 }

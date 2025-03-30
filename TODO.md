@@ -1,5 +1,7 @@
 # TODO
 
+## List
+
 - [x] make it dynamic when resize
 - [x] settings menu
 - [x] shaders background on menu
@@ -10,11 +12,15 @@
 - [x] make object init init empty then fill in later
 - [x] gen MeasureTextEx from the object itself
 - [ ] UI Obj for the point
-- [ ] UI Obj for the dice
+- [x] UI Obj for the dice
 - [ ] UI Obj for how much bead left
 - [ ] Add keyboard shortcut
 
-# Resource
+
+## Resource
 
 - vaporwave 1 : [here](https://www.schemecolor.com/vaporwave.php)
 - vaporwave 2 : [here](https://www.color-hex.com/color-palette/10221)
+
+
+## Currently Working On

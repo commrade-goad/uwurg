@@ -1,8 +1,6 @@
 #ifndef GAME_UTILS_H_
 #define GAME_UTILS_H_
 
-#include "../Object/ObjButton.hpp"
-#include "../Object/ObjText.hpp"
 #include "Game.hpp"
 
 // Utility or all of the misc function that used on Game.cpp

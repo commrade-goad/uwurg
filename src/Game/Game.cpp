@@ -1,8 +1,7 @@
 #include "Game.hpp"
-#include "../Window/Window.hpp"
-#include "../Object/ObjBead.hpp"
-#include "GameUtils.hpp"
 #include "../Shaders/menuShaders.hpp"
+#include "../Window/Window.hpp"
+#include "GameUtils.hpp"
 
 Game::Game() {
     mTexMan = TextureManager();
@@ -80,6 +79,13 @@ void Game::handle_drawing(float dt) {
 
 void Game::handle_key(float dt) {
     (void)dt;
+
+    if (mStateOrTag == GameState::INGAME) {
+        if (IsKeyReleased(KEY_ESCAPE)) {
+            mStateOrTag = GameState::MENU;
+            _ingame_getdice(this);
+        }
+    }
 }
 
 void Game::_sync_scale() {
