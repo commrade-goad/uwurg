@@ -2,19 +2,19 @@
 
 ## List
 
-- [x] make it dynamic when resize
-- [x] settings menu
-- [x] shaders background on menu
-- [ ] shaders for the ingame
 - [ ] music stuff
 - [ ] the game itself
+- [ ] UI Obj for the point
+- [ ] UI Obj for how much bead left
+- [x] shaders for the ingame
 - [x] use MeasureTextEx for the text.
 - [x] make object init init empty then fill in later
 - [x] gen MeasureTextEx from the object itself
-- [ ] UI Obj for the point
 - [x] UI Obj for the dice
-- [ ] UI Obj for how much bead left
-- [ ] Add keyboard shortcut
+- [x] Add keyboard shortcut
+- [x] make it dynamic when resize
+- [x] settings menu
+- [x] shaders background on menu
 
 
 ## Resource

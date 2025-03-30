@@ -1,5 +1,6 @@
 #include "Game.hpp"
 #include "../Shaders/menuShaders.hpp"
+#include "../Shaders/ingameShaders.hpp"
 #include "../Window/Window.hpp"
 #include "GameUtils.hpp"
 
@@ -30,6 +31,7 @@ void Game::init(Window *w) {
                    96, NULL, 95);
 
     mSMan.add_shader_from_mem("menu", nullptr, menu_shaders);
+    mSMan.add_shader_from_mem("ingame", nullptr, ingame_shaders);
 
     _sync_scale();
 
@@ -57,7 +59,8 @@ void Game::handle_logic(float dt) {
 void Game::handle_drawing(float dt) {
     (void)dt;
 
-    Shader *s = mSMan.get_shader("menu");
+    const char *shaders_str = mStateOrTag == GameState::INGAME ? "ingame" : "menu";
+    Shader *s = mSMan.get_shader(shaders_str);
     int sWidth = GetShaderLocation(*s, "sWidth");
     int sHeight = GetShaderLocation(*s, "sHeight");
 
