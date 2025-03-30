@@ -12,9 +12,9 @@ void _create_menu_object(Game *game, int *z_index) {
     static const char *title_name = "UwUrg";
     static const int title_font_size = 16 * game->mScale;
     static const int button_font_size = 10 * game->mScale;
-    static const char *play_button = "PLAY";
-    static const char *settings_button = "SETTINGS";
-    static const char *exit_button = "EXIT";
+    static const char *play_button = "PLAY (P)";
+    static const char *settings_button = "SETTINGS (S)";
+    static const char *exit_button = "EXIT (E)";
 
     sptr_t<Object> title_obj = game->mObjMan.add_object(
         mk_sptr<ObjText>(Rectangle{}, *z_index, "title", title_name,
@@ -92,8 +92,10 @@ void _position_menu_object(Game *game) {
 }
 
 void _create_ingame_object(Game *game, int *z_index) {
-    Texture2D *bead_white_txt = game->mTexMan.load_texture("black_bead", "./assets/black.png");
-    Texture2D *bead_black_txt = game->mTexMan.load_texture("white_bead", "./assets/white.png");
+    Texture2D *bead_white_txt =
+        game->mTexMan.load_texture("black_bead", "./assets/black.png");
+    Texture2D *bead_black_txt =
+        game->mTexMan.load_texture("white_bead", "./assets/white.png");
     Texture2D *board_txt =
         game->mTexMan.load_texture("board_txt", "./assets/board.png");
     Texture2D *dice_txt =
@@ -135,9 +137,9 @@ void _create_ingame_object(Game *game, int *z_index) {
 
 void _create_settings_object(Game *game, int *z_index) {
     static const char *title_name = "SETTINGS";
-    static const char *back_txt = "BACK";
-    static const char *res1_text = "720P";
-    static const char *fs_button = "WINDOW";
+    static const char *back_txt = "BACK (B)";
+    static const char *res1_text = "720P (R)";
+    static const char *fs_button = "WINDOW (F)";
     static const int title_font_size = 16 * game->mScale;
     static const int button_font_size = 10 * game->mScale;
 
@@ -149,36 +151,17 @@ void _create_settings_object(Game *game, int *z_index) {
     z_index++;
 
     // Create fullscreen button
-    sptr_t<Object> fullscreen_button =
-        game->mObjMan.add_object(mk_sptr<ObjButton>(
-            Rectangle{}, *z_index, "fscreen_btn", fs_button,
-            GetColor(0x153CB4FF), WHITE, button_font_size, 10, [game]() {
-                game->mWindow_ptr->toggle_fullscreen();
-                _recalculate_all_pos(game);
-                _change_text_from_obj(game, "fscreen_btn",
-                                      IsWindowFullscreen() ? "FULLSCREEN"
-                                                           : "WINDOW");
-            }));
+    sptr_t<Object> fullscreen_button = game->mObjMan.add_object(
+        mk_sptr<ObjButton>(Rectangle{}, *z_index, "fscreen_btn", fs_button,
+                           GetColor(0x153CB4FF), WHITE, button_font_size, 10,
+                           [game]() { _window_res_helper(game); }));
     fullscreen_button->mTag = GameState::SETTINGS;
     z_index++;
 
     // Create the res button
     sptr_t<Object> hd_button = game->mObjMan.add_object(mk_sptr<ObjButton>(
         Rectangle{}, *z_index, "res_btn", res1_text, GetColor(0x153CB4FF),
-        WHITE, button_font_size, 10, [game]() {
-            if (IsWindowFullscreen())
-                game->mWindow_ptr->toggle_fullscreen();
-            else if (game->mScale == 4)
-                game->mWindow_ptr->set_window_size(Vector2(854, 480));
-            else
-                game->mWindow_ptr->set_window_size(Vector2(1280, 720));
-            _recalculate_all_pos(game);
-            _change_text_from_obj(game, "fscreen_btn",
-                                  IsWindowFullscreen() ? "FULLSCREEN"
-                                                       : "WINDOW");
-            _change_text_from_obj(game, "res_btn",
-                                  game->mScale == 4 ? "720P" : "480P");
-        }));
+        WHITE, button_font_size, 10, [game]() { _window_res_helper(game); }));
     hd_button->mTag = GameState::SETTINGS;
     z_index++;
 
@@ -284,3 +267,25 @@ void _ingame_next_turn(Game *game) {
 }
 
 void _ingame_getdice(Game *game) { game->mDice = GetRandomValue(0, 4); }
+
+void _window_flag_helper(Game *game) {
+    game->mWindow_ptr->toggle_fullscreen();
+    _recalculate_all_pos(game);
+    _change_text_from_obj(game, "fscreen_btn",
+                          IsWindowFullscreen() ? "FULLSCREEN (F)"
+                                               : "WINDOW (F)");
+}
+void _window_res_helper(Game *game) {
+    if (IsWindowFullscreen())
+        game->mWindow_ptr->toggle_fullscreen();
+    else if (game->mScale == 4)
+        game->mWindow_ptr->set_window_size(Vector2(854, 480));
+    else
+        game->mWindow_ptr->set_window_size(Vector2(1280, 720));
+    _recalculate_all_pos(game);
+    _change_text_from_obj(game, "fscreen_btn",
+                          IsWindowFullscreen() ? "FULLSCREEN (F)"
+                                               : "WINDOW (F)");
+    _change_text_from_obj(game, "res_btn",
+                          game->mScale == 4 ? "720P (R)" : "480P (R)");
+}

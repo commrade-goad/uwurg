@@ -6,20 +6,21 @@ void Window::_apply_option(const char *title) {
     mGame = Game();
     InitWindow(mSize.x, mSize.y, mName);
     SetTargetFPS(mFPS);
+    if (mExitKey <= -1) return;
     SetExitKey(mExitKey);
 }
 
 Window::Window(Vector2 size, const char *title) {
     mSize = size;
     mFPS = 60;
-    mExitKey = KEY_Q;
+    mExitKey = -1;
     _apply_option(title);
 }
 
 Window::Window(Vector2 size, const char *title, size_t fps) {
     mSize = size;
     mFPS = fps;
-    mExitKey = KEY_Q;
+    mExitKey = -1;
     _apply_option(title);
 }
 

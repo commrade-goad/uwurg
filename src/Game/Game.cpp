@@ -80,11 +80,43 @@ void Game::handle_drawing(float dt) {
 void Game::handle_key(float dt) {
     (void)dt;
 
-    if (mStateOrTag == GameState::INGAME) {
+    switch (mStateOrTag) {
+    case GameState::ALL: {
+        break;
+    }
+    case GameState::INGAME: {
         if (IsKeyReleased(KEY_ESCAPE)) {
             mStateOrTag = GameState::MENU;
             _ingame_getdice(this);
         }
+        break;
+    }
+    case GameState::MENU: {
+        if (IsKeyReleased(KEY_P)) {
+            mStateOrTag = GameState::INGAME;
+        }
+        if (IsKeyReleased(KEY_S)) {
+            mStateOrTag = GameState::SETTINGS;
+        }
+        if (IsKeyReleased(KEY_E)) {
+            exit_game();
+        }
+        break;
+    }
+    case GameState::SETTINGS: {
+        if (IsKeyReleased(KEY_F)) {
+            _window_flag_helper(this);
+        }
+        if (IsKeyReleased(KEY_R)) {
+            _window_res_helper(this);
+        }
+        if (IsKeyReleased(KEY_B)) {
+            mStateOrTag = GameState::MENU;
+        }
+        break;
+    }
+    default:
+        break;
     }
 }
 
