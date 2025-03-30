@@ -96,18 +96,28 @@ void _create_ingame_object(Game *game, int *z_index) {
     board_obj->mTag = GameState::INGAME;
     z_index++;
 
-    game->mTexMan.load_texture("dice", "./assets/white.png");
-    sptr_t<Object> test_bead = game->mObjMan.add_object(
-        mk_sptr<ObjBead>(Rectangle{}, *z_index, "test_bead", board_obj, GameTurn::PLAYER1));
+    // TODO: WIP make gen more better.
+    for (int i = 0; i < 7; i++) {
+        game->mTexMan.load_texture("white_bead", "./assets/white.png");
+        sptr_t<Object> test_bead = game->mObjMan.add_object(
+            mk_sptr<ObjBead>(Rectangle{}, *z_index, TextFormat("bead_%d", i),
+                             board_obj, GameTurn::PLAYER1));
 
-    test_bead->mTag = GameState::INGAME;
-    test_bead->mText = game->mTexMan.get_texture("dice");
-    if (test_bead->mText != nullptr) {
-        test_bead->mRec.width = 20 * game->mScale;
-        test_bead->mRec.height = 20 * game->mScale;
+        test_bead->mTag = GameState::INGAME;
+        test_bead->mText = game->mTexMan.get_texture("white_bead");
+        z_index++;
     }
 
-    z_index++;
+    for (int i = 0; i < 7; i++) {
+        game->mTexMan.load_texture("black_bead", "./assets/black.png");
+        sptr_t<Object> test_bead = game->mObjMan.add_object(
+            mk_sptr<ObjBead>(Rectangle{}, *z_index, TextFormat("bead_%d", i),
+                             board_obj, GameTurn::PLAYER2));
+
+        test_bead->mTag = GameState::INGAME;
+        test_bead->mText = game->mTexMan.get_texture("black_bead");
+        z_index++;
+    }
 }
 
 void _create_settings_object(Game *game, int *z_index) {
@@ -216,7 +226,7 @@ void _position_settings_object(Game *game) {
 
 void _render_version(Game *game) {
     static const int font_size = 24;
-    static const char *version = "0.0.2-dev";
+    static const char *version = VERSION;
     auto wsize = game->mWindow_ptr->get_window_size();
     DrawTextEx(game->mFont, version,
                Vector2(0 + 10, wsize->y - font_size - (font_size * 0.5)),

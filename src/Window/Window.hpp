@@ -1,6 +1,8 @@
 #ifndef WINDOW_H_
 #define WINDOW_H_
 
+#define VERSION "0.0.3-dev"
+
 #include "../Game/Game.hpp"
 #include <cstddef>
 #include <raylib.h>
