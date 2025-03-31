@@ -5,14 +5,24 @@
 PossibleMove::PossibleMove() {
     mBead = nullptr;
     mPossibleMove = -1;
+    mExtraTurn = false;
 }
 PossibleMove::PossibleMove(sptr_t<Object> bead, int possibleMove) {
     mBead = bead;
     mPossibleMove = possibleMove;
+    mExtraTurn = false;
+}
+
+PossibleMove::PossibleMove(sptr_t<Object> bead, int possibleMove,
+                           bool ExtraTurn) {
+    mBead = bead;
+    mPossibleMove = possibleMove;
+    mExtraTurn = ExtraTurn;
 }
 
 PossibleMove::~PossibleMove() {}
 
+// TODO: add new_turn support.
 std::vector<PossibleMove> get_possible_move(Game *game) {
     if (game->mDice == 0)
         return std::vector<PossibleMove>();
@@ -83,7 +93,8 @@ std::vector<PossibleMove> get_possible_move(Game *game) {
 
         // If we can spawn a new bead, add it to results
         if (canEnterNewBead) {
-            result.push_back(PossibleMove{newBead, spawnPos});
+            result.push_back(
+                PossibleMove{newBead, spawnPos, spawnPos == 4 ? true : false});
         }
     }
 
@@ -116,11 +127,13 @@ std::vector<PossibleMove> get_possible_move(Game *game) {
         if (new_pos >= 5 && new_pos <= 12) {
             for (const auto &enm : enemy) {
                 if (enm->mPos == new_pos && new_pos != 8) {
+                    break;
                 }
             }
         }
 
-        result.push_back(PossibleMove{cbead, new_pos});
+        bool extra_move = (new_pos == 8 || new_pos == 13) ? true : false;
+        result.push_back(PossibleMove{cbead, new_pos, extra_move});
     }
 
     return result;

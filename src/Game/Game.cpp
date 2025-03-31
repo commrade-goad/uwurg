@@ -1,8 +1,9 @@
 #include "Game.hpp"
-#include "../Shaders/menuShaders.hpp"
 #include "../Shaders/ingameShaders.hpp"
+#include "../Shaders/menuShaders.hpp"
 #include "../Window/Window.hpp"
 #include "GameUtils.hpp"
+#include "Gameplay.hpp"
 
 Game::Game() {
     mTexMan = TextureManager();
@@ -59,7 +60,8 @@ void Game::handle_logic(float dt) {
 void Game::handle_drawing(float dt) {
     (void)dt;
 
-    const char *shaders_str = mStateOrTag == GameState::INGAME ? "ingame" : "menu";
+    const char *shaders_str =
+        mStateOrTag == GameState::INGAME ? "ingame" : "menu";
     Shader *s = mSMan.get_shader(shaders_str);
     int sWidth = GetShaderLocation(*s, "sWidth");
     int sHeight = GetShaderLocation(*s, "sHeight");
@@ -91,6 +93,11 @@ void Game::handle_key(float dt) {
         if (IsKeyReleased(KEY_ESCAPE)) {
             mStateOrTag = GameState::MENU;
             _ingame_getdice(this);
+        }
+
+        if (IsKeyReleased(KEY_SPACE)) {
+            std::vector<PossibleMove> result = get_possible_move(this);
+            TraceLog(LOG_FATAL, "WIP Debug this.");
         }
         break;
     }

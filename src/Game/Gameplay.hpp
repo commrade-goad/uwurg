@@ -9,9 +9,11 @@ struct PossibleMove {
   public:
     sptr_t<Object> mBead;
     int mPossibleMove;
+    bool mExtraTurn;
 
     PossibleMove();
     PossibleMove(sptr_t<Object> bead, int possibleMove);
+    PossibleMove(sptr_t<Object> bead, int possibleMove, bool extraTurn);
     ~PossibleMove();
 };
 
