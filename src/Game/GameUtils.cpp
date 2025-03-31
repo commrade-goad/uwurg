@@ -116,7 +116,7 @@ void _create_ingame_object(Game *game, int *z_index) {
 
     for (int i = 0; i < 7; i++) {
         sptr_t<Object> test_bead = game->mObjMan.add_object(
-            mk_sptr<ObjBead>(Rectangle{}, *z_index, TextFormat("bead_%d", i),
+            mk_sptr<ObjBead>(Rectangle{}, *z_index, TextFormat("bead_p1_%d", i),
                              board_obj, GameTurn::PLAYER1));
 
         test_bead->mTag = GameState::INGAME;
@@ -126,7 +126,7 @@ void _create_ingame_object(Game *game, int *z_index) {
 
     for (int i = 0; i < 7; i++) {
         sptr_t<Object> test_bead = game->mObjMan.add_object(
-            mk_sptr<ObjBead>(Rectangle{}, *z_index, TextFormat("bead_%d", i),
+            mk_sptr<ObjBead>(Rectangle{}, *z_index, TextFormat("bead_p2_%d", i),
                              board_obj, GameTurn::PLAYER2));
 
         test_bead->mTag = GameState::INGAME;
