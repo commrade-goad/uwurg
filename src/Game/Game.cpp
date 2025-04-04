@@ -30,6 +30,11 @@ void Game::init(Window *w) {
     mFont =
         LoadFontEx("./assets/Pixelify_Sans/PixelifySans-VariableFont_wght.ttf",
                    96, NULL, 95);
+    if (mFont.texture.id == 0)
+        TraceLog(LOG_FATAL,
+                 TextFormat("%s\n",
+                            "Try to launch the game from the correct path."
+                            " The game expect the `assets` folder in cwd."));
 
     mSMan.add_shader_from_mem("menu", nullptr, menu_shaders);
     mSMan.add_shader_from_mem("ingame", nullptr, ingame_shaders);
@@ -95,10 +100,9 @@ void Game::handle_key(float dt) {
             _ingame_getdice(this);
         }
 
-        if (IsKeyReleased(KEY_SPACE)) {
-            std::vector<PossibleMove> result = get_possible_move(this);
-            TraceLog(LOG_FATAL, "WIP Debug this.");
-        }
+        // if (IsKeyReleased(KEY_SPACE)) {
+        //     std::vector<PossibleMove> result = get_possible_move(this);
+        // }
         break;
     }
     case GameState::MENU: {
