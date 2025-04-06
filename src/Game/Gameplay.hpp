@@ -19,4 +19,7 @@ struct PossibleMove {
 
 std::vector<PossibleMove> get_possible_move(Game *game);
 
+void game_new_bead_helper(Game *game);
+void game_change_turn(Game  *game);
+
 #endif // GAMEPLAY_H_

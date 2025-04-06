@@ -6,6 +6,7 @@
 #include "../TextureManager/TextureManager.hpp"
 #include "GameState.hpp"
 #include "GameTurn.hpp"
+#include "Gameplay.hpp"
 #include <raylib.h>
 
 struct Window;
@@ -28,6 +29,7 @@ struct Game {
     GameTurn mTurn;
     uint8_t mDice;
     bool mPaused;
+    std::vector<PossibleMove> mPosMove;
 
     Game();
     ~Game();

@@ -105,7 +105,7 @@ void _create_ingame_object(Game *game, int *z_index) {
     sptr_t<Object> board_obj = game->mObjMan.add_object(
         mk_sptr<Object>(Object({}, *z_index, "board", board_txt)));
     board_obj->mTag = GameState::INGAME;
-    z_index++;
+    z_index += 2;
 
     // Create Dice obj
     sptr_t<Object> dice_obj = game->mObjMan.add_object(

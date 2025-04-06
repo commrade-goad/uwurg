@@ -40,7 +40,7 @@ struct ObjBead : public Object {
     }
 
     virtual void render() {
-        if (!mShow)
+        if (!mShow || !mOut)
             return;
 
         Vector2 new_pos = _xy_gen_helper();

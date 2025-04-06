@@ -1,6 +1,7 @@
 #include "Gameplay.hpp"
 #include "../Object/ObjBead.hpp"
 #include "Game.hpp"
+#include "GameUtils.hpp"
 
 PossibleMove::PossibleMove() {
     mBead = nullptr;
@@ -22,7 +23,6 @@ PossibleMove::PossibleMove(sptr_t<Object> bead, int possibleMove,
 
 PossibleMove::~PossibleMove() {}
 
-// TODO: add new_turn support.
 std::vector<PossibleMove> get_possible_move(Game *game) {
     if (game->mDice == 0)
         return std::vector<PossibleMove>();
@@ -137,4 +137,31 @@ std::vector<PossibleMove> get_possible_move(Game *game) {
     }
 
     return result;
+}
+
+void game_change_turn(Game *game) {
+    game->mTurn = game->mTurn == GameTurn::PLAYER1 ? GameTurn::PLAYER2
+                                                   : GameTurn::PLAYER1;
+    game->mPosMove = get_possible_move(game);
+}
+
+void game_new_bead_helper(Game *game) {
+    // TODO: this will not be called here but an internal func so its more clean
+    // TODO: check with the possible move.
+    for (int i = 0; i < 7; i++) {
+        const char *bead = game->mTurn == GameTurn::PLAYER1
+                               ? TextFormat("bead_p1_%d", i)
+                               : TextFormat("bead_p2_%d", i);
+        sptr_t<Object> obj = game->mObjMan.get_object(bead);
+        if (sptr_t<ObjBead> cobj = std::dynamic_pointer_cast<ObjBead>(obj)) {
+            if (!cobj->mOut) {
+                cobj->mOut = true;
+                cobj->mPos = game->mDice;
+                cobj->mShow = true;
+                break;
+            }
+        }
+    }
+    game_change_turn(game);
+    _ingame_getdice(game);
 }

@@ -3,7 +3,6 @@
 #include "../Shaders/menuShaders.hpp"
 #include "../Window/Window.hpp"
 #include "GameUtils.hpp"
-#include "Gameplay.hpp"
 
 Game::Game() {
     mTexMan = TextureManager();
@@ -18,6 +17,7 @@ Game::Game() {
 
     mTurn = GameTurn::PLAYER1;
     mPaused = false;
+    mPosMove = {};
 }
 
 Game::~Game() { UnloadFont(mFont); }
@@ -48,6 +48,7 @@ void Game::init(Window *w) {
     _recalculate_all_pos(this);
 
     _ingame_getdice(this);
+    mPosMove = get_possible_move(this);
 }
 
 void Game::handle_logic(float dt) {
@@ -100,9 +101,10 @@ void Game::handle_key(float dt) {
             _ingame_getdice(this);
         }
 
-        // if (IsKeyReleased(KEY_SPACE)) {
-        //     std::vector<PossibleMove> result = get_possible_move(this);
-        // }
+        if (IsKeyPressed(KEY_N)) {
+            game_new_bead_helper(this);
+        }
+
         break;
     }
     case GameState::MENU: {

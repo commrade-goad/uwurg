@@ -43,6 +43,8 @@
                         cmake
                         pkg-config
                         gcc
+                        gdb
+                        gdbgui
 
                         glib
                         libGL
@@ -52,10 +54,6 @@
                         xorg.libXinerama
                         xorg.libXi
                     ];
-
-                    shellHook = ''
-                        echo "Good luck!"
-                        '';
                 };
             }
         );
