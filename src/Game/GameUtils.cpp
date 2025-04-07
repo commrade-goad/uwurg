@@ -2,6 +2,7 @@
 #include "../Object/ObjBead.hpp"
 #include "../Object/ObjButton.hpp"
 #include "../Object/ObjDiceRender.hpp"
+#include "../Object/ObjTurnIndicator.hpp"
 #include "../Object/ObjText.hpp"
 #include "../Window/Window.hpp"
 
@@ -112,6 +113,12 @@ void _create_ingame_object(Game *game, int &z_index) {
         mk_sptr<ObjDiceRender>(ObjDiceRender(Rectangle{}, z_index, "dice")));
     dice_obj->mTag = GameState::INGAME;
     dice_obj->mText = dice_txt;
+    z_index++;
+
+    // Create Turn Indicator object
+    sptr_t<Object> turn_ind = game->mObjMan.add_object(
+        mk_sptr<ObjTurnIndicator>(ObjTurnIndicator(Rectangle{}, z_index, "turn_ind")));
+    turn_ind->mTag = GameState::INGAME;
     z_index++;
 
     for (int i = 0; i < 7; i++) {
@@ -232,7 +239,7 @@ void _render_version(Game *game) {
 void _position_ingame_object(Game *game) {
     // For the board itself
     sptr_t<Object> b = game->mObjMan.get_object("board");
-    sptr_t<Object> bead = game->mObjMan.get_object("test_bead");
+    sptr_t<Object> ti = game->mObjMan.get_object("turn_ind");
     if (b->mText->width <= 0 && b->mText->height <= 0)
         return;
 
@@ -241,6 +248,13 @@ void _position_ingame_object(Game *game) {
                (wsize->y - (b->mText->height * game->mScale)) / 2,
                (float)b->mText->width * game->mScale,
                (float)b->mText->height * game->mScale};
+
+    ti->mRec = {
+        .x = 0,
+        .y = 0,
+        .width = wsize->x,
+        .height = (float)2 * game->mScale
+    };
 }
 
 void _change_text_from_obj(Game *game, const char *obj_name,

@@ -44,7 +44,7 @@
                         pkg-config
                         gcc
                         gdb
-                        gdbgui
+                        cgdb
 
                         glib
                         libGL
