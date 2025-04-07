@@ -7,7 +7,7 @@
 
 #include <cmath>
 
-void _create_menu_object(Game *game, int *z_index) {
+void _create_menu_object(Game *game, int &z_index) {
     // Create title
     static const char *title_name = "UwUrg";
     static const int title_font_size = 16 * game->mScale;
@@ -17,14 +17,14 @@ void _create_menu_object(Game *game, int *z_index) {
     static const char *exit_button = "EXIT (E)";
 
     sptr_t<Object> title_obj = game->mObjMan.add_object(
-        mk_sptr<ObjText>(Rectangle{}, *z_index, "title", title_name,
+        mk_sptr<ObjText>(Rectangle{}, z_index, "title", title_name,
                          GetColor(0xfffb96FF), title_font_size));
     title_obj->mTag = GameState::MENU;
     z_index++;
 
     // Create play button
     sptr_t<Object> play_b_obj = game->mObjMan.add_object(mk_sptr<ObjButton>(
-        Rectangle{}, *z_index, "play_obj", play_button, GetColor(0x153CB4FF),
+        Rectangle{}, z_index, "play_obj", play_button, GetColor(0x153CB4FF),
         WHITE, button_font_size, 10,
         [game]() { game->mStateOrTag = GameState::INGAME; }));
     play_b_obj->mTag = GameState::MENU;
@@ -32,7 +32,7 @@ void _create_menu_object(Game *game, int *z_index) {
 
     // Create settings button
     sptr_t<Object> settings_b_obj = game->mObjMan.add_object(mk_sptr<ObjButton>(
-        Rectangle{}, *z_index, "settings_obj", settings_button,
+        Rectangle{}, z_index, "settings_obj", settings_button,
         GetColor(0x153CB4FF), WHITE, button_font_size, 10,
         [game]() { game->mStateOrTag = GameState::SETTINGS; }));
     settings_b_obj->mTag = GameState::MENU;
@@ -40,7 +40,7 @@ void _create_menu_object(Game *game, int *z_index) {
 
     // Create Exit button
     sptr_t<Object> exit_b_obj = game->mObjMan.add_object(mk_sptr<ObjButton>(
-        Rectangle{}, *z_index, "exit_obj", exit_button, GetColor(0xE93479FF),
+        Rectangle{}, z_index, "exit_obj", exit_button, GetColor(0xE93479FF),
         WHITE, button_font_size, 10, [game]() { game->exit_game(); }));
     exit_b_obj->mTag = GameState::MENU;
     z_index++;
@@ -91,7 +91,7 @@ void _position_menu_object(Game *game) {
     }
 }
 
-void _create_ingame_object(Game *game, int *z_index) {
+void _create_ingame_object(Game *game, int &z_index) {
     Texture2D *bead_white_txt =
         game->mTexMan.load_texture("black_bead", "./assets/black.png");
     Texture2D *bead_black_txt =
@@ -103,20 +103,20 @@ void _create_ingame_object(Game *game, int *z_index) {
 
     // Create board
     sptr_t<Object> board_obj = game->mObjMan.add_object(
-        mk_sptr<Object>(Object({}, *z_index, "board", board_txt)));
+        mk_sptr<Object>(Object({}, z_index, "board", board_txt)));
     board_obj->mTag = GameState::INGAME;
-    z_index += 2;
+    z_index++;
 
     // Create Dice obj
     sptr_t<Object> dice_obj = game->mObjMan.add_object(
-        mk_sptr<ObjDiceRender>(ObjDiceRender(Rectangle{}, *z_index, "dice")));
+        mk_sptr<ObjDiceRender>(ObjDiceRender(Rectangle{}, z_index, "dice")));
     dice_obj->mTag = GameState::INGAME;
     dice_obj->mText = dice_txt;
     z_index++;
 
     for (int i = 0; i < 7; i++) {
         sptr_t<Object> test_bead = game->mObjMan.add_object(
-            mk_sptr<ObjBead>(Rectangle{}, *z_index, TextFormat("bead_p1_%d", i),
+            mk_sptr<ObjBead>(Rectangle{}, z_index, TextFormat("bead_p1_%d", i),
                              board_obj, GameTurn::PLAYER1));
 
         test_bead->mTag = GameState::INGAME;
@@ -126,7 +126,7 @@ void _create_ingame_object(Game *game, int *z_index) {
 
     for (int i = 0; i < 7; i++) {
         sptr_t<Object> test_bead = game->mObjMan.add_object(
-            mk_sptr<ObjBead>(Rectangle{}, *z_index, TextFormat("bead_p2_%d", i),
+            mk_sptr<ObjBead>(Rectangle{}, z_index, TextFormat("bead_p2_%d", i),
                              board_obj, GameTurn::PLAYER2));
 
         test_bead->mTag = GameState::INGAME;
@@ -135,7 +135,7 @@ void _create_ingame_object(Game *game, int *z_index) {
     }
 }
 
-void _create_settings_object(Game *game, int *z_index) {
+void _create_settings_object(Game *game, int &z_index) {
     static const char *title_name = "SETTINGS";
     static const char *back_txt = "BACK (B)";
     static const char *res1_text = "720P (R)";
@@ -145,14 +145,14 @@ void _create_settings_object(Game *game, int *z_index) {
 
     // Create title
     sptr_t<Object> settings_title = game->mObjMan.add_object(
-        mk_sptr<ObjText>(Rectangle{}, *z_index, "settings_text", title_name,
+        mk_sptr<ObjText>(Rectangle{}, z_index, "settings_text", title_name,
                          GetColor(0xfffb96FF), title_font_size));
     settings_title->mTag = GameState::SETTINGS;
     z_index++;
 
     // Create fullscreen button
     sptr_t<Object> fullscreen_button = game->mObjMan.add_object(
-        mk_sptr<ObjButton>(Rectangle{}, *z_index, "fscreen_btn", fs_button,
+        mk_sptr<ObjButton>(Rectangle{}, z_index, "fscreen_btn", fs_button,
                            GetColor(0x153CB4FF), WHITE, button_font_size, 10,
                            [game]() { _window_res_helper(game); }));
     fullscreen_button->mTag = GameState::SETTINGS;
@@ -160,14 +160,14 @@ void _create_settings_object(Game *game, int *z_index) {
 
     // Create the res button
     sptr_t<Object> hd_button = game->mObjMan.add_object(mk_sptr<ObjButton>(
-        Rectangle{}, *z_index, "res_btn", res1_text, GetColor(0x153CB4FF),
+        Rectangle{}, z_index, "res_btn", res1_text, GetColor(0x153CB4FF),
         WHITE, button_font_size, 10, [game]() { _window_res_helper(game); }));
     hd_button->mTag = GameState::SETTINGS;
     z_index++;
 
     // Create back button
     sptr_t<Object> back_button = game->mObjMan.add_object(
-        mk_sptr<ObjButton>(Rectangle{}, *z_index, "btm_btn", back_txt,
+        mk_sptr<ObjButton>(Rectangle{}, z_index, "btm_btn", back_txt,
                            GetColor(0xE93479FF), WHITE, button_font_size, 10,
                            [game]() { game->mStateOrTag = GameState::MENU; }));
     back_button->mTag = GameState::SETTINGS;
