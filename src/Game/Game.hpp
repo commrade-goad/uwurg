@@ -6,7 +6,7 @@
 #include "../TextureManager/TextureManager.hpp"
 #include "GameState.hpp"
 #include "GameTurn.hpp"
-#include "Gameplay.hpp"
+#include "GamePlay.hpp"
 #include <raylib.h>
 
 struct Window;
