@@ -13,7 +13,7 @@ enum MoveType {
 struct PossibleMove {
   public:
     sptr_t<Object> mBead;
-    int mPossibleMove;
+    int mNewPos;
     bool mExtraTurn;
     MoveType mType;
 

@@ -5,12 +5,12 @@
 
 PossibleMove::PossibleMove() {
     mBead = nullptr;
-    mPossibleMove = -1;
+    mNewPos = -1;
     mExtraTurn = false;
 }
 PossibleMove::PossibleMove(sptr_t<Object> bead, int possibleMove) {
     mBead = bead;
-    mPossibleMove = possibleMove;
+    mNewPos = possibleMove;
     mExtraTurn = false;
     mType = MOVEBEAD;
 }
@@ -18,7 +18,7 @@ PossibleMove::PossibleMove(sptr_t<Object> bead, int possibleMove) {
 PossibleMove::PossibleMove(sptr_t<Object> bead, int possibleMove,
                            bool ExtraTurn) {
     mBead = bead;
-    mPossibleMove = possibleMove;
+    mNewPos = possibleMove;
     mExtraTurn = ExtraTurn;
     mType = MOVEBEAD;
 }
@@ -26,7 +26,7 @@ PossibleMove::PossibleMove(sptr_t<Object> bead, int possibleMove,
 PossibleMove::PossibleMove(sptr_t<Object> bead, int possibleMove,
                            bool ExtraTurn, MoveType type) {
     mBead = bead;
-    mPossibleMove = possibleMove;
+    mNewPos = possibleMove;
     mExtraTurn = ExtraTurn;
     mType = type;
 }
@@ -143,7 +143,7 @@ void game_new_bead_helper(Game *game) {
                     std::dynamic_pointer_cast<ObjBead>(pmove.mBead)) {
                 if (!cobj->mOut) {
                     cobj->mOut = true;
-                    cobj->mPos = game->mDice;
+                    cobj->mPos = pmove.mNewPos;
                     cobj->mShow = true;
                     success = true;
                     break;
