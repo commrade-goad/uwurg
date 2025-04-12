@@ -92,14 +92,32 @@ std::vector<PossibleMove> get_possible_move(Game *game) {
                 found = true;
                 mt = MoveType::NEWBEAD;
             }
-        }
-        // Check if the new pos is valid (eating other player bead or collide
-        // with its own friend)
-        // TODO: This is not done yet please be patient
-        else if (true) {
+        } else if (bead->mOut && bead->mPos > 0) {
+            // Check if collide with friend beads
+            bool valid = true;
+            for (const auto &bead2 : current) {
+                if (bead2->mPos == new_pos) {
+                    valid = false;
+                    break;
+                }
+            }
+            // Straight go to the next bead if its already colliding with friend
+            // beads
+            if (!valid)
+                continue;
 
+            // Check if on warzone
+            if (new_pos >= 5 && new_pos <= 12) {
+                for (const auto &ebead: enemy) {
+                    if (ebead->mPos == new_pos && ebead->mPos == 8) {
+                        valid = false;
+                        break;
+                    }
+                }
+            }
+            if (valid)
+                found = true;
         }
-
 
         if (found)
             result.push_back(

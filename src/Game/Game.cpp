@@ -105,6 +105,8 @@ void Game::handle_key(float dt) {
             game_new_bead_helper(this);
         }
 
+        // TODO: key to handle move using index
+
         if (IsKeyPressed(KEY_SPACE)) {
             _ingame_getdice(this);
             game_change_turn(this);
