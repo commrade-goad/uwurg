@@ -73,16 +73,19 @@ std::vector<PossibleMove> get_possible_move(Game *game) {
         sptr_t<ObjBead> sel_bead = bead;
         int new_pos = bead->mPos + game->mDice;
         MoveType mt = MoveType::MOVEBEAD;
+        bool get_extraturn =
+            new_pos == 4 || new_pos == 8 || new_pos == 13 ? true : false;
 
         // Check if possible to place a new bead
-        if (!bead->mOut && bead->mPos <= 0 && new_pos <= 4 &&
-            !found && !new_bead_done) {
+        if (!bead->mOut && bead->mPos <= 0 && new_pos <= 4 && !found &&
+            !new_bead_done) {
             bool valid = true;
             for (const auto &bead2 : current) {
                 if (bead2->mName == bead->mName || !bead2->mOut)
                     continue;
 
-                if (bead2->mPos == new_pos) valid = false;
+                if (bead2->mPos == new_pos)
+                    valid = false;
             }
             if (valid) {
                 new_bead_done = true;
@@ -90,17 +93,27 @@ std::vector<PossibleMove> get_possible_move(Game *game) {
                 mt = MoveType::NEWBEAD;
             }
         }
+        // Check if the new pos is valid (eating other player bead or collide
+        // with its own friend)
+        // TODO: This is not done yet please be patient
+        else if (true) {
+
+        }
+
 
         if (found)
-            result.push_back(PossibleMove(sel_bead, new_pos, false, mt));
+            result.push_back(
+                PossibleMove(sel_bead, new_pos, get_extraturn, mt));
     }
 
     return result;
 }
 
 void game_change_turn(Game *game) {
-    if (game->mTurn == GameTurn::PLAYER1) game->mTurn = GameTurn::PLAYER2;
-    else game->mTurn = GameTurn::PLAYER1;
+    if (game->mTurn == GameTurn::PLAYER1)
+        game->mTurn = GameTurn::PLAYER2;
+    else
+        game->mTurn = GameTurn::PLAYER1;
     game->mPosMove = get_possible_move(game);
 }
 
