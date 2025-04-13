@@ -101,11 +101,18 @@ void Game::handle_key(float dt) {
             _ingame_getdice(this);
         }
 
-        if (IsKeyPressed(KEY_N)) {
+        if (IsKeyReleased(KEY_N)) {
+            // TODO: Handle error
             game_new_bead_helper(this);
         }
 
-        // TODO: key to handle move using index
+        // TODO: Handle error
+        static const int start_at = 49;
+        for (int i = KEY_ONE; i <= KEY_SEVEN; i++) {
+            if (IsKeyReleased(i)) {
+                game_move_bead_helper(this, i - start_at);
+            }
+        }
 
         if (IsKeyPressed(KEY_SPACE)) {
             _ingame_getdice(this);

@@ -8,6 +8,7 @@
 enum MoveType {
     NEWBEAD,
     MOVEBEAD,
+    FINISH,
 };
 
 struct PossibleMove {
@@ -27,7 +28,8 @@ struct PossibleMove {
 
 std::vector<PossibleMove> get_possible_move(Game *game);
 
-void game_new_bead_helper(Game *game);
+bool game_new_bead_helper(Game *game);
+bool game_move_bead_helper(Game *game, int nBead);
 void game_change_turn(Game *game);
 
 #endif // GAMEPLAY_H_

@@ -76,6 +76,14 @@ std::vector<PossibleMove> get_possible_move(Game *game) {
         bool get_extraturn =
             new_pos == 4 || new_pos == 8 || new_pos == 13 ? true : false;
 
+        // Check if the bead with the new pos is a win
+        if (new_pos == 15) {
+            mt = MoveType::FINISH;
+            result.push_back(
+                PossibleMove(sel_bead, new_pos, get_extraturn, mt));
+            continue;
+        }
+
         // Check if possible to place a new bead
         if (!bead->mOut && bead->mPos <= 0 && new_pos <= 4 && !found &&
             !new_bead_done) {
@@ -108,7 +116,7 @@ std::vector<PossibleMove> get_possible_move(Game *game) {
 
             // Check if on warzone
             if (new_pos >= 5 && new_pos <= 12) {
-                for (const auto &ebead: enemy) {
+                for (const auto &ebead : enemy) {
                     if (ebead->mPos == new_pos && ebead->mPos == 8) {
                         valid = false;
                         break;
@@ -135,9 +143,11 @@ void game_change_turn(Game *game) {
     game->mPosMove = get_possible_move(game);
 }
 
-void game_new_bead_helper(Game *game) {
+bool game_new_bead_helper(Game *game) {
     bool success = false;
+    bool extra_turn;
     for (const auto &pmove : game->mPosMove) {
+        extra_turn = pmove.mExtraTurn;
         if (pmove.mType == NEWBEAD) {
             if (sptr_t<ObjBead> cobj =
                     std::dynamic_pointer_cast<ObjBead>(pmove.mBead)) {
@@ -153,6 +163,39 @@ void game_new_bead_helper(Game *game) {
     }
     if (success) {
         _ingame_getdice(game);
-        game_change_turn(game);
+        if (!extra_turn)
+            game_change_turn(game);
+        else
+            game->mPosMove = get_possible_move(game);
     }
+    return success;
+}
+
+bool game_move_bead_helper(Game *game, int nBead) {
+    bool success = false;
+    bool extra_turn;
+    const char *player = game->mTurn == GameTurn::PLAYER1 ? "p1" : "p2";
+    const char *bead_name = TextFormat("bead_%s_%d", player, nBead);
+    for (const auto &pmove : game->mPosMove) {
+        extra_turn = pmove.mExtraTurn;
+        if ((pmove.mType == MoveType::MOVEBEAD ||
+            pmove.mType == MoveType::FINISH) && bead_name == pmove.mBead->mName) {
+            if (sptr_t<ObjBead> cobj =
+                    std::dynamic_pointer_cast<ObjBead>(pmove.mBead)) {
+                if (cobj->mOut) {
+                    cobj->mPos = pmove.mNewPos;
+                    success = true;
+                    break;
+                }
+            }
+        }
+    }
+    if (success) {
+        _ingame_getdice(game);
+        if (!extra_turn)
+            game_change_turn(game);
+        else
+            game->mPosMove = get_possible_move(game);
+    }
+    return success;
 }
