@@ -7,12 +7,14 @@ PossibleMove::PossibleMove() {
     mBead = nullptr;
     mNewPos = -1;
     mExtraTurn = false;
+    mEnBead = nullptr;
 }
 PossibleMove::PossibleMove(sptr_t<Object> bead, int possibleMove) {
     mBead = bead;
     mNewPos = possibleMove;
     mExtraTurn = false;
     mType = MOVEBEAD;
+    mEnBead = nullptr;
 }
 
 PossibleMove::PossibleMove(sptr_t<Object> bead, int possibleMove,
@@ -21,6 +23,7 @@ PossibleMove::PossibleMove(sptr_t<Object> bead, int possibleMove,
     mNewPos = possibleMove;
     mExtraTurn = ExtraTurn;
     mType = MOVEBEAD;
+    mEnBead = nullptr;
 }
 
 PossibleMove::PossibleMove(sptr_t<Object> bead, int possibleMove,
@@ -29,6 +32,16 @@ PossibleMove::PossibleMove(sptr_t<Object> bead, int possibleMove,
     mNewPos = possibleMove;
     mExtraTurn = ExtraTurn;
     mType = type;
+    mEnBead = nullptr;
+}
+
+PossibleMove::PossibleMove(sptr_t<Object> bead, int possibleMove,
+                           bool ExtraTurn, MoveType type, sptr_t<Object> nbead) {
+    mBead = bead;
+    mNewPos = possibleMove;
+    mExtraTurn = ExtraTurn;
+    mType = type;
+    mEnBead = nbead;
 }
 
 PossibleMove::~PossibleMove() {}
@@ -71,6 +84,7 @@ std::vector<PossibleMove> get_possible_move(Game *game) {
     for (const auto &bead : current) {
         bool found = false;
         sptr_t<ObjBead> sel_bead = bead;
+        sptr_t<ObjBead> sel_enm_bead = nullptr;
         int new_pos = bead->mPos + game->mDice;
         MoveType mt = MoveType::MOVEBEAD;
         bool get_extraturn =
@@ -117,9 +131,12 @@ std::vector<PossibleMove> get_possible_move(Game *game) {
             // Check if on warzone
             if (new_pos >= 5 && new_pos <= 12) {
                 for (const auto &ebead : enemy) {
+                    // TODO: edit class to include what enemy bead that will be eaten
                     if (ebead->mPos == new_pos && ebead->mPos == 8) {
                         valid = false;
                         break;
+                    } else if (ebead->mPos == new_pos) {
+                        sel_enm_bead = ebead;
                     }
                 }
             }
@@ -129,7 +146,7 @@ std::vector<PossibleMove> get_possible_move(Game *game) {
 
         if (found)
             result.push_back(
-                PossibleMove(sel_bead, new_pos, get_extraturn, mt));
+                PossibleMove(sel_bead, new_pos, get_extraturn, mt, sel_enm_bead));
     }
 
     return result;
@@ -171,6 +188,7 @@ bool game_new_bead_helper(Game *game) {
     return success;
 }
 
+// TODO: Finish bead and eating
 bool game_move_bead_helper(Game *game, int nBead) {
     bool success = false;
     bool extra_turn;

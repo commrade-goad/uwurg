@@ -14,6 +14,7 @@ enum MoveType {
 struct PossibleMove {
   public:
     sptr_t<Object> mBead;
+    sptr_t<Object> mEnBead;
     int mNewPos;
     bool mExtraTurn;
     MoveType mType;
@@ -23,6 +24,8 @@ struct PossibleMove {
     PossibleMove(sptr_t<Object> bead, int possibleMove, bool extraTurn);
     PossibleMove(sptr_t<Object> bead, int possibleMove, bool extraTurn,
                  MoveType type);
+    PossibleMove(sptr_t<Object> bead, int possibleMove, bool extraTurn,
+                 MoveType type, sptr_t<Object> enbead);
     ~PossibleMove();
 };
 

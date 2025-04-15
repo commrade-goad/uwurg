@@ -39,6 +39,7 @@ struct ObjBead : public Object {
         mGroup = group;
     }
 
+    // TODO: Add bead index rendering
     virtual void render() {
         if (!mShow || !mOut)
             return;
