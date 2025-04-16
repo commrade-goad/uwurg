@@ -132,8 +132,6 @@ std::vector<PossibleMove> get_possible_move(Game *game) {
             // Check if on warzone
             if (new_pos >= 5 && new_pos <= 12) {
                 for (const auto &ebead : enemy) {
-                    // TODO: edit class to include what enemy bead that will be
-                    // eaten
                     if (ebead->mPos == new_pos && ebead->mPos == 8) {
                         valid = false;
                         break;
@@ -170,7 +168,7 @@ bool game_new_bead_helper(Game *game) {
         if (pmove.mType == NEWBEAD) {
             if (sptr_t<ObjBead> cobj =
                     std::dynamic_pointer_cast<ObjBead>(pmove.mBead)) {
-                if (!cobj->mOut) {
+                if (!cobj->mOut && cobj->mPos < 15) {
                     cobj->mOut = true;
                     cobj->mPos = pmove.mNewPos;
                     cobj->mShow = true;
