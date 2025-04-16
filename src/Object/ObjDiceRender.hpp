@@ -22,7 +22,8 @@ struct ObjDiceRender : public Object {
         if (mText != nullptr && mText->width > 0 && mText->height > 0) {
             Vector2 *wsize = mGame_ptr->mWindow_ptr->get_window_size();
             mRec = {.x = wsize->x / 2.0f,
-                    .y = mGame_ptr->mScale * 6.0f,
+                    // .y = mGame_ptr->mScale * 6.0f,
+                    .y = wsize->y - mGame_ptr->mScale * 25.0f,
                     .width = (float)mText->width * (mGame_ptr->mScale - 2),
                     .height = (float)mText->height * (mGame_ptr->mScale - 2)};
 
