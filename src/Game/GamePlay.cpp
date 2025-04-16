@@ -36,7 +36,8 @@ PossibleMove::PossibleMove(sptr_t<Object> bead, int possibleMove,
 }
 
 PossibleMove::PossibleMove(sptr_t<Object> bead, int possibleMove,
-                           bool ExtraTurn, MoveType type, sptr_t<Object> nbead) {
+                           bool ExtraTurn, MoveType type,
+                           sptr_t<Object> nbead) {
     mBead = bead;
     mNewPos = possibleMove;
     mExtraTurn = ExtraTurn;
@@ -131,7 +132,8 @@ std::vector<PossibleMove> get_possible_move(Game *game) {
             // Check if on warzone
             if (new_pos >= 5 && new_pos <= 12) {
                 for (const auto &ebead : enemy) {
-                    // TODO: edit class to include what enemy bead that will be eaten
+                    // TODO: edit class to include what enemy bead that will be
+                    // eaten
                     if (ebead->mPos == new_pos && ebead->mPos == 8) {
                         valid = false;
                         break;
@@ -145,8 +147,8 @@ std::vector<PossibleMove> get_possible_move(Game *game) {
         }
 
         if (found)
-            result.push_back(
-                PossibleMove(sel_bead, new_pos, get_extraturn, mt, sel_enm_bead));
+            result.push_back(PossibleMove(sel_bead, new_pos, get_extraturn, mt,
+                                          sel_enm_bead));
     }
 
     return result;
@@ -188,7 +190,6 @@ bool game_new_bead_helper(Game *game) {
     return success;
 }
 
-// TODO: Finish bead and eating
 bool game_move_bead_helper(Game *game, int nBead) {
     bool success = false;
     bool extra_turn;
@@ -197,9 +198,19 @@ bool game_move_bead_helper(Game *game, int nBead) {
     for (const auto &pmove : game->mPosMove) {
         extra_turn = pmove.mExtraTurn;
         if ((pmove.mType == MoveType::MOVEBEAD ||
-            pmove.mType == MoveType::FINISH) && bead_name == pmove.mBead->mName) {
+             pmove.mType == MoveType::FINISH) &&
+            bead_name == pmove.mBead->mName) {
             if (sptr_t<ObjBead> cobj =
                     std::dynamic_pointer_cast<ObjBead>(pmove.mBead)) {
+                if (pmove.mType == MoveType::FINISH)
+                    cobj->mOut = false;
+                if (pmove.mEnBead != nullptr) {
+                    if (sptr_t<ObjBead> en_obj =
+                        std::dynamic_pointer_cast<ObjBead>(pmove.mEnBead)) {
+                        en_obj->mPos = 0;
+                        en_obj->mOut = false;
+                    }
+                }
                 if (cobj->mOut) {
                     cobj->mPos = pmove.mNewPos;
                     success = true;
