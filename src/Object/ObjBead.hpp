@@ -4,6 +4,7 @@
 #include "../Game/Game.hpp"
 #include "../Game/GameTurn.hpp"
 #include "Object.hpp"
+#include <cstring>
 
 struct ObjBead : public Object {
   private:
@@ -24,6 +25,7 @@ struct ObjBead : public Object {
         return res;
     }
     sptr_t<Object> mBoard;
+    int mIndex;
 
   public:
     int mPos;
@@ -37,6 +39,7 @@ struct ObjBead : public Object {
         mOut = false;
         mBoard = board;
         mGroup = group;
+        mIndex = atoi(name + strlen("bead_p1_"));
     }
 
     // TODO: Add bead index rendering
@@ -54,6 +57,7 @@ struct ObjBead : public Object {
         if (mText != nullptr && mText->width > 0 && mText->height > 0) {
             DrawTexturePro(*mText, Rectangle(0, 0, mText->width, mText->height),
                            mRec, Vector2(0, 0), 0.0f, WHITE);
+            DrawTextPro(mGame_ptr->mFont, TextFormat("%d", mIndex), Vector2(mRec.x, mRec.y), Vector2(0,0), 0.0f, 32, 10, RED);
         } else {
             DrawRectangleRec(mRec, RED);
         }
