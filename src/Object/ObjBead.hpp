@@ -4,6 +4,7 @@
 #include "../Game/Game.hpp"
 #include "../Game/GameTurn.hpp"
 #include "Object.hpp"
+#include <cassert>
 #include <cstring>
 
 struct ObjBead : public Object {
@@ -39,7 +40,9 @@ struct ObjBead : public Object {
         mOut = false;
         mBoard = board;
         mGroup = group;
-        mIndex = atoi(name + strlen("bead_p1_"));
+        size_t jump_for = strlen("bead_p1_");
+        assert(jump_for < strlen(name));
+        mIndex = atoi(name + jump_for) + 1;
     }
 
     // TODO: Add bead index rendering

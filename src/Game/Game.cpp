@@ -114,11 +114,10 @@ void Game::handle_key(float dt) {
             }
         }
 
-        if (IsKeyPressed(KEY_SPACE)) {
+        if (IsKeyReleased(KEY_SPACE)) {
             _ingame_getdice(this);
             game_change_turn(this);
         }
-
         break;
     }
     case GameState::MENU: {
