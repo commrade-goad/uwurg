@@ -60,7 +60,9 @@ struct ObjBead : public Object {
         if (mText != nullptr && mText->width > 0 && mText->height > 0) {
             DrawTexturePro(*mText, Rectangle(0, 0, mText->width, mText->height),
                            mRec, Vector2(0, 0), 0.0f, WHITE);
-            DrawTextPro(mGame_ptr->mFont, TextFormat("%d", mIndex), Vector2(mRec.x, mRec.y), Vector2(0,0), 0.0f, 32, 10, RED);
+            int rec_size = 9 * mGame_ptr->mScale;
+            DrawRectangleRec(Rectangle(mRec.x, mRec.y, rec_size / 2.0f, rec_size), GetColor(0xffffffaa));
+            DrawTextPro(mGame_ptr->mFont, TextFormat("%d", mIndex), Vector2(mRec.x, mRec.y), Vector2(0,0), 0.0f, rec_size, 10, GetColor(0x000000aa));
         } else {
             DrawRectangleRec(mRec, RED);
         }
