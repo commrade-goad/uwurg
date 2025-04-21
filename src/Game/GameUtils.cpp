@@ -2,11 +2,9 @@
 #include "../Object/ObjBead.hpp"
 #include "../Object/ObjButton.hpp"
 #include "../Object/ObjDiceRender.hpp"
-#include "../Object/ObjTurnIndicator.hpp"
 #include "../Object/ObjText.hpp"
+#include "../Object/ObjTurnIndicator.hpp"
 #include "../Window/Window.hpp"
-
-#include <cmath>
 
 void _create_menu_object(Game *game, int &z_index) {
     // Create title
@@ -102,6 +100,11 @@ void _create_ingame_object(Game *game, int &z_index) {
     Texture2D *dice_txt =
         game->mTexMan.load_texture("dice_txt", "./assets/nayeon.png");
 
+    Color bead_color[2] = {
+        GetColor(0xffffffaa),
+        GetColor(0x000000aa),
+    };
+
     // Create board
     sptr_t<Object> board_obj = game->mObjMan.add_object(
         mk_sptr<Object>(Object({}, z_index, "board", board_txt)));
@@ -116,15 +119,16 @@ void _create_ingame_object(Game *game, int &z_index) {
     z_index++;
 
     // Create Turn Indicator object
-    sptr_t<Object> turn_ind = game->mObjMan.add_object(
-        mk_sptr<ObjTurnIndicator>(ObjTurnIndicator(Rectangle{}, z_index, "turn_ind")));
+    sptr_t<Object> turn_ind =
+        game->mObjMan.add_object(mk_sptr<ObjTurnIndicator>(
+            ObjTurnIndicator(Rectangle{}, z_index, "turn_ind")));
     turn_ind->mTag = GameState::INGAME;
     z_index++;
 
     for (int i = 0; i < 7; i++) {
-        sptr_t<Object> test_bead = game->mObjMan.add_object(
-            mk_sptr<ObjBead>(Rectangle{}, z_index, TextFormat("bead_p1_%d", i),
-                             board_obj, GameTurn::PLAYER1));
+        sptr_t<Object> test_bead = game->mObjMan.add_object(mk_sptr<ObjBead>(
+            Rectangle{}, z_index, TextFormat("bead_p1_%d", i), board_obj,
+            GameTurn::PLAYER1, bead_color[1], bead_color[0]));
 
         test_bead->mTag = GameState::INGAME;
         test_bead->mText = bead_white_txt;
@@ -132,9 +136,9 @@ void _create_ingame_object(Game *game, int &z_index) {
     }
 
     for (int i = 0; i < 7; i++) {
-        sptr_t<Object> test_bead = game->mObjMan.add_object(
-            mk_sptr<ObjBead>(Rectangle{}, z_index, TextFormat("bead_p2_%d", i),
-                             board_obj, GameTurn::PLAYER2));
+        sptr_t<Object> test_bead = game->mObjMan.add_object(mk_sptr<ObjBead>(
+            Rectangle{}, z_index, TextFormat("bead_p2_%d", i), board_obj,
+            GameTurn::PLAYER2, bead_color[0], bead_color[1]));
 
         test_bead->mTag = GameState::INGAME;
         test_bead->mText = bead_black_txt;
@@ -167,8 +171,8 @@ void _create_settings_object(Game *game, int &z_index) {
 
     // Create the res button
     sptr_t<Object> hd_button = game->mObjMan.add_object(mk_sptr<ObjButton>(
-        Rectangle{}, z_index, "res_btn", res1_text, GetColor(0x153CB4FF),
-        WHITE, button_font_size, 10, [game]() { _window_res_helper(game); }));
+        Rectangle{}, z_index, "res_btn", res1_text, GetColor(0x153CB4FF), WHITE,
+        button_font_size, 10, [game]() { _window_res_helper(game); }));
     hd_button->mTag = GameState::SETTINGS;
     z_index++;
 
@@ -250,11 +254,7 @@ void _position_ingame_object(Game *game) {
                (float)b->mText->height * game->mScale};
 
     ti->mRec = {
-        .x = 0,
-        .y = 0,
-        .width = wsize->x,
-        .height = (float)2 * game->mScale
-    };
+        .x = 0, .y = 0, .width = wsize->x, .height = (float)2 * game->mScale};
 }
 
 void _change_text_from_obj(Game *game, const char *obj_name,

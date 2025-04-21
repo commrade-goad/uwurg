@@ -27,6 +27,8 @@ struct ObjBead : public Object {
     }
     sptr_t<Object> mBoard;
     int mIndex;
+    Color mUtilsColor;
+    Color mUtilsColorInvert;
 
   public:
     int mPos;
@@ -34,7 +36,7 @@ struct ObjBead : public Object {
     GameTurn mGroup;
 
     ObjBead(Rectangle rec, int z_index, const char *name, sptr_t<Object> board,
-            GameTurn group)
+            GameTurn group, Color utils_color, Color utils_color_invert)
         : Object(rec, z_index, name) {
         mPos = 0;
         mOut = false;
@@ -43,6 +45,8 @@ struct ObjBead : public Object {
         size_t jump_for = strlen("bead_p1_");
         assert(jump_for < strlen(name));
         mIndex = atoi(name + jump_for) + 1;
+        mUtilsColor = utils_color;
+        mUtilsColorInvert = utils_color_invert;
     }
 
     // TODO: Add bead index rendering
@@ -61,8 +65,14 @@ struct ObjBead : public Object {
             DrawTexturePro(*mText, Rectangle(0, 0, mText->width, mText->height),
                            mRec, Vector2(0, 0), 0.0f, WHITE);
             int rec_size = 9 * mGame_ptr->mScale;
-            DrawRectangleRec(Rectangle(mRec.x, mRec.y, rec_size / 2.0f, rec_size), GetColor(0xffffffaa));
-            DrawTextPro(mGame_ptr->mFont, TextFormat("%d", mIndex), Vector2(mRec.x, mRec.y), Vector2(0,0), 0.0f, rec_size, 10, GetColor(0x000000aa));
+            if (mGame_ptr->mTurn == mGroup) {
+                DrawRectangleRec(
+                    Rectangle(mRec.x, mRec.y, rec_size / 2.0f, rec_size),
+                    mUtilsColorInvert);
+                DrawTextPro(mGame_ptr->mFont, TextFormat("%d", mIndex),
+                            Vector2(mRec.x, mRec.y), Vector2(0, 0), 0.0f,
+                            rec_size, 10, mUtilsColor);
+            }
         } else {
             DrawRectangleRec(mRec, RED);
         }
