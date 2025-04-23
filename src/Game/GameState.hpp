@@ -6,8 +6,9 @@
 enum class GameState : uint32_t {
     NONE     = 0,
     MENU     = 1 << 0,
-    SETTINGS = 1 << 1,
-    INGAME   = 1 << 2,
+    PLAYMENU = 1 << 1,
+    SETTINGS = 1 << 2,
+    INGAME   = 1 << 3,
     ALL      = MENU | SETTINGS | INGAME
 };
 

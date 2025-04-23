@@ -44,6 +44,7 @@ void Game::init(Window *w) {
     _create_ingame_object(this, z_index);
     _create_menu_object(this, z_index);
     _create_settings_object(this, z_index);
+    _create_play_menu_object(this, z_index);
 
     _recalculate_all_pos(this);
 
@@ -120,9 +121,16 @@ void Game::handle_key(float dt) {
         }
         break;
     }
+
+    case GameState::PLAYMENU: {
+        if (IsKeyReleased(KEY_B)) {
+            mStateOrTag = GameState::MENU;
+        }
+        break;
+    }
     case GameState::MENU: {
         if (IsKeyReleased(KEY_P)) {
-            mStateOrTag = GameState::INGAME;
+            mStateOrTag = GameState::PLAYMENU;
         }
         if (IsKeyReleased(KEY_S)) {
             mStateOrTag = GameState::SETTINGS;

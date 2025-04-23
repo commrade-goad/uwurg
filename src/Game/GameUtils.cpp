@@ -25,7 +25,7 @@ void _create_menu_object(Game *game, int &z_index) {
     sptr_t<Object> play_b_obj = game->mObjMan.add_object(mk_sptr<ObjButton>(
         Rectangle{}, z_index, "play_obj", play_button, GetColor(0x153CB4FF),
         WHITE, button_font_size, 10,
-        [game]() { game->mStateOrTag = GameState::INGAME; }));
+        [game]() { game->mStateOrTag = GameState::PLAYMENU; }));
     play_b_obj->mTag = GameState::MENU;
     z_index++;
 
@@ -33,7 +33,7 @@ void _create_menu_object(Game *game, int &z_index) {
     sptr_t<Object> settings_b_obj = game->mObjMan.add_object(mk_sptr<ObjButton>(
         Rectangle{}, z_index, "settings_obj", settings_button,
         GetColor(0x153CB4FF), WHITE, button_font_size, 10,
-        [game]() { game->mStateOrTag = GameState::SETTINGS; }));
+        [game]() { game->mStateOrTag = GameState::PLAYMENU; }));
     settings_b_obj->mTag = GameState::MENU;
     z_index++;
 
@@ -42,6 +42,35 @@ void _create_menu_object(Game *game, int &z_index) {
         Rectangle{}, z_index, "exit_obj", exit_button, GetColor(0xE93479FF),
         WHITE, button_font_size, 10, [game]() { game->exit_game(); }));
     exit_b_obj->mTag = GameState::MENU;
+    z_index++;
+}
+
+void _create_play_menu_object(Game *game, int &z_index) {
+    static const int button_font_size = 10 * game->mScale;
+    static const char *back_txt = "BACK (B)";
+    static const char *vsbot_str = "VS Computer (1)";
+    static const char *vsplayer_str = "VS Player (2)";
+
+    sptr_t<Object> vsbot_but_obj = game->mObjMan.add_object(mk_sptr<ObjButton>(
+        Rectangle{}, z_index, "vs_bot", vsbot_str, GetColor(0x153CB4FF), WHITE,
+        button_font_size, 10,
+        [game]() { game->mStateOrTag = GameState::INGAME; }));
+    vsbot_but_obj->mTag = GameState::PLAYMENU;
+    z_index++;
+
+    sptr_t<Object> vsplayer_but_obj =
+        game->mObjMan.add_object(mk_sptr<ObjButton>(
+            Rectangle{}, z_index, "vs_player", vsplayer_str,
+            GetColor(0x153CB4FF), WHITE, button_font_size, 10,
+            [game]() { game->mStateOrTag = GameState::INGAME; }));
+    vsplayer_but_obj->mTag = GameState::PLAYMENU;
+    z_index++;
+
+    sptr_t<Object> back_button = game->mObjMan.add_object(
+        mk_sptr<ObjButton>(Rectangle{}, z_index, "second-back-btn", back_txt,
+                           GetColor(0xE93479FF), WHITE, button_font_size, 10,
+                           [game]() { game->mStateOrTag = GameState::MENU; }));
+    back_button->mTag = GameState::PLAYMENU;
     z_index++;
 }
 
@@ -185,6 +214,42 @@ void _create_settings_object(Game *game, int &z_index) {
     z_index++;
 }
 
+void _position_play_menu_object(Game *game) {
+    static const int settings_button_padding = 10;
+    sptr_t<Object> vsbot = game->mObjMan.get_object("vs_bot");
+    sptr_t<Object> vsplayer = game->mObjMan.get_object("vs_player");
+    sptr_t<Object> back = game->mObjMan.get_object("second-back-btn");
+    Vector2 *wsize = game->mWindow_ptr->get_window_size();
+
+    if (auto vsbot_btn = std::dynamic_pointer_cast<ObjButton>(vsbot)) {
+        vsbot_btn->mSize = 10 * game->mScale;
+        int text_width = vsbot_btn->get_width();
+        vsbot_btn->mRec = {.x = (wsize->x - text_width) / 2,
+                           .y = (wsize->y - vsbot_btn->mSize) / 2,
+                           .width = (float)text_width,
+                           .height = (float)vsbot_btn->mSize};
+    }
+    if (auto vsplayer_btn = std::dynamic_pointer_cast<ObjButton>(vsplayer)) {
+        vsplayer_btn->mSize = 10 * game->mScale;
+        int text_width = vsplayer_btn->get_width();
+        vsplayer_btn->mRec = {.x = (wsize->x - text_width) / 2,
+                              .y = vsbot->mRec.y + vsbot->mRec.height +
+                                   (settings_button_padding * 4) +
+                                   game->mScale * 4,
+                              .width = (float)text_width,
+                              .height = (float)vsplayer_btn->mSize};
+    }
+    if (auto back_btn = std::dynamic_pointer_cast<ObjButton>(back)) {
+        back_btn->mSize = 10 * game->mScale;
+        int text_width = back_btn->get_width();
+        back_btn->mRec = {.x = (wsize->x - text_width) / 2,
+                          .y = vsplayer->mRec.y + vsplayer->mRec.height +
+                               (settings_button_padding * 4) + game->mScale * 4,
+                          .width = (float)text_width,
+                          .height = (float)back_btn->mSize};
+    }
+}
+
 void _position_settings_object(Game *game) {
     int settings_button_padding = 10;
     sptr_t<Object> settings_obj = game->mObjMan.get_object("settings_text");
@@ -273,6 +338,7 @@ void _recalculate_all_pos(Game *game) {
     _position_ingame_object(game);
     _position_menu_object(game);
     _position_settings_object(game);
+    _position_play_menu_object(game);
 }
 
 void _ingame_next_turn(Game *game) {
