@@ -53,16 +53,14 @@ void _create_play_menu_object(Game *game, int &z_index) {
 
     sptr_t<Object> vsbot_but_obj = game->mObjMan.add_object(mk_sptr<ObjButton>(
         Rectangle{}, z_index, "vs_bot", vsbot_str, GetColor(0x153CB4FF), WHITE,
-        button_font_size, 10,
-        [game]() { game->mStateOrTag = GameState::INGAME; }));
+        button_font_size, 10, [game]() { _start_game(game, true); }));
     vsbot_but_obj->mTag = GameState::PLAYMENU;
     z_index++;
 
-    sptr_t<Object> vsplayer_but_obj =
-        game->mObjMan.add_object(mk_sptr<ObjButton>(
-            Rectangle{}, z_index, "vs_player", vsplayer_str,
-            GetColor(0x153CB4FF), WHITE, button_font_size, 10,
-            [game]() { game->mStateOrTag = GameState::INGAME; }));
+    sptr_t<Object> vsplayer_but_obj = game->mObjMan.add_object(
+        mk_sptr<ObjButton>(Rectangle{}, z_index, "vs_player", vsplayer_str,
+                           GetColor(0x153CB4FF), WHITE, button_font_size, 10,
+                           [game]() { _start_game(game, false); }));
     vsplayer_but_obj->mTag = GameState::PLAYMENU;
     z_index++;
 
@@ -121,7 +119,7 @@ void _position_menu_object(Game *game) {
 
 void _create_ingame_object(Game *game, int &z_index) {
     Texture2D *bead_white_txt =
-        game->mTexMan.load_texture("black_bead", "./assets/black.png");
+        game->mTexMan.load_texture("black_bead", "./assets/catto.png");
     Texture2D *bead_black_txt =
         game->mTexMan.load_texture("white_bead", "./assets/white.png");
     Texture2D *board_txt =
@@ -173,6 +171,12 @@ void _create_ingame_object(Game *game, int &z_index) {
         test_bead->mText = bead_black_txt;
         z_index++;
     }
+
+    sptr_t<Object> vsbot_title = game->mObjMan.add_object(mk_sptr<ObjText>(
+        Rectangle{}, z_index, "vsbot_title", "VS Compumter.", WHITE, 36));
+    vsbot_title->mTag = GameState::INGAME;
+    vsbot_title->mShow = false;
+    z_index++;
 }
 
 void _create_settings_object(Game *game, int &z_index) {
@@ -305,6 +309,19 @@ void _render_version(Game *game) {
                font_size, 3, WHITE);
 }
 
+void _vsbot_label_toggle(Game *game) {
+    sptr_t<Object> vbt = game->mObjMan.get_object("vsbot_title");
+    if (!game->mVSBot && vbt->mShow) {
+        vbt->mShow = false;
+        return;
+    } else if (!game->mVSBot && !vbt->mShow)
+        return;
+    if (vbt != nullptr) {
+        vbt->mShow = true;
+        vbt->mRec = {.x = 0, .y = 0, .width = 100, .height = 100};
+    }
+}
+
 void _position_ingame_object(Game *game) {
     // For the board itself
     sptr_t<Object> b = game->mObjMan.get_object("board");
@@ -373,4 +390,5 @@ void _window_res_helper(Game *game) {
 void _start_game(Game *game, bool vsbot) {
     game->mStateOrTag = GameState::INGAME;
     game->mVSBot = vsbot;
+    _vsbot_label_toggle(game);
 }

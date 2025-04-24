@@ -27,5 +27,6 @@ void _start_game(Game *game, bool vsbot);
 // IN-GAME FUNCTION
 void _ingame_next_turn(Game *game);
 void _ingame_getdice(Game *game);
+void _vsbot_label_toggle(Game *game);
 
 #endif // GAME_UTILS_H_

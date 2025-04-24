@@ -60,6 +60,9 @@ void Game::handle_logic(float dt) {
             // TODO: Do something here...
             break;
         }
+        if (mVSBot && mTurn != GameTurn::PLAYER1) {
+            // TODO: Create bot move helper function
+        }
         if (has_flag(d->mTag, mStateOrTag))
             d->logic(dt);
     }
@@ -127,7 +130,7 @@ void Game::handle_key(float dt) {
     // but idk where to put it rn just implement it later.
     case GameState::PLAYMENU: {
         if (IsKeyReleased(KEY_ONE)) {
-            _start_game(this, false);
+            _start_game(this, true);
         }
         if (IsKeyReleased(KEY_TWO)) {
             _start_game(this, false);
