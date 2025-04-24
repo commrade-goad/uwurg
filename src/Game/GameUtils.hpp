@@ -22,6 +22,8 @@ void _recalculate_all_pos(Game *game);
 void _window_res_helper(Game *game);
 void _window_flag_helper(Game *game);
 
+void _start_game(Game *game, bool vsbot);
+
 // IN-GAME FUNCTION
 void _ingame_next_turn(Game *game);
 void _ingame_getdice(Game *game);

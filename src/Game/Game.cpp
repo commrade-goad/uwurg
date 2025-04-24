@@ -18,6 +18,7 @@ Game::Game() {
     mTurn = GameTurn::PLAYER1;
     mPaused = false;
     mPosMove = {};
+    mVSBot = false;
 }
 
 Game::~Game() { UnloadFont(mFont); }
@@ -122,7 +123,15 @@ void Game::handle_key(float dt) {
         break;
     }
 
+    // TODO: Do the logic. The TODO should not be here
+    // but idk where to put it rn just implement it later.
     case GameState::PLAYMENU: {
+        if (IsKeyReleased(KEY_ONE)) {
+            _start_game(this, false);
+        }
+        if (IsKeyReleased(KEY_TWO)) {
+            _start_game(this, false);
+        }
         if (IsKeyReleased(KEY_B)) {
             mStateOrTag = GameState::MENU;
         }

@@ -31,6 +31,8 @@ struct Game {
     bool mPaused;
     std::vector<PossibleMove> mPosMove;
 
+    bool mVSBot;
+
     Game();
     ~Game();
 

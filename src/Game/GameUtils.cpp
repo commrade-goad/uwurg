@@ -341,7 +341,7 @@ void _recalculate_all_pos(Game *game) {
     _position_play_menu_object(game);
 }
 
-void _ingame_next_turn(Game *game) {
+inline void _ingame_next_turn(Game *game) {
     game->mTurn = game->mTurn == GameTurn::PLAYER1 ? GameTurn::PLAYER2
                                                    : GameTurn::PLAYER1;
 }
@@ -368,4 +368,9 @@ void _window_res_helper(Game *game) {
                                                : "WINDOW (F)");
     _change_text_from_obj(game, "res_btn",
                           game->mScale == 4 ? "720P (R)" : "480P (R)");
+}
+
+void _start_game(Game *game, bool vsbot) {
+    game->mStateOrTag = GameState::INGAME;
+    game->mVSBot = vsbot;
 }
