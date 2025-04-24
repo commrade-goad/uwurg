@@ -311,6 +311,11 @@ void _render_version(Game *game) {
 
 void _vsbot_label_toggle(Game *game) {
     sptr_t<Object> vbt = game->mObjMan.get_object("vsbot_title");
+
+    if (auto a = std::dynamic_pointer_cast<ObjText>(vbt)) {
+        a->mSize = game->mScale * 11;
+    }
+
     if (!game->mVSBot && vbt->mShow) {
         vbt->mShow = false;
         return;
