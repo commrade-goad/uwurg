@@ -8,6 +8,7 @@
 #include "GameTurn.hpp"
 #include "GamePlay.hpp"
 #include <raylib.h>
+#include <array>
 
 struct Window;
 
@@ -32,6 +33,7 @@ struct Game {
     std::vector<PossibleMove> mPosMove;
 
     bool mVSBot;
+    std::array<int, 2> mScore;
 
     Game();
     ~Game();

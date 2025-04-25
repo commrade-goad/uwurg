@@ -19,6 +19,7 @@ Game::Game() {
     mPaused = false;
     mPosMove = {};
     mVSBot = false;
+    mScore = {0, 0};
 }
 
 Game::~Game() { UnloadFont(mFont); }
@@ -111,6 +112,11 @@ void Game::handle_key(float dt) {
             game_new_bead_helper(this);
         }
 
+        // TODO: Remove this (for debug only)
+        if (IsKeyReleased(KEY_X)) {
+            mScore[(int)mTurn] = 6;
+        }
+
         // TODO: Handle error
         static const int start_at = 49;
         for (int i = KEY_ONE; i <= KEY_SEVEN; i++) {
@@ -126,8 +132,6 @@ void Game::handle_key(float dt) {
         break;
     }
 
-    // TODO: Do the logic. The TODO should not be here
-    // but idk where to put it rn just implement it later.
     case GameState::PLAYMENU: {
         if (IsKeyReleased(KEY_ONE)) {
             _start_game(this, true);

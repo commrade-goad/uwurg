@@ -3,6 +3,7 @@
 #include "../Object/ObjButton.hpp"
 #include "../Object/ObjDiceRender.hpp"
 #include "../Object/ObjText.hpp"
+#include "../Object/ObjScore.hpp"
 #include "../Object/ObjTurnIndicator.hpp"
 #include "../Window/Window.hpp"
 
@@ -172,10 +173,24 @@ void _create_ingame_object(Game *game, int &z_index) {
         z_index++;
     }
 
+    // Create label for vsbot
     sptr_t<Object> vsbot_title = game->mObjMan.add_object(mk_sptr<ObjText>(
         Rectangle{}, z_index, "vsbot_title", "VS Compumter.", WHITE, 36));
     vsbot_title->mTag = GameState::INGAME;
     vsbot_title->mShow = false;
+    z_index++;
+
+    // Create score label
+    sptr_t<Object> score_p1 = game->mObjMan.add_object(mk_sptr<ObjScore> (
+        Rectangle{}, z_index, "player1_label", "0", WHITE, 36, GameTurn::PLAYER1
+    ));
+    score_p1->mTag = GameState::INGAME;
+    z_index++;
+
+    sptr_t<Object> score_p2 = game->mObjMan.add_object(mk_sptr<ObjScore> (
+        Rectangle{}, z_index, "player2_label", "0", WHITE, 36, GameTurn::PLAYER2
+    ));
+    score_p2->mTag = GameState::INGAME;
     z_index++;
 }
 
@@ -331,6 +346,10 @@ void _position_ingame_object(Game *game) {
     // For the board itself
     sptr_t<Object> b = game->mObjMan.get_object("board");
     sptr_t<Object> ti = game->mObjMan.get_object("turn_ind");
+
+    sptr_t<Object> p1l = game->mObjMan.get_object("player1_label");
+    sptr_t<Object> p2l = game->mObjMan.get_object("player2_label");
+
     if (b->mText->width <= 0 && b->mText->height <= 0)
         return;
 
@@ -342,6 +361,21 @@ void _position_ingame_object(Game *game) {
 
     ti->mRec = {
         .x = 0, .y = 0, .width = wsize->x, .height = (float)2 * game->mScale};
+
+    const int font_size = 11 * game->mScale;
+    const int padding = 8 * game->mScale;
+    p1l->mRec = {
+        .x = wsize->x - MeasureTextEx(game->mFont, "0", font_size, 10).x - padding,
+        .y = wsize->y - font_size - padding,
+        .width = 100,
+        .height = 100,
+    };
+    p2l->mRec = {
+        .x = (float)0 + padding,
+        .y = (float)0 + 50 + padding,
+        .width = 100,
+        .height = 100,
+    };
 }
 
 void _change_text_from_obj(Game *game, const char *obj_name,

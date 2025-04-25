@@ -6,6 +6,9 @@
 - [ ] the game itself
 - [ ] UI Obj for the point
 - [ ] UI Obj for how much bead left
+- [ ] Character
+- [ ] Sprite for the bead
+- [ ] Make keybind more better
 - [x] shaders for the ingame
 - [x] use MeasureTextEx for the text.
 - [x] make object init init empty then fill in later
@@ -24,4 +27,5 @@
 
 
 ## Currently Working On
-Bead Movement
+Score Display
+Movement button (so dont need to use keyboard)
