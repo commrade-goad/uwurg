@@ -2,8 +2,8 @@
 #include "../Object/ObjBead.hpp"
 #include "../Object/ObjButton.hpp"
 #include "../Object/ObjDiceRender.hpp"
-#include "../Object/ObjText.hpp"
 #include "../Object/ObjScore.hpp"
+#include "../Object/ObjText.hpp"
 #include "../Object/ObjTurnIndicator.hpp"
 #include "../Window/Window.hpp"
 
@@ -181,16 +181,35 @@ void _create_ingame_object(Game *game, int &z_index) {
     z_index++;
 
     // Create score label
-    sptr_t<Object> score_p1 = game->mObjMan.add_object(mk_sptr<ObjScore> (
-        Rectangle{}, z_index, "player1_label", "0", WHITE, 36, GameTurn::PLAYER1
-    ));
+    sptr_t<Object> score_p1 = game->mObjMan.add_object(
+        mk_sptr<ObjScore>(Rectangle{}, z_index, "player1_label", "0", WHITE, 36,
+                          GameTurn::PLAYER1));
     score_p1->mTag = GameState::INGAME;
     z_index++;
 
-    sptr_t<Object> score_p2 = game->mObjMan.add_object(mk_sptr<ObjScore> (
-        Rectangle{}, z_index, "player2_label", "0", WHITE, 36, GameTurn::PLAYER2
-    ));
+    sptr_t<Object> score_p2 = game->mObjMan.add_object(
+        mk_sptr<ObjScore>(Rectangle{}, z_index, "player2_label", "0", WHITE, 36,
+                          GameTurn::PLAYER2));
     score_p2->mTag = GameState::INGAME;
+    z_index++;
+
+    // TODO: Working on it...
+    // Create a button for new bead
+    static const int font_size = 20;
+    static const char *newBeadBtnString = "New Bead(N)";
+
+    sptr_t<Object> newP1BeadBtn = game->mObjMan.add_object(mk_sptr<ObjButton>(
+        Rectangle{}, z_index, "new_bead_p1", newBeadBtnString, WHITE, BLACK,
+        font_size, 10, []() {}));
+    newP1BeadBtn->mTag = GameState::INGAME;
+    newP1BeadBtn->mShow = false;
+
+    sptr_t<Object> newP2BeadBtn = game->mObjMan.add_object(mk_sptr<ObjButton>(
+        Rectangle{}, z_index, "new_bead_p2", newBeadBtnString, BLACK, WHITE,
+        font_size, 10, []() {}));
+    newP2BeadBtn->mTag = GameState::INGAME;
+    newP2BeadBtn->mShow = false;
+
     z_index++;
 }
 
@@ -331,6 +350,7 @@ void _vsbot_label_toggle(Game *game) {
         a->mSize = game->mScale * 11;
     }
 
+    Vector2 *wsize = game->mWindow_ptr->get_window_size();
     if (!game->mVSBot && vbt->mShow) {
         vbt->mShow = false;
         return;
@@ -338,7 +358,15 @@ void _vsbot_label_toggle(Game *game) {
         return;
     if (vbt != nullptr) {
         vbt->mShow = true;
-        vbt->mRec = {.x = 0, .y = 0, .width = 100, .height = 100};
+        auto vbtCasted = dynamic_pointer_cast<ObjText>(vbt);
+        vbt->mRec = {.x = wsize->x - MeasureTextEx(game->mFont,
+                                                   vbtCasted->mText.c_str(),
+                                                   vbtCasted->mSize,
+                                                   vbtCasted->mSpacing = 0)
+                                         .x,
+                     .y = 0,
+                     .width = 100,
+                     .height = 100};
     }
 }
 
@@ -365,14 +393,15 @@ void _position_ingame_object(Game *game) {
     const int font_size = 11 * game->mScale;
     const int padding = 8 * game->mScale;
     p1l->mRec = {
-        .x = wsize->x - MeasureTextEx(game->mFont, "0", font_size, 10).x - padding,
+        .x = wsize->x - MeasureTextEx(game->mFont, "0", font_size, 10).x -
+             padding,
         .y = wsize->y - font_size - padding,
         .width = 100,
         .height = 100,
     };
     p2l->mRec = {
         .x = (float)0 + padding,
-        .y = (float)0 + 50 + padding,
+        .y = (float)0 + padding,
         .width = 100,
         .height = 100,
     };

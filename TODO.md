@@ -9,6 +9,7 @@
 - [ ] Character
 - [ ] Sprite for the bead
 - [ ] Make keybind more better
+- [x] Score display
 - [x] shaders for the ingame
 - [x] use MeasureTextEx for the text.
 - [x] make object init init empty then fill in later
@@ -27,5 +28,4 @@
 
 
 ## Currently Working On
-Score Display
 Movement button (so dont need to use keyboard)
