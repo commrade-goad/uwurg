@@ -193,23 +193,17 @@ void _create_ingame_object(Game *game, int &z_index) {
     score_p2->mTag = GameState::INGAME;
     z_index++;
 
-    // TODO: Working on it...
+    // TODO: Make it mShow = false when vsbot
+    // TODO: Make it invisible too when there is no possible move with new bead
+    // Create a new object that have the logic to do this stuff.
     // Create a button for new bead
     static const int font_size = 20;
     static const char *newBeadBtnString = "New Bead(N)";
 
     sptr_t<Object> newP1BeadBtn = game->mObjMan.add_object(mk_sptr<ObjButton>(
-        Rectangle{}, z_index, "new_bead_p1", newBeadBtnString, WHITE, BLACK,
-        font_size, 10, []() {}));
+        Rectangle{}, z_index, "new_bead_button", newBeadBtnString, WHITE, BLACK,
+        font_size, 10, [game]() { game_new_bead_helper(game); }));
     newP1BeadBtn->mTag = GameState::INGAME;
-    newP1BeadBtn->mShow = false;
-
-    sptr_t<Object> newP2BeadBtn = game->mObjMan.add_object(mk_sptr<ObjButton>(
-        Rectangle{}, z_index, "new_bead_p2", newBeadBtnString, BLACK, WHITE,
-        font_size, 10, []() {}));
-    newP2BeadBtn->mTag = GameState::INGAME;
-    newP2BeadBtn->mShow = false;
-
     z_index++;
 }
 
@@ -378,6 +372,8 @@ void _position_ingame_object(Game *game) {
     sptr_t<Object> p1l = game->mObjMan.get_object("player1_label");
     sptr_t<Object> p2l = game->mObjMan.get_object("player2_label");
 
+    sptr_t<Object> newBeadBtn = game->mObjMan.get_object("new_bead_button");
+
     if (b->mText->width <= 0 && b->mText->height <= 0)
         return;
 
@@ -405,6 +401,15 @@ void _position_ingame_object(Game *game) {
         .width = 100,
         .height = 100,
     };
+
+    if (auto p1 = std::dynamic_pointer_cast<ObjButton>(newBeadBtn)) {
+        p1->mSize = 10 * game->mScale;
+        int textWidth = p1->get_width();
+        p1->mRec = {.x = wsize->x - textWidth - padding,
+                    .y = wsize->y / 2.0f,
+                    .width = (float)textWidth,
+                    .height = (float)p1->mSize};
+    }
 }
 
 void _change_text_from_obj(Game *game, const char *obj_name,
