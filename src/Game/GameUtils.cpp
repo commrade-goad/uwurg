@@ -1,5 +1,6 @@
 #include "GameUtils.hpp"
 #include "../Object/ObjBead.hpp"
+#include "../Object/ObjBeadBtnMan.hpp"
 #include "../Object/ObjButton.hpp"
 #include "../Object/ObjDiceRender.hpp"
 #include "../Object/ObjScore.hpp"
@@ -34,7 +35,7 @@ void _create_menu_object(Game *game, int &z_index) {
     sptr_t<Object> settings_b_obj = game->mObjMan.add_object(mk_sptr<ObjButton>(
         Rectangle{}, z_index, "settings_obj", settings_button,
         GetColor(0x153CB4FF), WHITE, button_font_size, 10,
-        [game]() { game->mStateOrTag = GameState::PLAYMENU; }));
+        [game]() { game->mStateOrTag = GameState::SETTINGS; }));
     settings_b_obj->mTag = GameState::MENU;
     z_index++;
 
@@ -205,6 +206,11 @@ void _create_ingame_object(Game *game, int &z_index) {
         font_size, 10, [game]() { game_new_bead_helper(game); }));
     newP1BeadBtn->mTag = GameState::INGAME;
     z_index++;
+
+    sptr_t<Object> newBeadBtnMan =
+        game->mObjMan.add_object(mk_sptr<ObjBeadBtnMan>(
+            Rectangle{}, z_index, "new_bead_button_man", newP1BeadBtn));
+    z_index++;
 }
 
 void _create_settings_object(Game *game, int &z_index) {
@@ -226,7 +232,7 @@ void _create_settings_object(Game *game, int &z_index) {
     sptr_t<Object> fullscreen_button = game->mObjMan.add_object(
         mk_sptr<ObjButton>(Rectangle{}, z_index, "fscreen_btn", fs_button,
                            GetColor(0x153CB4FF), WHITE, button_font_size, 10,
-                           [game]() { _window_res_helper(game); }));
+                           [game]() { _window_flag_helper(game); }));
     fullscreen_button->mTag = GameState::SETTINGS;
     z_index++;
 
