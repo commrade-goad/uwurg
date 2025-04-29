@@ -12,7 +12,8 @@ public:
         mBind = bind;
     }
 
-    virtual void logic(float _) {
+    virtual void logic(float dt) {
+        (void)dt;
         if (mGame_ptr->mTurn == mBind)
             mText = TextFormat("%d", mGame_ptr->mScore[(int)mBind]);
     }

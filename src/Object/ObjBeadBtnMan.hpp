@@ -18,7 +18,8 @@ struct ObjBeadBtnMan : public Object {
 
     virtual ~ObjBeadBtnMan() {}
     virtual void render() {}
-    virtual void logic(float _) {
+    virtual void logic(float dt) {
+        (void)dt;
         if (mGame_ptr->mVSBot && mGame_ptr->mTurn == GameTurn::PLAYER2)
             mManagedBtn->mShow = false;
         else

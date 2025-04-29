@@ -6,6 +6,7 @@
 #include "Object.hpp"
 #include <cassert>
 #include <cstring>
+#include <functional>
 
 struct ObjBead : public Object {
   private:
@@ -34,6 +35,7 @@ struct ObjBead : public Object {
     int mPos;
     bool mOut;
     GameTurn mGroup;
+    std::function<void()> mOnClick = nullptr;
 
     ObjBead(Rectangle rec, int z_index, const char *name, sptr_t<Object> board,
             GameTurn group, Color utils_color, Color utils_color_invert)
@@ -78,7 +80,15 @@ struct ObjBead : public Object {
         }
     }
 
-    virtual void logic(float dt) { (void)dt; }
+    virtual void logic(float dt) {
+        (void)dt;
+        if (mGame_ptr->mWindow_ptr == nullptr)
+            return;
+        if (CheckCollisionPointRec(mGame_ptr->mCursorPos, mRec)) {
+            if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON))
+                mOnClick();
+        }
+    }
 
     virtual ~ObjBead() {}
 };
