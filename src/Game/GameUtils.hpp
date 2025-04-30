@@ -2,6 +2,7 @@
 #define GAME_UTILS_H_
 
 #include "Game.hpp"
+#include "../Object/ObjBead.hpp"
 
 // Utility or all of the misc function that used on Game.cpp
 
@@ -28,5 +29,6 @@ void _start_game(Game *game, bool vsbot);
 void _ingame_next_turn(Game *game);
 void _ingame_getdice(Game *game);
 void _vsbot_label_toggle(Game *game);
+void _ingame_bead_button_helper(sptr_t<ObjBead> bead, Game *game);
 
 #endif // GAME_UTILS_H_

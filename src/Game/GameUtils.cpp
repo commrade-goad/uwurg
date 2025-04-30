@@ -154,6 +154,7 @@ void _create_ingame_object(Game *game, int &z_index) {
     turn_ind->mTag = GameState::INGAME;
     z_index++;
 
+    // Create the bead
     for (int i = 0; i < 7; i++) {
         sptr_t<Object> test_bead = game->mObjMan.add_object(mk_sptr<ObjBead>(
             Rectangle{}, z_index, TextFormat("bead_p1_%d", i), board_obj,
@@ -161,6 +162,8 @@ void _create_ingame_object(Game *game, int &z_index) {
 
         test_bead->mTag = GameState::INGAME;
         test_bead->mText = bead_white_txt;
+        auto a = std::dynamic_pointer_cast<ObjBead>(test_bead);
+        a->mOnClick = [game, a]() { _ingame_bead_button_helper(a, game); };
         z_index++;
     }
 
@@ -171,6 +174,8 @@ void _create_ingame_object(Game *game, int &z_index) {
 
         test_bead->mTag = GameState::INGAME;
         test_bead->mText = bead_black_txt;
+        auto a = std::dynamic_pointer_cast<ObjBead>(test_bead);
+        a->mOnClick = [game, a]() { _ingame_bead_button_helper(a, game); };
         z_index++;
     }
 
@@ -470,4 +475,14 @@ void _start_game(Game *game, bool vsbot) {
     game->mStateOrTag = GameState::INGAME;
     game->mVSBot = vsbot;
     _vsbot_label_toggle(game);
+}
+
+void _ingame_bead_button_helper(sptr_t<ObjBead> bead, Game *game) {
+    for (const auto &move: game->mPosMove) {
+        if (move.mType == MOVEBEAD && move.mBead == bead) {
+            size_t jump_for = strlen("bead_p1_");
+            const int num = std::atoi(move.mBead->mName.c_str() + jump_for);
+            game_move_bead_helper(game, num);
+        }
+    }
 }
