@@ -4,11 +4,8 @@
 
 - [ ] music stuff
 - [ ] the game itself
-- [ ] UI Obj for the point
-- [ ] UI Obj for how much bead left
 - [ ] Character
-- [ ] Sprite for the bead
-- [ ] Make keybind more better
+- [x] UI Obj for the point
 - [x] Score display
 - [x] shaders for the ingame
 - [x] use MeasureTextEx for the text.
@@ -19,7 +16,8 @@
 - [x] make it dynamic when resize
 - [x] settings menu
 - [x] shaders background on menu
-
+- [x] Movement button (so dont need to use keyboard)
+- [x] Make keybind more better
 
 ## Resource
 
@@ -28,4 +26,6 @@
 
 
 ## Currently Working On
-Movement button (so dont need to use keyboard)
+- [ ] BUG: New Bead gk keluar white
+- [ ] Sprite for the bead
+- [ ] UI Obj for how much bead left

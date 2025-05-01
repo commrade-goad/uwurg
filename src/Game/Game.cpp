@@ -133,13 +133,13 @@ void Game::handle_key(float dt) {
     }
 
     case GameState::PLAYMENU: {
-        if (IsKeyReleased(KEY_ONE)) {
+        if (IsKeyReleased(KEY_E)) {
             _start_game(this, true);
         }
-        if (IsKeyReleased(KEY_TWO)) {
+        if (IsKeyReleased(KEY_Q)) {
             _start_game(this, false);
         }
-        if (IsKeyReleased(KEY_B)) {
+        if (IsKeyReleased(KEY_ESCAPE)) {
             mStateOrTag = GameState::MENU;
         }
         break;
@@ -151,19 +151,19 @@ void Game::handle_key(float dt) {
         if (IsKeyReleased(KEY_S)) {
             mStateOrTag = GameState::SETTINGS;
         }
-        if (IsKeyReleased(KEY_E)) {
+        if (IsKeyReleased(KEY_ESCAPE)) {
             exit_game();
         }
         break;
     }
     case GameState::SETTINGS: {
-        if (IsKeyReleased(KEY_F)) {
+        if (IsKeyReleased(KEY_E)) {
             _window_flag_helper(this);
         }
-        if (IsKeyReleased(KEY_R)) {
+        if (IsKeyReleased(KEY_Q)) {
             _window_res_helper(this);
         }
-        if (IsKeyReleased(KEY_B)) {
+        if (IsKeyReleased(KEY_ESCAPE)) {
             mStateOrTag = GameState::MENU;
         }
         break;

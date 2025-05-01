@@ -200,8 +200,12 @@ bool game_move_bead_helper(Game *game, int nBead) {
             bead_name == pmove.mBead->mName) {
             if (sptr_t<ObjBead> cobj =
                     std::dynamic_pointer_cast<ObjBead>(pmove.mBead)) {
-                if (pmove.mType == MoveType::FINISH)
+                if (pmove.mType == MoveType::FINISH) {
                     cobj->mOut = false;
+                    game->mScore[(int)game->mTurn] += 1;
+                    success = true;
+                    break;
+                }
                 if (pmove.mEnBead != nullptr) {
                     if (sptr_t<ObjBead> en_obj =
                         std::dynamic_pointer_cast<ObjBead>(pmove.mEnBead)) {

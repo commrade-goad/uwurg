@@ -15,7 +15,7 @@ void _create_menu_object(Game *game, int &z_index) {
     static const int button_font_size = 10 * game->mScale;
     static const char *play_button = "PLAY (P)";
     static const char *settings_button = "SETTINGS (S)";
-    static const char *exit_button = "EXIT (E)";
+    static const char *exit_button = "EXIT (Esc)";
 
     sptr_t<Object> title_obj = game->mObjMan.add_object(
         mk_sptr<ObjText>(Rectangle{}, z_index, "title", title_name,
@@ -49,9 +49,9 @@ void _create_menu_object(Game *game, int &z_index) {
 
 void _create_play_menu_object(Game *game, int &z_index) {
     static const int button_font_size = 10 * game->mScale;
-    static const char *back_txt = "BACK (B)";
-    static const char *vsbot_str = "VS Computer (1)";
-    static const char *vsplayer_str = "VS Player (2)";
+    static const char *back_txt = "BACK (Esc)";
+    static const char *vsbot_str = "VS Computer (E)";
+    static const char *vsplayer_str = "VS Player (Q)";
 
     sptr_t<Object> vsbot_but_obj = game->mObjMan.add_object(mk_sptr<ObjButton>(
         Rectangle{}, z_index, "vs_bot", vsbot_str, GetColor(0x153CB4FF), WHITE,
@@ -199,9 +199,6 @@ void _create_ingame_object(Game *game, int &z_index) {
     score_p2->mTag = GameState::INGAME;
     z_index++;
 
-    // TODO: Make it mShow = false when vsbot
-    // TODO: Make it invisible too when there is no possible move with new bead
-    // Create a new object that have the logic to do this stuff.
     // Create a button for new bead
     static const int font_size = 20;
     static const char *newBeadBtnString = "New Bead(N)";
@@ -220,9 +217,9 @@ void _create_ingame_object(Game *game, int &z_index) {
 
 void _create_settings_object(Game *game, int &z_index) {
     static const char *title_name = "SETTINGS";
-    static const char *back_txt = "BACK (B)";
-    static const char *res1_text = "720P (R)";
-    static const char *fs_button = "WINDOW (F)";
+    static const char *back_txt = "BACK (Esc)";
+    static const char *res1_text = "720P (E)";
+    static const char *fs_button = "WINDOW (Q)";
     static const int title_font_size = 16 * game->mScale;
     static const int button_font_size = 10 * game->mScale;
 
@@ -453,8 +450,8 @@ void _window_flag_helper(Game *game) {
     game->mWindow_ptr->toggle_fullscreen();
     _recalculate_all_pos(game);
     _change_text_from_obj(game, "fscreen_btn",
-                          IsWindowFullscreen() ? "FULLSCREEN (F)"
-                                               : "WINDOW (F)");
+                          IsWindowFullscreen() ? "FULLSCREEN (E)"
+                                               : "WINDOW (E)");
 }
 void _window_res_helper(Game *game) {
     if (IsWindowFullscreen())
@@ -465,10 +462,10 @@ void _window_res_helper(Game *game) {
         game->mWindow_ptr->set_window_size(Vector2(1280, 720));
     _recalculate_all_pos(game);
     _change_text_from_obj(game, "fscreen_btn",
-                          IsWindowFullscreen() ? "FULLSCREEN (F)"
-                                               : "WINDOW (F)");
+                          IsWindowFullscreen() ? "FULLSCREEN (E)"
+                                               : "WINDOW (E)");
     _change_text_from_obj(game, "res_btn",
-                          game->mScale == 4 ? "720P (R)" : "480P (R)");
+                          game->mScale == 4 ? "720P (Q)" : "480P (Q)");
 }
 
 void _start_game(Game *game, bool vsbot) {
