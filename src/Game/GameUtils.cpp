@@ -475,11 +475,36 @@ void _start_game(Game *game, bool vsbot) {
 }
 
 void _ingame_bead_button_helper(sptr_t<ObjBead> bead, Game *game) {
-    for (const auto &move: game->mPosMove) {
+    for (const auto &move : game->mPosMove) {
         if (move.mType == MOVEBEAD && move.mBead == bead) {
             size_t jump_for = strlen("bead_p1_");
             const int num = std::atoi(move.mBead->mName.c_str() + jump_for);
             game_move_bead_helper(game, num);
+        }
+    }
+}
+
+void _ingame_reset_state(Game *game) {
+    game->mTurn = GameTurn::PLAYER1;
+    game->mVSBot = false;
+    game->mScore = {0, 0};
+    game->mPosMove = {};
+
+    for (int i = 0; i < 7; i++) {
+        const char *bead_to_search = TextFormat("bead_p1_%d", i);
+        sptr_t<Object> obj = game->mObjMan.get_object(bead_to_search);
+        if (sptr_t<ObjBead> cobj = std::dynamic_pointer_cast<ObjBead>(obj)) {
+            cobj->mOut = false;
+            cobj->mPos = 0;
+        }
+    }
+
+    for (int i = 0; i < 7; i++) {
+        const char *bead_to_search = TextFormat("bead_p2_%d", i);
+        sptr_t<Object> obj = game->mObjMan.get_object(bead_to_search);
+        if (sptr_t<ObjBead> cobj = std::dynamic_pointer_cast<ObjBead>(obj)) {
+            cobj->mOut = false;
+            cobj->mPos = 0;
         }
     }
 }

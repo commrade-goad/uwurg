@@ -31,4 +31,6 @@ void _ingame_getdice(Game *game);
 void _vsbot_label_toggle(Game *game);
 void _ingame_bead_button_helper(sptr_t<ObjBead> bead, Game *game);
 
+void _ingame_reset_state(Game *game);
+
 #endif // GAME_UTILS_H_

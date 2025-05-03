@@ -16,6 +16,7 @@ Game::Game() {
     mWantExit = false;
 
     mTurn = GameTurn::PLAYER1;
+    // TODO: Paused state
     mPaused = false;
     mPosMove = {};
     mVSBot = false;
@@ -104,6 +105,7 @@ void Game::handle_key(float dt) {
     case GameState::INGAME: {
         if (IsKeyReleased(KEY_ESCAPE)) {
             mStateOrTag = GameState::MENU;
+            _ingame_reset_state(this);
             _ingame_getdice(this);
         }
 

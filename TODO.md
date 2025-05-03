@@ -5,6 +5,9 @@
 - [ ] music stuff
 - [ ] the game itself
 - [ ] Character
+- [ ] Enemy AI
+- [ ] Sprite for the bead
+- [ ] Skip button when got no turn
 - [x] UI Obj for the point
 - [x] Score display
 - [x] shaders for the ingame
@@ -26,6 +29,4 @@
 
 
 ## Currently Working On
-- [ ] BUG: New Bead gk keluar white
-- [ ] Sprite for the bead
-- [ ] UI Obj for how much bead left
+- [1/2] Reset game state when exit
