@@ -17,7 +17,7 @@ struct ObjBtnSkip : public ObjButton {
         if (mGame_ptr->mWindow_ptr == nullptr)
             return;
 
-        if (mGame_ptr->mDice <= 0) mShow = true;
+        if (mGame_ptr->mDice <= 0 && !mGame_ptr->mVSBot) mShow = true;
         else mShow = false;
 
         // The button logic stuff

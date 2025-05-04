@@ -20,10 +20,18 @@ struct ObjBeadBtnMan : public Object {
     virtual void render() {}
     virtual void logic(float dt) {
         (void)dt;
-        if (mGame_ptr->mVSBot && mGame_ptr->mTurn == GameTurn::PLAYER2)
-            mManagedBtn->mShow = false;
-        else
-            mManagedBtn->mShow = true;
+
+        bool show = false;
+
+        for (const auto &move: mGame_ptr->mPosMove) {
+            if (move.mType == MoveType::NEWBEAD) {
+                show = true;
+                break;
+            }
+        }
+        if (mGame_ptr->mVSBot && mGame_ptr->mTurn == GameTurn::PLAYER2) show = false;
+
+        mManagedBtn->mShow = show;
     }
 };
 

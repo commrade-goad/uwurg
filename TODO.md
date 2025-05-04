@@ -5,8 +5,6 @@
 - [ ] music stuff
 - [ ] the game itself
 - [ ] Character
-- [ ] Enemy AI
-- [ ] Sprite for the bead
 - [x] UI Obj for the point
 - [x] Score display
 - [x] shaders for the ingame
@@ -21,6 +19,8 @@
 - [x] Movement button (so dont need to use keyboard)
 - [x] Make keybind more better
 - [x] Skip button when got no turn
+- [x] Make new bead not cameout when not possible.
+- [x] Reset game state when exit (not tested yet)
 
 ## Resource
 
@@ -30,5 +30,5 @@
 
 ## Currently Working On
 
-- [ ] Make new bead not cameout when not possible.
-- [x] Reset game state when exit (not tested yet)
+- [ ] Enemy AI
+- [ ] Sprite for the bead
