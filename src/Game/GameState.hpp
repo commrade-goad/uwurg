@@ -9,7 +9,8 @@ enum class GameState : uint32_t {
     PLAYMENU = 1 << 1,
     SETTINGS = 1 << 2,
     INGAME   = 1 << 3,
-    ALL      = MENU | SETTINGS | INGAME
+    FINISHED = 1 << 4,
+    ALL      = MENU | SETTINGS | INGAME | PLAYMENU | FINISHED
 };
 
 inline GameState operator|(GameState a, GameState b) {

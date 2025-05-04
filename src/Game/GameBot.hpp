@@ -4,5 +4,7 @@
 #include "GamePlay.hpp"
 #include "GameUtils.hpp"
 
+struct GameBot {
+};
 
 #endif // GAMEBOT_H_

@@ -230,3 +230,17 @@ bool game_move_bead_helper(Game *game, int nBead) {
     }
     return success;
 }
+
+std::optional<GameTurn> game_check_win(Game *game) {
+    int winning_player = -1;
+    for (size_t i = 0; i < game->mScore.size(); i++) {
+        if (game->mScore[i] >= 7) {
+            winning_player = i;
+            break;
+        }
+    }
+
+    if (winning_player < 0) return {};
+    game->mStateOrTag = GameState::FINISHED;
+    return (GameTurn)winning_player;
+}

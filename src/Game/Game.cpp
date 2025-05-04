@@ -119,6 +119,7 @@ void Game::handle_key(float dt) {
         for (int i = KEY_ONE; i <= KEY_SEVEN; i++) {
             if (IsKeyReleased(i)) {
                 game_move_bead_helper(this, i - start_at);
+                game_check_win(this);
             }
         }
 

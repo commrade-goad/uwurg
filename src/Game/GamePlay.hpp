@@ -3,6 +3,8 @@
 
 #include "../Object/Object.hpp"
 #include "../def.hpp"
+#include "GameTurn.hpp"
+#include <optional>
 #include <vector>
 
 enum MoveType {
@@ -34,5 +36,6 @@ std::vector<PossibleMove> get_possible_move(Game *game);
 bool game_new_bead_helper(Game *game);
 bool game_move_bead_helper(Game *game, int nBead);
 void game_change_turn(Game *game);
+std::optional<GameTurn> game_check_win(Game *game);
 
 #endif // GAMEPLAY_H_
