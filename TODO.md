@@ -32,3 +32,5 @@
 ## Currently Working On
 
 - [ ] Enemy AI
+- [ ] Pause menu
+- [ ] Win or Lose menu (RESTART BUTTON)
