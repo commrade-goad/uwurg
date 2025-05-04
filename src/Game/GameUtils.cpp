@@ -1,6 +1,7 @@
 #include "GameUtils.hpp"
 #include "../Object/ObjBead.hpp"
 #include "../Object/ObjBeadBtnMan.hpp"
+#include "../Object/ObjBtnSkip.hpp"
 #include "../Object/ObjButton.hpp"
 #include "../Object/ObjDiceRender.hpp"
 #include "../Object/ObjScore.hpp"
@@ -199,6 +200,7 @@ void _create_ingame_object(Game *game, int &z_index) {
     score_p2->mTag = GameState::INGAME;
     z_index++;
 
+    // TODO: Make new bead button not available when its not possible to do so.
     // Create a button for new bead
     static const int font_size = 20;
     static const char *newBeadBtnString = "New Bead(N)";
@@ -209,9 +211,20 @@ void _create_ingame_object(Game *game, int &z_index) {
     newP1BeadBtn->mTag = GameState::INGAME;
     z_index++;
 
+    // Create the new bead button manager
     sptr_t<Object> newBeadBtnMan =
         game->mObjMan.add_object(mk_sptr<ObjBeadBtnMan>(
             Rectangle{}, z_index, "new_bead_button_man", newP1BeadBtn));
+    z_index++;
+
+    // Create the skip turn button
+    sptr_t<Object> newSkipButton = game->mObjMan.add_object(
+        mk_sptr<ObjBtnSkip>(Rectangle{}, z_index, "skip_turn_button",
+                            "Skip turn", WHITE, BLACK, font_size, 10, [game]() {
+                                _ingame_getdice(game);
+                                game_change_turn(game);
+                            }));
+    newSkipButton->mTag = GameState::INGAME;
     z_index++;
 }
 
@@ -381,6 +394,7 @@ void _position_ingame_object(Game *game) {
     sptr_t<Object> p2l = game->mObjMan.get_object("player2_label");
 
     sptr_t<Object> newBeadBtn = game->mObjMan.get_object("new_bead_button");
+    sptr_t<Object> skipTurnBtn = game->mObjMan.get_object("skip_turn_button");
 
     if (b->mText->width <= 0 && b->mText->height <= 0)
         return;
@@ -417,6 +431,15 @@ void _position_ingame_object(Game *game) {
                     .y = wsize->y / 2.0f,
                     .width = (float)textWidth,
                     .height = (float)p1->mSize};
+    }
+
+    if (auto p2 = std::dynamic_pointer_cast<ObjBtnSkip>(skipTurnBtn)) {
+        p2->mSize = 10 * game->mScale;
+        int textWidth = p2->get_width();
+        p2->mRec = {.x = wsize->x - textWidth - padding,
+                    .y = wsize->y / 2.0f - p2->mSize - (padding * 2),
+                    .width = (float)textWidth,
+                    .height = (float)p2->mSize};
     }
 }
 

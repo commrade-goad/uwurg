@@ -114,11 +114,6 @@ void Game::handle_key(float dt) {
             game_new_bead_helper(this);
         }
 
-        // TODO: Remove this (for debug only)
-        if (IsKeyReleased(KEY_X)) {
-            mScore[(int)mTurn] = 6;
-        }
-
         // TODO: Handle error
         static const int start_at = 49;
         for (int i = KEY_ONE; i <= KEY_SEVEN; i++) {
@@ -128,8 +123,10 @@ void Game::handle_key(float dt) {
         }
 
         if (IsKeyReleased(KEY_SPACE)) {
-            _ingame_getdice(this);
-            game_change_turn(this);
+            if (mDice <= 0)  {
+                _ingame_getdice(this);
+                game_change_turn(this);
+            }
         }
         break;
     }

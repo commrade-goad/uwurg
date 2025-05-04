@@ -28,7 +28,7 @@ struct ObjDiceRender : public Object {
 
             // If got 0 render text.
             if (mDice == 0) {
-                const char *text_content = "Skip turn.";
+                const char *text_content = "Skip turn. [Space]";
                 const int text_size = 12 * mGame_ptr->mScale;
                 const int text_spacing = mGame_ptr->mScale;
                 int text_len = MeasureTextEx(mGame_ptr->mFont, text_content,
