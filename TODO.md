@@ -5,6 +5,7 @@
 - [ ] music stuff
 - [ ] the game itself
 - [ ] Character
+- [ ] Sprite for the bead
 - [x] UI Obj for the point
 - [x] Score display
 - [x] shaders for the ingame
@@ -31,4 +32,3 @@
 ## Currently Working On
 
 - [ ] Enemy AI
-- [ ] Sprite for the bead

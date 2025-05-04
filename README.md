@@ -3,6 +3,7 @@
 a port of [turg](https://github.com/commrade-goad/turg) from C to C++ with for `OOP Class` Project.
 
 ## Library used
+
 - [raylib](https://github.com/raysan5/raylib)
 
 ## Build
@@ -17,5 +18,4 @@ make -j`nproc`
 ## Note
 __!!! STILL WIP !!!__
 
-Main Menu and Settings menu are fully implemented.
-(MAYBE) Will add configuration read?
+AI Still not worked yet.

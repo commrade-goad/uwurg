@@ -200,7 +200,6 @@ void _create_ingame_object(Game *game, int &z_index) {
     score_p2->mTag = GameState::INGAME;
     z_index++;
 
-    // TODO: Make new bead button not available when its not possible to do so.
     // Create a button for new bead
     static const int font_size = 20;
     static const char *newBeadBtnString = "New Bead(N)";

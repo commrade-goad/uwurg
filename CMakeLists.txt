@@ -33,6 +33,7 @@ set(FILE_IN
     src/Game/Game.cpp
     src/Game/GameUtils.cpp
     src/Game/GamePlay.cpp
+    src/Game/GameBot.cpp
     src/main.cpp
 )
 
