@@ -266,6 +266,24 @@ void _create_settings_object(Game *game, int &z_index) {
     z_index++;
 }
 
+void _create_finish_menu_object(Game *game, int &z_index) {
+    static const int font_size = 11 * game->mScale;
+
+    // Create label
+    sptr_t<Object> winLabel = game->mObjMan.add_object(mk_sptr<ObjText>(
+        Rectangle{}, z_index, "win_label", "", WHITE, font_size));
+    winLabel->mTag = GameState::FINISHED;
+    z_index++;
+
+    // TODO
+    // Create button
+    // sptr_t<Object> restartLabel = game->mObjMan.add_object(mk_sptr<ObjButton>());
+}
+
+void _position_finish_menu_object(Game *game) {
+    // TODO
+}
+
 void _position_play_menu_object(Game *game) {
     static const int settings_button_padding = 10;
     sptr_t<Object> vsbot = game->mObjMan.get_object("vs_bot");
@@ -459,6 +477,7 @@ void _recalculate_all_pos(Game *game) {
     _position_menu_object(game);
     _position_settings_object(game);
     _position_play_menu_object(game);
+    _position_finish_menu_object(game);
 }
 
 inline void _ingame_next_turn(Game *game) {

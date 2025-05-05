@@ -48,6 +48,7 @@ void Game::init(Window *w) {
     _create_menu_object(this, z_index);
     _create_settings_object(this, z_index);
     _create_play_menu_object(this, z_index);
+    _create_finish_menu_object(this, z_index);
 
     _recalculate_all_pos(this);
 
@@ -124,7 +125,7 @@ void Game::handle_key(float dt) {
         }
 
         if (IsKeyReleased(KEY_SPACE)) {
-            if (mDice <= 0)  {
+            if (mDice <= 0) {
                 _ingame_getdice(this);
                 game_change_turn(this);
             }
@@ -166,6 +167,9 @@ void Game::handle_key(float dt) {
         if (IsKeyReleased(KEY_ESCAPE)) {
             mStateOrTag = GameState::MENU;
         }
+        break;
+    }
+    case GameState::FINISHED: {
         break;
     }
     default:
