@@ -39,3 +39,4 @@
 - [x] LockDown tidak bisa move -> Skip Turn
 - [x] Tempat extra turn salah
 - [ ] Ketumpuk ke bawah saat tengah
+- [ ] Kelebihan still valid

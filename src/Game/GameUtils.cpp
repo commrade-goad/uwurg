@@ -230,8 +230,8 @@ void _create_ingame_object(Game *game, int &z_index) {
 void _create_settings_object(Game *game, int &z_index) {
     static const char *title_name = "SETTINGS";
     static const char *back_txt = "BACK (Esc)";
-    static const char *res1_text = "720P (E)";
-    static const char *fs_button = "WINDOW (Q)";
+    static const char *res1_text = "720P (Q)";
+    static const char *fs_button = "WINDOW (E)";
     static const int title_font_size = 16 * game->mScale;
     static const int button_font_size = 10 * game->mScale;
 

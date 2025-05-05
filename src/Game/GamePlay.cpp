@@ -87,9 +87,10 @@ std::vector<PossibleMove> get_possible_move(Game *game) {
         sptr_t<ObjBead> sel_bead = bead;
         sptr_t<ObjBead> sel_enm_bead = nullptr;
         int new_pos = bead->mPos + game->mDice;
+        if (new_pos > 15) continue;
         MoveType mt = MoveType::MOVEBEAD;
         bool get_extraturn =
-            new_pos == 4 || new_pos == 8 || new_pos == 13 ? true : false;
+            new_pos == 4 || new_pos == 8 || new_pos == 14 ? true : false;
 
         // Check if the bead with the new pos is a win
         if (new_pos == 15) {
@@ -138,8 +139,6 @@ std::vector<PossibleMove> get_possible_move(Game *game) {
                     }
                 }
             }
-
-            if (new_pos > 15) valid = false;
 
             if (valid)
                 found = true;
