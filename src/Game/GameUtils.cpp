@@ -268,6 +268,7 @@ void _create_settings_object(Game *game, int &z_index) {
 
 void _create_finish_menu_object(Game *game, int &z_index) {
     static const int font_size = 11 * game->mScale;
+    static const int font_button_size = 10 * game->mScale;
 
     // Create label
     sptr_t<Object> winLabel = game->mObjMan.add_object(mk_sptr<ObjText>(
@@ -277,7 +278,11 @@ void _create_finish_menu_object(Game *game, int &z_index) {
 
     // TODO
     // Create button
-    // sptr_t<Object> restartLabel = game->mObjMan.add_object(mk_sptr<ObjButton>());
+    sptr_t<Object> restartBtn = game->mObjMan.add_object(
+        mk_sptr<ObjButton>(Rectangle{}, z_index, "restart_state_btn", "Restart",
+                           WHITE, BLACK, font_button_size, 10, []() {}));
+    restartBtn->mTag = GameState::FINISHED;
+    z_index++;
 }
 
 void _position_finish_menu_object(Game *game) {

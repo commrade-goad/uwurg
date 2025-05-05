@@ -34,3 +34,8 @@
 - [ ] Enemy AI
 - [ ] Pause menu
 - [ ] Win or Lose menu (RESTART BUTTON)
+- [x] Bug Finish bead gk ilang.
+- [x] Tidak mendapatkan point juga (FINISH BORKED)
+- [x] LockDown tidak bisa move -> Skip Turn
+- [x] Tempat extra turn salah
+- [ ] Ketumpuk ke bawah saat tengah

@@ -94,9 +94,7 @@ std::vector<PossibleMove> get_possible_move(Game *game) {
         // Check if the bead with the new pos is a win
         if (new_pos == 15) {
             mt = MoveType::FINISH;
-            result.push_back(
-                PossibleMove(sel_bead, new_pos, get_extraturn, mt));
-            continue;
+            found = true;
         }
 
         // Check if possible to place a new bead
@@ -115,7 +113,7 @@ std::vector<PossibleMove> get_possible_move(Game *game) {
                 found = true;
                 mt = MoveType::NEWBEAD;
             }
-        } else if (bead->mOut && bead->mPos > 0) {
+        } else if (bead->mOut && bead->mPos > 0 && !found) {
             // Check if collide with friend beads
             bool valid = true;
             for (const auto &bead2 : current) {
@@ -140,6 +138,9 @@ std::vector<PossibleMove> get_possible_move(Game *game) {
                     }
                 }
             }
+
+            if (new_pos > 15) valid = false;
+
             if (valid)
                 found = true;
         }
@@ -168,13 +169,11 @@ bool game_new_bead_helper(Game *game) {
         if (pmove.mType == NEWBEAD) {
             if (sptr_t<ObjBead> cobj =
                     std::dynamic_pointer_cast<ObjBead>(pmove.mBead)) {
-                if (!cobj->mOut && cobj->mPos < 15) {
-                    cobj->mOut = true;
-                    cobj->mPos = pmove.mNewPos;
-                    cobj->mShow = true;
-                    success = true;
-                    break;
-                }
+                cobj->mOut = true;
+                cobj->mPos = pmove.mNewPos;
+                cobj->mShow = true;
+                success = true;
+                break;
             }
         }
     }
@@ -202,13 +201,14 @@ bool game_move_bead_helper(Game *game, int nBead) {
                     std::dynamic_pointer_cast<ObjBead>(pmove.mBead)) {
                 if (pmove.mType == MoveType::FINISH) {
                     cobj->mOut = false;
+                    cobj->mPos = 10000;
                     game->mScore[(int)game->mTurn] += 1;
                     success = true;
                     break;
                 }
                 if (pmove.mEnBead != nullptr) {
                     if (sptr_t<ObjBead> en_obj =
-                        std::dynamic_pointer_cast<ObjBead>(pmove.mEnBead)) {
+                            std::dynamic_pointer_cast<ObjBead>(pmove.mEnBead)) {
                         en_obj->mPos = 0;
                         en_obj->mOut = false;
                     }
@@ -240,7 +240,8 @@ std::optional<GameTurn> game_check_win(Game *game) {
         }
     }
 
-    if (winning_player < 0) return {};
+    if (winning_player < 0)
+        return {};
     game->mStateOrTag = GameState::FINISHED;
     return (GameTurn)winning_player;
 }

@@ -66,6 +66,12 @@ void Game::handle_logic(float dt) {
         if (mVSBot && mTurn != GameTurn::PLAYER1) {
             // TODO: Create bot move helper function
         }
+
+        auto winnning = game_check_win(this);
+        if (winnning.has_value()) {
+            TraceLog(LOG_INFO, "GAME FINISHED");
+        }
+
         if (has_flag(d->mTag, mStateOrTag))
             d->logic(dt);
     }
@@ -120,12 +126,11 @@ void Game::handle_key(float dt) {
         for (int i = KEY_ONE; i <= KEY_SEVEN; i++) {
             if (IsKeyReleased(i)) {
                 game_move_bead_helper(this, i - start_at);
-                game_check_win(this);
             }
         }
 
         if (IsKeyReleased(KEY_SPACE)) {
-            if (mDice <= 0) {
+            if (mDice <= 0 || mPosMove.empty()) {
                 _ingame_getdice(this);
                 game_change_turn(this);
             }
