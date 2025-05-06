@@ -276,17 +276,24 @@ void _create_finish_menu_object(Game *game, int &z_index) {
     winLabel->mTag = GameState::FINISHED;
     z_index++;
 
-    // TODO: Add the function to the button
     // Create button
     sptr_t<Object> restartBtn = game->mObjMan.add_object(mk_sptr<ObjButton>(
         Rectangle{}, z_index, "restart_state_btn", "Restart",
-        GetColor(0x153CB4FF), WHITE, font_button_size, 10, []() {}));
+        GetColor(0x153CB4FF), WHITE, font_button_size, 10, [game]() {
+            game->mStateOrTag = GameState::INGAME;
+            _ingame_reset_state(game);
+            _ingame_getdice(game);
+            game->mPosMove = get_possible_move(game);
+        }));
     restartBtn->mTag = GameState::FINISHED;
     z_index++;
 
     sptr_t<Object> mainMenuBtn = game->mObjMan.add_object(mk_sptr<ObjButton>(
         Rectangle{}, z_index, "back_menu_btn", "Back to the Menu",
-        GetColor(0x153CB4FF), WHITE, font_button_size, 10, []() {}));
+        GetColor(0x153CB4FF), WHITE, font_button_size, 10, [game]() {
+            _ingame_reset_state(game);
+            game->mStateOrTag = GameState::MENU;
+        }));
     mainMenuBtn->mTag = GameState::FINISHED;
     z_index++;
 }
@@ -522,6 +529,8 @@ void _recalculate_all_pos(Game *game) {
     _position_settings_object(game);
     _position_play_menu_object(game);
     _position_finish_menu_object(game);
+
+    _vsbot_label_toggle(game);
 }
 
 inline void _ingame_next_turn(Game *game) {
@@ -557,6 +566,7 @@ void _start_game(Game *game, bool vsbot) {
     game->mStateOrTag = GameState::INGAME;
     game->mVSBot = vsbot;
     _vsbot_label_toggle(game);
+    game->mPosMove = get_possible_move(game);
 }
 
 void _ingame_bead_button_helper(sptr_t<ObjBead> bead, Game *game) {
