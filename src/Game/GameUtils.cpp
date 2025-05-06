@@ -272,21 +272,60 @@ void _create_finish_menu_object(Game *game, int &z_index) {
 
     // Create label
     sptr_t<Object> winLabel = game->mObjMan.add_object(mk_sptr<ObjText>(
-        Rectangle{}, z_index, "win_label", "", WHITE, font_size));
+        Rectangle{}, z_index, "win_label", "test", WHITE, font_size));
     winLabel->mTag = GameState::FINISHED;
     z_index++;
 
-    // TODO
+    // TODO: Add the function to the button
     // Create button
-    sptr_t<Object> restartBtn = game->mObjMan.add_object(
-        mk_sptr<ObjButton>(Rectangle{}, z_index, "restart_state_btn", "Restart",
-                           WHITE, BLACK, font_button_size, 10, []() {}));
+    sptr_t<Object> restartBtn = game->mObjMan.add_object(mk_sptr<ObjButton>(
+        Rectangle{}, z_index, "restart_state_btn", "Restart",
+        GetColor(0x153CB4FF), WHITE, font_button_size, 10, []() {}));
     restartBtn->mTag = GameState::FINISHED;
+    z_index++;
+
+    sptr_t<Object> mainMenuBtn = game->mObjMan.add_object(mk_sptr<ObjButton>(
+        Rectangle{}, z_index, "back_menu_btn", "Back to the Menu",
+        GetColor(0x153CB4FF), WHITE, font_button_size, 10, []() {}));
+    mainMenuBtn->mTag = GameState::FINISHED;
     z_index++;
 }
 
 void _position_finish_menu_object(Game *game) {
-    // TODO
+    sptr_t<Object> winLabel = game->mObjMan.get_object("win_label");
+    sptr_t<Object> restartBtn = game->mObjMan.get_object("restart_state_btn");
+    sptr_t<Object> menuBtn = game->mObjMan.get_object("back_menu_btn");
+
+    static const int button_padding = 10;
+
+    Vector2 *wsize = game->mWindow_ptr->get_window_size();
+
+    if (auto labelA = std::dynamic_pointer_cast<ObjText>(winLabel)) {
+        labelA->mRec = {
+            .x = (wsize->x - labelA->get_width()) / 2.0f,
+            .y = (float)labelA->mSize * game->mScale,
+            .width = 0,
+            .height = 0,
+        };
+    }
+
+    if (auto buttonA = std::dynamic_pointer_cast<ObjButton>(restartBtn)) {
+        buttonA->mSize = 10 * game->mScale;
+        int text_width = buttonA->get_width();
+        buttonA->mRec = {.x = (wsize->x - text_width) / 2,
+                         .y = (wsize->y - buttonA->mSize) / 2,
+                         .width = (float)text_width,
+                         .height = (float)buttonA->mSize};
+    }
+    if (auto buttonB = std::dynamic_pointer_cast<ObjButton>(menuBtn)) {
+        buttonB->mSize = 10 * game->mScale;
+        int text_width = buttonB->get_width();
+        menuBtn->mRec = {.x = (wsize->x - text_width) / 2,
+                         .y = restartBtn->mRec.y + restartBtn->mRec.height +
+                              (button_padding * 4) + game->mScale * 4,
+                         .width = (float)text_width,
+                         .height = (float)buttonB->mSize};
+    }
 }
 
 void _position_play_menu_object(Game *game) {

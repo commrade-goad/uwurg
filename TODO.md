@@ -38,5 +38,5 @@
 - [x] Tidak mendapatkan point juga (FINISH BORKED)
 - [x] LockDown tidak bisa move -> Skip Turn
 - [x] Tempat extra turn salah
-- [ ] Ketumpuk ke bawah saat tengah
-- [ ] Kelebihan still valid
+- [ ] Ketumpuk ke bawah saat tengah (IDK)
+- [x] Kelebihan still valid

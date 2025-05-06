@@ -67,8 +67,10 @@ void Game::handle_logic(float dt) {
             // TODO: Create bot move helper function
         }
 
-        auto winnning = game_check_win(this);
+        std::optional<GameTurn> winnning = game_check_win(this);
         if (winnning.has_value()) {
+            // TODO: Change the label for the finished GameState
+            // to the winner
             TraceLog(LOG_INFO, "GAME FINISHED");
         }
 
@@ -81,7 +83,9 @@ void Game::handle_drawing(float dt) {
     (void)dt;
 
     const char *shaders_str =
-        mStateOrTag == GameState::INGAME ? "ingame" : "menu";
+        (mStateOrTag == GameState::INGAME || mStateOrTag == GameState::FINISHED)
+            ? "ingame"
+            : "menu";
     Shader *s = mSMan.get_shader(shaders_str);
     int sWidth = GetShaderLocation(*s, "sWidth");
     int sHeight = GetShaderLocation(*s, "sHeight");
@@ -119,6 +123,11 @@ void Game::handle_key(float dt) {
         if (IsKeyReleased(KEY_N)) {
             // TODO: Handle error
             game_new_bead_helper(this);
+        }
+
+        // FOR DEBUG PURPOSE
+        if (IsKeyReleased(KEY_G)) {
+            mStateOrTag = GameState::FINISHED;
         }
 
         // TODO: Handle error
