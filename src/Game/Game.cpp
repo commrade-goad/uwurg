@@ -17,8 +17,6 @@ Game::Game() {
     mWantExit = false;
 
     mTurn = GameTurn::PLAYER1;
-    // TODO: Paused state
-    mPaused = false;
     mPosMove = {};
     mVSBot = false;
     mScore = {0, 0};

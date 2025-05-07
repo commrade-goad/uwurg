@@ -1,10 +1,9 @@
 #ifndef GAMEBOT_H_
 #define GAMEBOT_H_
 
-#include "GamePlay.hpp"
-#include "GameUtils.hpp"
+#include "Game.hpp"
 
-struct GameBot {
-};
+std::optional<PossibleMove> _ingame_bot_think(Game *game);
+void _ingame_bot_move(Game *game, PossibleMove posMove);
 
 #endif // GAMEBOT_H_

@@ -40,5 +40,4 @@
 ## Currently Working On
 
 - [ ] Enemy AI
-- [ ] Pause menu
 - [ ] Ketumpuk ke bawah saat tengah (IDK)

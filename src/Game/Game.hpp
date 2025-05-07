@@ -29,7 +29,6 @@ struct Game {
     // For the ingame
     GameTurn mTurn;
     uint8_t mDice;
-    bool mPaused;
     std::vector<PossibleMove> mPosMove;
 
     bool mVSBot;
