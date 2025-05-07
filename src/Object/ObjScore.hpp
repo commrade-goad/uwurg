@@ -18,6 +18,10 @@ public:
             mText = TextFormat("%d", mGame_ptr->mScore[(int)mBind]);
     }
     virtual ~ObjScore() {}
+
+    void update_label() {
+        mText = TextFormat("%d", mGame_ptr->mScore[(int)mBind]);
+    }
 };
 
 #endif // OBJSCORE_H_

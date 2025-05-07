@@ -3,6 +3,10 @@ cmake_minimum_required(VERSION 3.24)
 project(uwurg)
 set(CMAKE_CXX_STANDARD 20)
 
+# set to use clang/llvm
+set(CMAKE_CXX_COMPILER, clang++)
+set(CMAKE_C_COMPILER, clang)
+
 include(FetchContent)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 

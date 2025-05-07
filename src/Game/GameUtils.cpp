@@ -547,6 +547,7 @@ void _window_flag_helper(Game *game) {
                           IsWindowFullscreen() ? "FULLSCREEN (E)"
                                                : "WINDOW (E)");
 }
+
 void _window_res_helper(Game *game) {
     if (IsWindowFullscreen())
         game->mWindow_ptr->toggle_fullscreen();
@@ -601,5 +602,16 @@ void _ingame_reset_state(Game *game) {
             cobj->mOut = false;
             cobj->mPos = 0;
         }
+    }
+
+    sptr_t<Object> p1l = game->mObjMan.get_object("player1_label");
+    sptr_t<Object> p2l = game->mObjMan.get_object("player2_label");
+
+    if (auto p1lc = std::dynamic_pointer_cast<ObjScore>(p1l)) {
+        p1lc->update_label();
+    }
+
+    if (auto p2lc = std::dynamic_pointer_cast<ObjScore>(p2l)) {
+        p2lc->update_label();
     }
 }

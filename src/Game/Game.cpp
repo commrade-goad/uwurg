@@ -1,4 +1,5 @@
 #include "Game.hpp"
+#include "../Object/ObjText.hpp"
 #include "../Shaders/ingameShaders.hpp"
 #include "../Shaders/menuShaders.hpp"
 #include "../Window/Window.hpp"
@@ -71,7 +72,17 @@ void Game::handle_logic(float dt) {
         if (winnning.has_value()) {
             // TODO: Change the label for the finished GameState
             // to the winner
-            TraceLog(LOG_INFO, "GAME FINISHED");
+            sptr_t<Object> label = mObjMan.get_object("win_label");
+            if (label != nullptr) {
+                if (auto labelCasted =
+                        std::dynamic_pointer_cast<ObjText>(label)) {
+                    const char *winner = winnning.value() == GameTurn::PLAYER1
+                                             ? "Player 1"
+                                             : "Player 2";
+                    labelCasted->mText = TextFormat("%s Win.", winner);
+                    _position_finish_menu_object(this);
+                }
+            }
         }
 
         if (has_flag(d->mTag, mStateOrTag))
@@ -127,7 +138,7 @@ void Game::handle_key(float dt) {
 
         // FOR DEBUG PURPOSE
         if (IsKeyReleased(KEY_G)) {
-            mStateOrTag = GameState::FINISHED;
+            mScore[(int)mTurn] = 6;
         }
 
         // TODO: Handle error
