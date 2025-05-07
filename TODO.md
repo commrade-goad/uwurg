@@ -22,6 +22,14 @@
 - [x] Skip button when got no turn
 - [x] Make new bead not cameout when not possible.
 - [x] Reset game state when exit (not tested yet)
+- [x] Win or Lose menu (RESTART BUTTON)
+
+## BUG
+
+- [x] Bug Finish bead gk ilang.
+- [x] Tidak mendapatkan point juga (FINISH BORKED)
+- [x] LockDown tidak bisa move -> Skip Turn
+- [x] Tempat extra turn salah
 
 ## Resource
 
@@ -33,10 +41,4 @@
 
 - [ ] Enemy AI
 - [ ] Pause menu
-- [ ] Win or Lose menu (RESTART BUTTON)
-- [x] Bug Finish bead gk ilang.
-- [x] Tidak mendapatkan point juga (FINISH BORKED)
-- [x] LockDown tidak bisa move -> Skip Turn
-- [x] Tempat extra turn salah
 - [ ] Ketumpuk ke bawah saat tengah (IDK)
-- [x] Kelebihan still valid
