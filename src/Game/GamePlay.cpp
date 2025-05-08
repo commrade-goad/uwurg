@@ -1,4 +1,5 @@
 #include "GamePlay.hpp"
+#include "GameBot.hpp"
 #include "../Object/ObjBead.hpp"
 #include "Game.hpp"
 #include "GameUtils.hpp"
@@ -158,6 +159,15 @@ void game_change_turn(Game *game) {
     else
         game->mTurn = GameTurn::PLAYER1;
     game->mPosMove = get_possible_move(game);
+
+    // NOTE: Moved the bot move to here.
+    if (game->mVSBot && game->mTurn != GameTurn::PLAYER1) {
+        std::optional<PossibleMove> bestMove = _ingame_bot_think(game);
+        if (bestMove.has_value()) {
+            _ingame_bot_move(game, bestMove.value());
+        }
+    }
+
 }
 
 bool game_new_bead_helper(Game *game) {

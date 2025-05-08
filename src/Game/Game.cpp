@@ -1,5 +1,4 @@
 #include "Game.hpp"
-#include "GameBot.hpp"
 #include "../Object/ObjText.hpp"
 #include "../Shaders/ingameShaders.hpp"
 #include "../Shaders/menuShaders.hpp"
@@ -63,13 +62,6 @@ void Game::handle_logic(float dt) {
             // TODO: Do something here...
             break;
         }
-        if (mVSBot && mTurn != GameTurn::PLAYER1) {
-            std::optional<PossibleMove> bestMove = _ingame_bot_think(this);
-            if (bestMove.has_value()) {
-                _ingame_bot_move(this, bestMove.value());
-            }
-        }
-
         std::optional<GameTurn> winnning = game_check_win(this);
         if (winnning.has_value()) {
             // TODO: Change the label for the finished GameState
