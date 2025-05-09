@@ -5,6 +5,8 @@
 #include "../Window/Window.hpp"
 #include "GameUtils.hpp"
 
+#define DEBUG_MODE
+
 Game::Game() {
     mTexMan = TextureManager();
     mObjMan = ObjectManager();
@@ -130,10 +132,11 @@ void Game::handle_key(float dt) {
             game_new_bead_helper(this);
         }
 
-        // FOR DEBUG PURPOSE
+#ifdef DEBUG_MODE
         if (IsKeyReleased(KEY_G)) {
             mScore[(int)mTurn] = 6;
         }
+#endif
 
         // TODO: Handle error
         static const int start_at = 49;
