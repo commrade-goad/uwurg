@@ -31,7 +31,10 @@ void _ingame_bot_move(Game *game, PossibleMove move) {
     auto a = std::dynamic_pointer_cast<ObjBead>(move.mBead);
     switch (move.mType) {
     case MoveType::FINISH:
-        TraceLog(LOG_INFO, "WIP: Still didnt work.");
+        a->mOut = false;
+        a->mShow = false;
+        a->mPos = 10000;
+        game->mScore[(int)game->mTurn] += 1;
         break;
     case MoveType::NEWBEAD:
         a->mPos = move.mNewPos;
