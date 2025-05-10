@@ -81,6 +81,8 @@ void Game::handle_logic(float dt) {
             }
         }
 
+        if (mVSBot && mTurn == GameTurn::PLAYER2) continue;
+
         if (has_flag(d->mTag, mStateOrTag))
             d->logic(dt);
     }
