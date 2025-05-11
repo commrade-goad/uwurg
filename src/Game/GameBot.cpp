@@ -43,10 +43,6 @@ void _ingame_bot_move(Game *game, PossibleMove move) {
         }
         break;
     default:
-        if (game->mDice <= 0 || game->mPosMove.empty()) {
-            _ingame_getdice(game);
-            game_change_turn(game);
-        }
         break;
     }
     _ingame_getdice(game);
