@@ -1,7 +1,7 @@
 #include "GamePlay.hpp"
-#include "GameBot.hpp"
 #include "../Object/ObjBead.hpp"
 #include "Game.hpp"
+#include "GameBot.hpp"
 #include "GameUtils.hpp"
 
 PossibleMove::PossibleMove() {
@@ -88,7 +88,8 @@ std::vector<PossibleMove> get_possible_move(Game *game) {
         sptr_t<ObjBead> sel_bead = bead;
         sptr_t<ObjBead> sel_enm_bead = nullptr;
         int new_pos = bead->mPos + game->mDice;
-        if (new_pos > 15) continue;
+        if (new_pos > 15)
+            continue;
         MoveType mt = MoveType::MOVEBEAD;
         bool get_extraturn =
             new_pos == 4 || new_pos == 8 || new_pos == 14 ? true : false;
@@ -165,9 +166,11 @@ void game_change_turn(Game *game) {
         std::optional<PossibleMove> bestMove = _ingame_bot_think(game);
         if (bestMove.has_value()) {
             _ingame_bot_move(game, bestMove.value());
+        } else if (game->mDice <= 0 || game->mPosMove.empty()) {
+            _ingame_getdice(game);
+            game_change_turn(game);
         }
     }
-
 }
 
 bool game_new_bead_helper(Game *game) {

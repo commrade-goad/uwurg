@@ -3,14 +3,7 @@
 #include "GameUtils.hpp"
 
 std::optional<PossibleMove> _ingame_bot_think(Game *game) {
-    TraceLog(LOG_INFO, "called the _ingame_bot_think");
     static const std::array<MoveType, 3> moveRank = {FINISH, MOVEBEAD, NEWBEAD};
-
-    // Only do stuff if player2
-    // NOTE: For now this will be enabled but in the future handle this
-    // outside of this function because its make sense.
-    if (game->mTurn != GameTurn::PLAYER2 || !game->mVSBot)
-        return {};
 
     std::vector<PossibleMove> &pm = game->mPosMove;
     if (pm.size() <= 0)
@@ -42,9 +35,18 @@ void _ingame_bot_move(Game *game, PossibleMove move) {
         a->mShow = true;
         break;
     case MoveType::MOVEBEAD:
-        TraceLog(LOG_INFO, "WIP: Still didnt work.");
+        a->mPos = move.mNewPos;
+        if (sptr_t<ObjBead> en_obj =
+                std::dynamic_pointer_cast<ObjBead>(move.mEnBead)) {
+            en_obj->mPos = 0;
+            en_obj->mOut = false;
+        }
         break;
     default:
+        if (game->mDice <= 0 || game->mPosMove.empty()) {
+            _ingame_getdice(game);
+            game_change_turn(game);
+        }
         break;
     }
     _ingame_getdice(game);
