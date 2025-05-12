@@ -2,37 +2,31 @@
 #include "../Object/ObjBead.hpp"
 #include "GameUtils.hpp"
 
-std::optional<PossibleMove> _ingame_bot_think(Game *game) {
-    static const std::array<MoveType, 3> moveRank = {FINISH, MOVEBEAD, NEWBEAD};
-
-    std::vector<PossibleMove> &pm = game->mPosMove;
-    if (pm.size() <= 0)
-        return {};
-
-    for (const MoveType move : moveRank) {
-        for (const PossibleMove &m : pm) {
-            if (move == m.mType) {
-                return m;
-            }
-        }
-    }
-    return {};
+GameBot::GameBot() {
+    mSelectedMove = {};
 }
 
-// TODO: Finish this.
-void _ingame_bot_move(Game *game, PossibleMove move) {
+GameBot::~GameBot() {}
+
+void GameBot::bot_move() {
+    if (!mSelectedMove.has_value()) {
+        return;
+    }
+
+    PossibleMove move = mSelectedMove.value();
     auto a = std::dynamic_pointer_cast<ObjBead>(move.mBead);
     switch (move.mType) {
     case MoveType::FINISH:
         a->mOut = false;
         a->mShow = false;
         a->mPos = 10000;
-        game->mScore[(int)game->mTurn] += 1;
+        mGame_ptr->mScore[(int)mGame_ptr->mTurn] += 1;
         break;
     case MoveType::NEWBEAD:
         a->mPos = move.mNewPos;
         a->mOut = true;
         a->mShow = true;
+        TraceLog(LOG_INFO, "doing new bead move");
         break;
     case MoveType::MOVEBEAD:
         a->mPos = move.mNewPos;
@@ -45,9 +39,34 @@ void _ingame_bot_move(Game *game, PossibleMove move) {
     default:
         break;
     }
-    _ingame_getdice(game);
+    _ingame_getdice(mGame_ptr);
     if (!move.mExtraTurn)
-        game_change_turn(game);
+        game_change_turn(mGame_ptr);
     else
-        game->mPosMove = get_possible_move(game);
+        mGame_ptr->mPosMove = get_possible_move(mGame_ptr);
+}
+
+bool GameBot::bot_think() {
+    static const MoveType moveRank[3] = {FINISH, MOVEBEAD, NEWBEAD};
+
+    if (!mGame_ptr) {
+        TraceLog(LOG_FATAL, "Game pointer is null");
+        return false;
+    }
+    std::vector<PossibleMove> pm = mGame_ptr->mPosMove;
+    if (pm.size() <= 0) {
+        mSelectedMove = {};
+        return false;
+    }
+
+    for (const MoveType move : moveRank) {
+        for (const PossibleMove &m : pm) {
+            if (move == m.mType) {
+                mSelectedMove = m;
+                return true;
+            }
+        }
+    }
+    mSelectedMove = {};
+    return false;
 }

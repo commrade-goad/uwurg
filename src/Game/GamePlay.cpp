@@ -161,11 +161,10 @@ void game_change_turn(Game *game) {
         game->mTurn = GameTurn::PLAYER1;
     game->mPosMove = get_possible_move(game);
 
-    // NOTE: Moved the bot move to here.
-    if (game->mVSBot && game->mTurn != GameTurn::PLAYER1) {
-        std::optional<PossibleMove> bestMove = _ingame_bot_think(game);
-        if (bestMove.has_value()) {
-            _ingame_bot_move(game, bestMove.value());
+    if (game->mVSBot && game->mTurn == GameTurn::PLAYER2) {
+        if (game->mBot->bot_think()) {
+            game->mBot->bot_move();
+            TraceLog(LOG_INFO, "WIP: Call this function again if xtra turn");
         } else if (game->mDice <= 0 || game->mPosMove.empty()) {
             _ingame_getdice(game);
             game_change_turn(game);

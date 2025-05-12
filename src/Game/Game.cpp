@@ -3,6 +3,7 @@
 #include "../Shaders/ingameShaders.hpp"
 #include "../Shaders/menuShaders.hpp"
 #include "../Window/Window.hpp"
+#include "GameBot.hpp"
 #include "GameUtils.hpp"
 
 #define DEBUG_MODE
@@ -22,6 +23,7 @@ Game::Game() {
     mPosMove = {};
     mVSBot = false;
     mScore = {0, 0};
+    mBot = new GameBot();
 }
 
 Game::~Game() { UnloadFont(mFont); }
@@ -29,6 +31,7 @@ Game::~Game() { UnloadFont(mFont); }
 void Game::init(Window *w) {
     mWindow_ptr = w;
     mObjMan.mGame_ptr = this;
+    mBot->mGame_ptr = this;
     int z_index = 1;
 
     mFont =
@@ -66,8 +69,6 @@ void Game::handle_logic(float dt) {
         }
         std::optional<GameTurn> winnning = game_check_win(this);
         if (winnning.has_value()) {
-            // TODO: Change the label for the finished GameState
-            // to the winner
             sptr_t<Object> label = mObjMan.get_object("win_label");
             if (label != nullptr) {
                 if (auto labelCasted =
@@ -81,7 +82,8 @@ void Game::handle_logic(float dt) {
             }
         }
 
-        if (mVSBot && mTurn == GameTurn::PLAYER2) continue;
+        if (mVSBot && mTurn == GameTurn::PLAYER2)
+            continue;
 
         if (has_flag(d->mTag, mStateOrTag))
             d->logic(dt);
@@ -123,7 +125,8 @@ void Game::handle_key(float dt) {
         break;
     }
     case GameState::INGAME: {
-        if (mVSBot && mTurn == GameTurn::PLAYER2) break;
+        if (mVSBot && mTurn == GameTurn::PLAYER2)
+            break;
 
         if (IsKeyReleased(KEY_ESCAPE)) {
             mStateOrTag = GameState::MENU;

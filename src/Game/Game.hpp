@@ -11,6 +11,7 @@
 #include <array>
 
 struct Window;
+struct GameBot;
 
 struct Game {
   public:
@@ -33,6 +34,8 @@ struct Game {
 
     bool mVSBot;
     std::array<int, 2> mScore;
+
+    GameBot *mBot;
 
     Game();
     ~Game();

@@ -39,6 +39,6 @@
 - [ ] the game itself
 - [ ] Character
 - [ ] Sprite for the bead
-- [x] Enemy AI (Maybe?)
+- [x] Enemy AI (Maybe DONE?)
 - [ ] Add little bit of delay for the enemy think (so the player can see what move they do.)
 - [ ] Ketumpuk ke bawah saat tengah (IDK)
