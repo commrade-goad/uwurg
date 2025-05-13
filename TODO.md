@@ -2,6 +2,11 @@
 
 ## List
 
+- [ ] music stuff
+- [ ] the game itself
+- [ ] Character
+- [ ] Sprite for the bead
+
 - [x] UI Obj for the point
 - [x] Score display
 - [x] shaders for the ingame
@@ -35,12 +40,11 @@
 
 ## Currently Working On
 
-- [ ] music stuff
-- [ ] the game itself
-- [ ] Character
-- [ ] Sprite for the bead
-- [ ] Add point to the bot.
+- [x] Add point to the bot.
 - [x] Enemy AI (Maybe DONE?)
 - [x] Bot Doesnt know what todo when get extra turn (sometimes)
 - [ ] Add little bit of delay for the enemy think (so the player can see what move they do.)
+
+## IDK about this
+
 - [ ] Ketumpuk ke bawah saat tengah (IDK)
