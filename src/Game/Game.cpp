@@ -125,14 +125,16 @@ void Game::handle_key(float dt) {
         break;
     }
     case GameState::INGAME: {
-        if (mVSBot && mTurn == GameTurn::PLAYER2)
-            break;
 
         if (IsKeyReleased(KEY_ESCAPE)) {
             mStateOrTag = GameState::MENU;
             _ingame_reset_state(this);
             _ingame_getdice(this);
         }
+
+        // IDK MAN This thing always block without any good reason...
+        // if (mVSBot && mTurn == GameTurn::PLAYER2)
+        //     break;
 
         if (IsKeyReleased(KEY_N)) {
             // TODO: Handle error
