@@ -41,7 +41,6 @@
 ## Currently Working On
 
 - [ ] music stuff
-- [ ] the game itself
 - [ ] Character
 - [ ] Sprite for the bead
 

@@ -70,13 +70,12 @@ void GameBot::bot_move() {
         mGame_ptr->mPosMove = get_possible_move(mGame_ptr);
 
         // IDK WTF is wrong ima just copy it.
+        // if (mGame_ptr->mVSBot && mGame_ptr->mTurn == GameTurn::PLAYER2) {
+        //     move_bot_wrapper(mGame_ptr);
+        // }
         if (mGame_ptr->mVSBot && mGame_ptr->mTurn == GameTurn::PLAYER2) {
-            if (mGame_ptr->mBot->bot_think()) {
-                mGame_ptr->mBot->bot_move();
-            } else if (mGame_ptr->mDice <= 0 || mGame_ptr->mPosMove.empty()) {
-                _ingame_getdice(mGame_ptr);
-                game_change_turn(mGame_ptr);
-            }
+            mGame_ptr->mBotCanMove = false;
+            mGame_ptr->mBot->start_timer();
         }
     }
 }
