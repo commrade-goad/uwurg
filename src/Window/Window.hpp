@@ -1,7 +1,7 @@
 #ifndef WINDOW_H_
 #define WINDOW_H_
 
-#define VERSION "0.0.7-dev"
+#define VERSION "0.0.8-dev"
 
 #include "../Game/Game.hpp"
 #include <cstddef>
