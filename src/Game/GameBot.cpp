@@ -9,18 +9,24 @@ GameBot::GameBot() {
 GameBot::~GameBot() {}
 
 void GameBot::bot_move() {
+    if (mGame_ptr->mDice <= 0) {
+        _ingame_getdice(mGame_ptr);
+        game_change_turn(mGame_ptr);
+        mGame_ptr->mPosMove = get_possible_move(mGame_ptr);
+        return;
+    }
     if (!mSelectedMove.has_value()) {
         return;
     }
-
     PossibleMove move = mSelectedMove.value();
     auto a = std::dynamic_pointer_cast<ObjBead>(move.mBead);
+
     switch (move.mType) {
     case MoveType::FINISH:
         a->mOut = false;
         a->mShow = false;
         a->mPos = 10000;
-        mGame_ptr->mScore[(int)mGame_ptr->mTurn] += 1;
+        mGame_ptr->mScore[(int)GameTurn::PLAYER2] += 1;
         TraceLog(LOG_INFO, TextFormat("Bot do the finish move with the bead name %s to this pos %d", move.mBead->mName.c_str(), move.mNewPos));
         break;
     case MoveType::NEWBEAD:
@@ -37,11 +43,6 @@ void GameBot::bot_move() {
             en_obj->mOut = false;
         }
         TraceLog(LOG_INFO, TextFormat("Bot do the bead move with the bead name %s to this pos %d", move.mBead->mName.c_str(), move.mNewPos));
-
-        // TODO: add point to the bot.
-        if (a->mPos == 15) {
-            mGame_ptr->mScore[(int)GameTurn::PLAYER2] += 1;
-        }
         break;
     default:
         break;
@@ -55,6 +56,7 @@ void GameBot::bot_move() {
             this->bot_move();
         }
     }
+    mGame_ptr->mPosMove = get_possible_move(mGame_ptr);
 }
 
 bool GameBot::bot_think() {

@@ -14,8 +14,7 @@ public:
 
     virtual void logic(float dt) {
         (void)dt;
-        if (mGame_ptr->mTurn == mBind)
-            mText = TextFormat("%d", mGame_ptr->mScore[(int)mBind]);
+        this->update_label();
     }
     virtual ~ObjScore() {}
 
