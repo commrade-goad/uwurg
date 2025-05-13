@@ -41,6 +41,6 @@
 - [ ] Sprite for the bead
 - [ ] Add point to the bot.
 - [x] Enemy AI (Maybe DONE?)
-- [ ] Bot Doesnt know what todo when get extra turn (sometimes)
+- [x] Bot Doesnt know what todo when get extra turn (sometimes)
 - [ ] Add little bit of delay for the enemy think (so the player can see what move they do.)
 - [ ] Ketumpuk ke bawah saat tengah (IDK)
