@@ -7,12 +7,17 @@ struct GameBot {
   public:
     Game *mGame_ptr;
     std::optional<PossibleMove> mSelectedMove;
-    float mTimer;
+    double mTimer;
+    double mCurrentTime, mStartTime;
 
     GameBot(double delay);
     ~GameBot();
     bool bot_think();
     void bot_move();
+
+    bool check_timer();
+    void start_timer();
+    void reset_timer();
 };
 
 

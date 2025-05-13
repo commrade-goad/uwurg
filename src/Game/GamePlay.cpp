@@ -162,12 +162,17 @@ void game_change_turn(Game *game) {
     game->mPosMove = get_possible_move(game);
 
     if (game->mVSBot && game->mTurn == GameTurn::PLAYER2) {
-        if (game->mBot->bot_think()) {
-            game->mBot->bot_move();
-        } else if (game->mDice <= 0 || game->mPosMove.empty()) {
-            _ingame_getdice(game);
-            game_change_turn(game);
-        }
+        game->mBotCanMove = false;
+        game->mBot->start_timer();
+    }
+}
+
+void move_bot_wrapper(Game *game) {
+    if (game->mBot->bot_think()) {
+        game->mBot->bot_move();
+    } else if (game->mDice <= 0 || game->mPosMove.empty()) {
+        _ingame_getdice(game);
+        game_change_turn(game);
     }
 }
 

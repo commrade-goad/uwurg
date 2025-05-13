@@ -182,7 +182,7 @@ void _create_ingame_object(Game *game, int &z_index) {
 
     // Create label for vsbot
     sptr_t<Object> vsbot_title = game->mObjMan.add_object(mk_sptr<ObjText>(
-        Rectangle{}, z_index, "vsbot_title", "VS Compumter.", WHITE, 36));
+        Rectangle{}, z_index, "vsbot_title", "VS Computer.", WHITE, 36));
     vsbot_title->mTag = GameState::INGAME;
     vsbot_title->mShow = false;
     z_index++;

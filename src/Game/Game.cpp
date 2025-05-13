@@ -23,7 +23,9 @@ Game::Game() {
     mPosMove = {};
     mVSBot = false;
     mScore = {0, 0};
-    mBot = new GameBot(500.0);
+    mBot = new GameBot(1.5);
+    mBotCanMove = true;
+    // mBot->start_timer();
 }
 
 Game::~Game() { UnloadFont(mFont); }
@@ -82,8 +84,13 @@ void Game::handle_logic(float dt) {
             }
         }
 
-        if (mVSBot && mTurn == GameTurn::PLAYER2)
+        if (mVSBot && mTurn == GameTurn::PLAYER2) {
+            if (!mBotCanMove && mBot->check_timer()) {
+                mBotCanMove = true;
+                move_bot_wrapper(this);
+            }
             continue;
+        }
 
         if (has_flag(d->mTag, mStateOrTag))
             d->logic(dt);

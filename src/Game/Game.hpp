@@ -36,6 +36,7 @@ struct Game {
     std::array<int, 2> mScore;
 
     GameBot *mBot;
+    bool mBotCanMove;
 
     Game();
     ~Game();

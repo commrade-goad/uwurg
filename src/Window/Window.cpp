@@ -3,7 +3,6 @@
 void Window::_apply_option(const char *title) {
     mName = title;
     mDefaultBgColor = BLACK;
-    mGame = Game();
     InitWindow(mSize.x, mSize.y, mName);
     SetTargetFPS(mFPS);
     if (mExitKey <= -1) return;

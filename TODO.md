@@ -2,11 +2,6 @@
 
 ## List
 
-- [ ] music stuff
-- [ ] the game itself
-- [ ] Character
-- [ ] Sprite for the bead
-
 - [x] UI Obj for the point
 - [x] Score display
 - [x] shaders for the ingame
@@ -25,6 +20,11 @@
 - [x] Reset game state when exit (not tested yet)
 - [x] Win or Lose menu (RESTART BUTTON)
 
+- [x] Add point to the bot.
+- [x] Enemy AI (Maybe DONE?)
+- [x] Bot Doesnt know what todo when get extra turn (sometimes)
+- [x] Add little bit of delay for the enemy think (so the player can see what move they do.)
+
 ## BUG
 
 - [x] Bug Finish bead gk ilang.
@@ -40,10 +40,10 @@
 
 ## Currently Working On
 
-- [x] Add point to the bot.
-- [x] Enemy AI (Maybe DONE?)
-- [x] Bot Doesnt know what todo when get extra turn (sometimes)
-- [ ] Add little bit of delay for the enemy think (so the player can see what move they do.)
+- [ ] music stuff
+- [ ] the game itself
+- [ ] Character
+- [ ] Sprite for the bead
 
 ## IDK about this
 

@@ -10,6 +10,8 @@ GameBot::GameBot(double delay) {
 GameBot::~GameBot() {}
 
 void GameBot::bot_move() {
+    if (!mGame_ptr->mBotCanMove)
+        return;
     if (mGame_ptr->mDice <= 0) {
         _ingame_getdice(mGame_ptr);
         game_change_turn(mGame_ptr);
@@ -28,13 +30,21 @@ void GameBot::bot_move() {
         a->mShow = false;
         a->mPos = 10000;
         mGame_ptr->mScore[(int)GameTurn::PLAYER2] += 1;
-        TraceLog(LOG_INFO, TextFormat("Bot do the finish move with the bead name %s to this pos %d", move.mBead->mName.c_str(), move.mNewPos));
+        TraceLog(
+            LOG_INFO,
+            TextFormat(
+                "Bot do the finish move with the bead name %s to this pos %d",
+                move.mBead->mName.c_str(), move.mNewPos));
         break;
     case MoveType::NEWBEAD:
         a->mPos = move.mNewPos;
         a->mOut = true;
         a->mShow = true;
-        TraceLog(LOG_INFO, TextFormat("Bot do the new bead move with the bead name %s to this pos %d", move.mBead->mName.c_str(), move.mNewPos));
+        TraceLog(
+            LOG_INFO,
+            TextFormat(
+                "Bot do the new bead move with the bead name %s to this pos %d",
+                move.mBead->mName.c_str(), move.mNewPos));
         break;
     case MoveType::MOVEBEAD:
         a->mPos = move.mNewPos;
@@ -43,7 +53,11 @@ void GameBot::bot_move() {
             en_obj->mPos = 0;
             en_obj->mOut = false;
         }
-        TraceLog(LOG_INFO, TextFormat("Bot do the bead move with the bead name %s to this pos %d", move.mBead->mName.c_str(), move.mNewPos));
+        TraceLog(
+            LOG_INFO,
+            TextFormat(
+                "Bot do the bead move with the bead name %s to this pos %d",
+                move.mBead->mName.c_str(), move.mNewPos));
         break;
     default:
         break;
@@ -64,11 +78,12 @@ void GameBot::bot_move() {
                 game_change_turn(mGame_ptr);
             }
         }
-
     }
 }
 
 bool GameBot::bot_think() {
+    if (!mGame_ptr->mBotCanMove)
+        return false;
     static const MoveType moveRank[3] = {FINISH, MOVEBEAD, NEWBEAD};
 
     if (!mGame_ptr) {
@@ -91,4 +106,18 @@ bool GameBot::bot_think() {
     }
     mSelectedMove = {};
     return false;
+}
+
+bool GameBot::check_timer() {
+    mCurrentTime = GetTime();
+    return mCurrentTime - mStartTime >= mTimer;
+}
+
+void GameBot::start_timer() {
+    mStartTime = GetTime();
+    mCurrentTime = GetTime();
+}
+
+void GameBot::reset_timer() {
+    this->start_timer();
 }
