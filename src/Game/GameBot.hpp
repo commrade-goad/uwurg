@@ -9,7 +9,7 @@ struct GameBot {
     std::optional<PossibleMove> mSelectedMove;
     float mTimer;
 
-    GameBot();
+    GameBot(double delay);
     ~GameBot();
     bool bot_think();
     void bot_move();

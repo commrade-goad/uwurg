@@ -2,8 +2,9 @@
 #include "../Object/ObjBead.hpp"
 #include "GameUtils.hpp"
 
-GameBot::GameBot() {
+GameBot::GameBot(double delay) {
     mSelectedMove = {};
+    mTimer = delay;
 }
 
 GameBot::~GameBot() {}

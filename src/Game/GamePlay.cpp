@@ -164,7 +164,6 @@ void game_change_turn(Game *game) {
     if (game->mVSBot && game->mTurn == GameTurn::PLAYER2) {
         if (game->mBot->bot_think()) {
             game->mBot->bot_move();
-            // TODO: Handle extra turn?
         } else if (game->mDice <= 0 || game->mPosMove.empty()) {
             _ingame_getdice(game);
             game_change_turn(game);

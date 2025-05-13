@@ -23,7 +23,7 @@ Game::Game() {
     mPosMove = {};
     mVSBot = false;
     mScore = {0, 0};
-    mBot = new GameBot();
+    mBot = new GameBot(500.0);
 }
 
 Game::~Game() { UnloadFont(mFont); }
