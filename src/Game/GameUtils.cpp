@@ -540,8 +540,6 @@ inline void _ingame_next_turn(Game *game) {
 
 void _ingame_getdice(Game *game) {
     game->mDice = GetRandomValue(0, 4);
-    // For debug purpose.
-    game->mDice = 4;
 }
 
 void _window_flag_helper(Game *game) {
