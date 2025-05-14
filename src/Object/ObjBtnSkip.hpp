@@ -17,11 +17,17 @@ struct ObjBtnSkip : public ObjButton {
         if (mGame_ptr->mWindow_ptr == nullptr)
             return;
 
-        if (mGame_ptr->mDice <= 0 && !mGame_ptr->mVSBot) mShow = true;
-        else mShow = false;
+        if (mGame_ptr->mDice <= 0 && !mGame_ptr->mVSBot)
+            mShow = true;
+        else if ((mGame_ptr->mDice <= 0 && mGame_ptr->mVSBot &&
+                 mGame_ptr->mTurn != GameTurn::PLAYER2) && mGame_ptr->mBotCanMove)
+            mShow = true;
+        else
+            mShow = false;
 
         // The button logic stuff
-        if (!mShow) return;
+        if (!mShow)
+            return;
 
         Rectangle calculated_rec =
             Rectangle(mRec.x - mPad, mRec.y - mPad, mRec.width + (mPad * 2),
@@ -33,7 +39,6 @@ struct ObjBtnSkip : public ObjButton {
         } else {
             mHovered = false;
         }
-
     }
     virtual ~ObjBtnSkip() {}
 };

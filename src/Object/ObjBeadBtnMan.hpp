@@ -29,8 +29,7 @@ struct ObjBeadBtnMan : public Object {
                 break;
             }
         }
-        if (mGame_ptr->mVSBot && mGame_ptr->mTurn == GameTurn::PLAYER2) show = false;
-
+        if ((mGame_ptr->mVSBot && mGame_ptr->mTurn == GameTurn::PLAYER2) && !mGame_ptr->mBotCanMove) show = false;
         mManagedBtn->mShow = show;
     }
 };

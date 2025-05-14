@@ -89,7 +89,7 @@ void Game::handle_logic(float dt) {
                 mBotCanMove = true;
                 move_bot_wrapper(this);
             }
-            continue;
+            // continue;
         }
 
         if (has_flag(d->mTag, mStateOrTag))
@@ -139,9 +139,8 @@ void Game::handle_key(float dt) {
             _ingame_getdice(this);
         }
 
-        // IDK MAN This thing always block without any good reason...
-        // if (mVSBot && mTurn == GameTurn::PLAYER2)
-        //     break;
+        if (mVSBot && mTurn == GameTurn::PLAYER2)
+            break;
 
         if (IsKeyReleased(KEY_N)) {
             // TODO: Handle error

@@ -214,6 +214,7 @@ void _create_ingame_object(Game *game, int &z_index) {
     sptr_t<Object> newBeadBtnMan =
         game->mObjMan.add_object(mk_sptr<ObjBeadBtnMan>(
             Rectangle{}, z_index, "new_bead_button_man", newP1BeadBtn));
+    newBeadBtnMan->mTag = GameState::INGAME;
     z_index++;
 
     // Create the skip turn button
