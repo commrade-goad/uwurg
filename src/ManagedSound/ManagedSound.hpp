@@ -7,13 +7,13 @@ struct ManagedSound {
 public:
     const char *mName;
     Sound mData;
-    bool mPlaying;
 
     ManagedSound(const char *name);
     ~ManagedSound();
 
-    void load_sound(const char *path);
-    void unload_sound();
+    bool load_sound(const char *path);
+    bool unload_sound();
+    bool is_playing();
     void play_sound();
 };
 

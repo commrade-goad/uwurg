@@ -12,7 +12,7 @@ struct SoundManager {
     SoundManager();
     ~SoundManager();
 
-    void add_sound(const char *fp, const char *name);
+    bool add_sound(const char *fp, const char *name);
     // void add_music(const char *fp, const char *name);
 
     ManagedSound *get_sound(const char *name);

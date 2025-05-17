@@ -9,9 +9,11 @@ SoundManager::~SoundManager() {
     }
 }
 
-void SoundManager::add_sound(const char *fp, const char *name) {
+bool SoundManager::add_sound(const char *fp, const char *name) {
     ManagedSound s = ManagedSound(name);
-    s.load_sound(fp);
+    if (!s.load_sound(fp)) return false;
+    mData.push_back(s);
+    return true;
 }
 // void add_music(const char *fp, const char *name) {}
 

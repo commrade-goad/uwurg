@@ -7,6 +7,20 @@ ManagedSound::ManagedSound(const char *name) {
 
 ManagedSound::~ManagedSound() {}
 
-void ManagedSound::load_sound(const char *path) { mData = LoadSound(path); }
-void ManagedSound::unload_sound() { UnloadSound(mData); }
-void ManagedSound::play_sound() { PlaySound(mData); }
+bool ManagedSound::load_sound(const char *path) {
+    mData = LoadSound(path);
+    if (!IsSoundValid(mData)) return false;
+    return true;
+}
+bool ManagedSound::unload_sound() {
+    if (!IsSoundValid(mData)) return false;
+    UnloadSound(mData);
+    return true;
+}
+void ManagedSound::play_sound() {
+    PlaySound(mData);
+}
+
+bool ManagedSound::is_playing() {
+    IsSoundPlaying(mData);
+}
