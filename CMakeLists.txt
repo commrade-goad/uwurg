@@ -31,6 +31,8 @@ FetchContent_MakeAvailable(raylib)
 set(FILE_IN
     src/TextureManager/TextureManager.cpp
     src/ObjectManager/ObjectManager.cpp
+    src/SoundManager/SoundManager.cpp
+    src/ManagedSound/ManagedSound.cpp
     src/Shaders/ShadersManager.cpp
     src/Window/Window.cpp
     src/Object/Object.cpp
