@@ -51,8 +51,6 @@ void Game::init(Window *w) {
 
     _sync_scale();
 
-    mSouMan.add_sound("./assets/bead-placed.wav", "bead_placed");
-
     _create_ingame_object(this, z_index);
     _create_menu_object(this, z_index);
     _create_settings_object(this, z_index);
@@ -195,6 +193,7 @@ void Game::handle_key(float dt) {
         if (IsKeyReleased(KEY_ESCAPE)) {
             exit_game();
         }
+        // NOTE: Remove this later.
         if (IsKeyReleased(KEY_F)) {
             ManagedSound *s = mSouMan.get_sound("bead_placed");
             s->play_sound();

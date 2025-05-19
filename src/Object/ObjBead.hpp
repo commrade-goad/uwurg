@@ -4,6 +4,7 @@
 #include "../Game/Game.hpp"
 #include "../Game/GameTurn.hpp"
 #include "Object.hpp"
+
 #include <cassert>
 #include <cstring>
 #include <functional>
@@ -30,6 +31,7 @@ struct ObjBead : public Object {
     int mIndex;
     Color mUtilsColor;
     Color mUtilsColorInvert;
+    ManagedSound *mSound;
 
   public:
     int mPos;
@@ -85,8 +87,9 @@ struct ObjBead : public Object {
         if (mGame_ptr->mWindow_ptr == nullptr)
             return;
         if (CheckCollisionPointRec(mGame_ptr->mCursorPos, mRec)) {
-            if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON))
+            if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
                 mOnClick();
+            }
         }
     }
 
