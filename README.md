@@ -14,8 +14,3 @@ cd build
 cmake -DCMAKE_BUILD_TYPE=Release .. #or `Debug` for debug build.
 make -j`nproc`
 ```
-
-## Note
-__!!! STILL WIP !!!__
-
-AI Still not worked yet.
