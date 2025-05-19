@@ -4,7 +4,7 @@
 #include <raylib.h>
 
 struct ManagedSound {
-public:
+  public:
     const char *mName;
     Sound mData;
 

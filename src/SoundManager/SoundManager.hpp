@@ -8,6 +8,7 @@
 
 struct SoundManager {
     std::vector<ManagedSound> mData;
+
   public:
     SoundManager();
     ~SoundManager();

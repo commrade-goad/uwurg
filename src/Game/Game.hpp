@@ -4,6 +4,7 @@
 #include "../ObjectManager/ObjectManager.hpp"
 #include "../Shaders/ShadersManager.hpp"
 #include "../TextureManager/TextureManager.hpp"
+#include "../SoundManager/SoundManager.hpp"
 #include "GameState.hpp"
 #include "GameTurn.hpp"
 #include "GamePlay.hpp"
@@ -18,6 +19,7 @@ struct Game {
     TextureManager mTexMan;
     ObjectManager mObjMan;
     ShadersManager mSMan;
+    SoundManager mSouMan;
     Window *mWindow_ptr;
     Font mFont;
 

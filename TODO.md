@@ -43,6 +43,7 @@
 - [ ] music stuff
 - [ ] Character
 - [ ] Sprite for the bead
+- [ ] Pause??
 
 ## IDK about this
 

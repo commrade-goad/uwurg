@@ -12,6 +12,7 @@ Game::Game() {
     mTexMan = TextureManager();
     mObjMan = ObjectManager();
     mSMan = ShadersManager();
+    mSouMan = SoundManager();
     mWindow_ptr = nullptr;
     mStateOrTag = GameState::MENU;
     mScale = 0;
@@ -49,6 +50,8 @@ void Game::init(Window *w) {
     mSMan.add_shader_from_mem("ingame", nullptr, ingame_shaders);
 
     _sync_scale();
+
+    mSouMan.add_sound("./assets/bead-placed.wav", "bead_placed");
 
     _create_ingame_object(this, z_index);
     _create_menu_object(this, z_index);
@@ -191,6 +194,10 @@ void Game::handle_key(float dt) {
         }
         if (IsKeyReleased(KEY_ESCAPE)) {
             exit_game();
+        }
+        if (IsKeyReleased(KEY_F)) {
+            ManagedSound *s = mSouMan.get_sound("bead_placed");
+            s->play_sound();
         }
         break;
     }

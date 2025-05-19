@@ -4,6 +4,7 @@ void Window::_apply_option(const char *title) {
     mName = title;
     mDefaultBgColor = BLACK;
     InitWindow(mSize.x, mSize.y, mName);
+    InitAudioDevice();
     SetTargetFPS(mFPS);
     if (mExitKey <= -1) return;
     SetExitKey(mExitKey);
@@ -30,7 +31,10 @@ Window::Window(Vector2 size, const char *title, size_t fps, int exit_key) {
     _apply_option(title);
 }
 
-Window::~Window() { CloseWindow(); }
+Window::~Window() {
+    CloseWindow();
+    CloseAudioDevice();
+}
 
 void Window::set_window_size(Vector2 size) {
     mSize = size;
