@@ -3,6 +3,7 @@
 
 #include "../Game/Game.hpp"
 #include "../Game/GameTurn.hpp"
+#include "../ManagedSound/ManagedSound.hpp"
 #include "Object.hpp"
 
 #include <cassert>
@@ -31,12 +32,13 @@ struct ObjBead : public Object {
     int mIndex;
     Color mUtilsColor;
     Color mUtilsColorInvert;
-    ManagedSound *mSound;
 
   public:
     int mPos;
     bool mOut;
     GameTurn mGroup;
+    ManagedSound *mSound;
+
     std::function<void()> mOnClick = nullptr;
 
     ObjBead(Rectangle rec, int z_index, const char *name, sptr_t<Object> board,

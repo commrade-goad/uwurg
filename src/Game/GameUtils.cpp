@@ -155,9 +155,6 @@ void _create_ingame_object(Game *game, int &z_index) {
     turn_ind->mTag = GameState::INGAME;
     z_index++;
 
-    // MOVE THIS LATER
-    // NOTE: Will need to move this to other file later.
-    game->mSouMan.add_sound("./assets/bead-placed.wav", "bead_placed");
     ManagedSound *s = game->mSouMan.get_sound("bead_placed");
     if (!s) {
         TraceLog(LOG_INFO, "GameUtils cant read bead_placed audio");
@@ -173,6 +170,7 @@ void _create_ingame_object(Game *game, int &z_index) {
         test_bead->mText = bead_white_txt;
         auto a = std::dynamic_pointer_cast<ObjBead>(test_bead);
         a->mOnClick = [game, a]() { _ingame_bead_button_helper(a, game); };
+        a->mSound = s;
         z_index++;
     }
 
@@ -185,6 +183,7 @@ void _create_ingame_object(Game *game, int &z_index) {
         test_bead->mText = bead_black_txt;
         auto a = std::dynamic_pointer_cast<ObjBead>(test_bead);
         a->mOnClick = [game, a]() { _ingame_bead_button_helper(a, game); };
+        a->mSound = s;
         z_index++;
     }
 

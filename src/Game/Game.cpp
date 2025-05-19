@@ -37,6 +37,8 @@ void Game::init(Window *w) {
     mBot->mGame_ptr = this;
     int z_index = 1;
 
+    mSouMan.add_sound("./assets/bead-placed.wav", "bead_placed");
+
     mFont =
         LoadFontEx("./assets/Pixelify_Sans/PixelifySans-VariableFont_wght.ttf",
                    96, NULL, 95);
@@ -193,6 +195,7 @@ void Game::handle_key(float dt) {
         if (IsKeyReleased(KEY_ESCAPE)) {
             exit_game();
         }
+        // TODO
         // NOTE: Remove this later.
         if (IsKeyReleased(KEY_F)) {
             ManagedSound *s = mSouMan.get_sound("bead_placed");

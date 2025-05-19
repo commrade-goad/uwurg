@@ -2,10 +2,11 @@
 #define MANAGEDSOUND_H_
 
 #include <raylib.h>
+#include <string>
 
 struct ManagedSound {
   public:
-    const char *mName;
+    std::string mName;
     Sound mData;
 
     ManagedSound(const char *name);

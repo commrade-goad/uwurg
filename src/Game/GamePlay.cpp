@@ -187,6 +187,7 @@ bool game_new_bead_helper(Game *game) {
                 cobj->mOut = true;
                 cobj->mPos = pmove.mNewPos;
                 cobj->mShow = true;
+                cobj->mSound->play_sound();
                 success = true;
                 break;
             }
