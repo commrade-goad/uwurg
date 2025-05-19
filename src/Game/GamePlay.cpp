@@ -219,6 +219,7 @@ bool game_move_bead_helper(Game *game, int nBead) {
                     cobj->mOut = false;
                     cobj->mPos = 10000;
                     game->mScore[(int)game->mTurn] += 1;
+                    cobj->mSound->play_sound();
                     success = true;
                     break;
                 }
@@ -231,6 +232,7 @@ bool game_move_bead_helper(Game *game, int nBead) {
                 }
                 if (cobj->mOut) {
                     cobj->mPos = pmove.mNewPos;
+                    cobj->mSound->play_sound();
                     success = true;
                     break;
                 }
