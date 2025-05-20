@@ -195,12 +195,6 @@ void Game::handle_key(float dt) {
         if (IsKeyReleased(KEY_ESCAPE)) {
             exit_game();
         }
-        // TODO
-        // NOTE: Remove this later.
-        if (IsKeyReleased(KEY_F)) {
-            ManagedSound *s = mSouMan.get_sound("bead_placed");
-            s->play_sound();
-        }
         break;
     }
     case GameState::SETTINGS: {

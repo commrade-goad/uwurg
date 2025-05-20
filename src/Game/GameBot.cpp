@@ -30,6 +30,7 @@ void GameBot::bot_move() {
         a->mShow = false;
         a->mPos = 10000;
         mGame_ptr->mScore[(int)GameTurn::PLAYER2] += 1;
+        a->mSound->play_sound();
         TraceLog(
             LOG_INFO,
             TextFormat(
@@ -40,6 +41,7 @@ void GameBot::bot_move() {
         a->mPos = move.mNewPos;
         a->mOut = true;
         a->mShow = true;
+        a->mSound->play_sound();
         TraceLog(
             LOG_INFO,
             TextFormat(
@@ -48,6 +50,7 @@ void GameBot::bot_move() {
         break;
     case MoveType::MOVEBEAD:
         a->mPos = move.mNewPos;
+        a->mSound->play_sound();
         if (sptr_t<ObjBead> en_obj =
                 std::dynamic_pointer_cast<ObjBead>(move.mEnBead)) {
             en_obj->mPos = 0;
