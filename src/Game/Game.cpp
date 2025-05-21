@@ -29,7 +29,10 @@ Game::Game() {
     // mBot->start_timer();
 }
 
-Game::~Game() { UnloadFont(mFont); }
+Game::~Game() {
+    UnloadFont(mFont);
+    UnloadMusicStream(mMusic);
+}
 
 void Game::init(Window *w) {
     mWindow_ptr = w;
@@ -37,7 +40,8 @@ void Game::init(Window *w) {
     mBot->mGame_ptr = this;
     int z_index = 1;
 
-    mSouMan.add_sound("./assets/bead-placed.wav", "bead_placed");
+    mSouMan.load_sound("./assets/bead-placed.wav", "bead_placed");
+    mMusic = LoadMusicStream("./assets/background-music.mp3");
 
     mFont =
         LoadFontEx("./assets/Pixelify_Sans/PixelifySans-VariableFont_wght.ttf",
@@ -63,10 +67,21 @@ void Game::init(Window *w) {
 
     _ingame_getdice(this);
     mPosMove = get_possible_move(this);
+
+    // Play the music.
+    PlayMusicStream(mMusic);
+    SetMusicVolume(mMusic, 0.2f);
 }
 
 void Game::handle_logic(float dt) {
+    // To keep the stream alive it seems.
+    UpdateMusicStream(mMusic);
     GameState current_state = mStateOrTag;
+
+    // If the current state not menu then decrase the volume more.
+    if (current_state == GameState::INGAME || current_state == GameState::FINISHED)
+        SetMusicVolume(mMusic, 0.1f);
+
     for (auto &d : mObjMan.mData) {
         if (current_state != mStateOrTag) {
             // TODO: Do something here...
@@ -140,6 +155,7 @@ void Game::handle_key(float dt) {
             mStateOrTag = GameState::MENU;
             _ingame_reset_state(this);
             _ingame_getdice(this);
+            SetMusicVolume(mMusic, 0.2f);
         }
 
         if (mVSBot && mTurn == GameTurn::PLAYER2)

@@ -301,6 +301,7 @@ void _create_finish_menu_object(Game *game, int &z_index) {
         GetColor(0x153CB4FF), WHITE, font_button_size, 10, [game]() {
             _ingame_reset_state(game);
             game->mStateOrTag = GameState::MENU;
+            SetMusicVolume(game->mMusic, 0.2f);
         }));
     mainMenuBtn->mTag = GameState::FINISHED;
     z_index++;

@@ -22,6 +22,7 @@ struct Game {
     SoundManager mSouMan;
     Window *mWindow_ptr;
     Font mFont;
+    Music mMusic;
 
     GameState mStateOrTag;
     int mScale;

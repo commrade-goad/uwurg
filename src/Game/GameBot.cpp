@@ -72,10 +72,6 @@ void GameBot::bot_move() {
         TraceLog(LOG_INFO, "Bot get an extra turn .");
         mGame_ptr->mPosMove = get_possible_move(mGame_ptr);
 
-        // IDK WTF is wrong ima just copy it.
-        // if (mGame_ptr->mVSBot && mGame_ptr->mTurn == GameTurn::PLAYER2) {
-        //     move_bot_wrapper(mGame_ptr);
-        // }
         if (mGame_ptr->mVSBot && mGame_ptr->mTurn == GameTurn::PLAYER2) {
             mGame_ptr->mBotCanMove = false;
             mGame_ptr->mBot->start_timer();

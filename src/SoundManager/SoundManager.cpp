@@ -7,14 +7,13 @@ SoundManager::~SoundManager() {
     }
 }
 
-bool SoundManager::add_sound(const char *fp, const char *name) {
+bool SoundManager::load_sound(const char *fp, const char *name) {
     ManagedSound s = ManagedSound(name);
     if (!s.load_sound(fp))
         return false;
     mData.push_back(s);
     return true;
 }
-// void add_music(const char *fp, const char *name) {}
 
 ManagedSound *SoundManager::get_sound(const char *name) {
     for (size_t i = 0; i < mData.size(); i++) {
@@ -25,4 +24,3 @@ ManagedSound *SoundManager::get_sound(const char *name) {
     }
     return nullptr;
 }
-// ManagedSound get_music(const char *name) {}

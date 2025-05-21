@@ -31,6 +31,7 @@
 - [x] Tidak mendapatkan point juga (FINISH BORKED)
 - [x] LockDown tidak bisa move -> Skip Turn
 - [x] Tempat extra turn salah
+- [x] music for the background
 
 ## Resource
 
@@ -40,10 +41,7 @@
 
 ## Currently Working On
 
-- [ ] music stuff
-- [ ] Character
 - [ ] Sprite for the bead
-- [ ] Pause??
 
 ## IDK about this
 
