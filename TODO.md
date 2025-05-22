@@ -41,7 +41,10 @@
 
 ## Currently Working On
 
-- [ ] Sprite for the bead
+- [ ] Winning sound.
+- [ ] Sprite for the bead.
+- [x] Bug when bot turn bead still clickable.
+- [x] Bug when bot turn bead still render the index.
 
 ## IDK about this
 

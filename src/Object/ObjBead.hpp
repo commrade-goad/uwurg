@@ -55,7 +55,6 @@ struct ObjBead : public Object {
         mUtilsColorInvert = utils_color_invert;
     }
 
-    // TODO: Add bead index rendering
     virtual void render() {
         if (!mShow || !mOut)
             return;
@@ -72,6 +71,9 @@ struct ObjBead : public Object {
                            mRec, Vector2(0, 0), 0.0f, WHITE);
             int rec_size = 9 * mGame_ptr->mScale;
             if (mGame_ptr->mTurn == mGroup) {
+                // Disable index rendering when vsbot and bot turn.
+                if (mGame_ptr->mTurn == GameTurn::PLAYER2 && mGame_ptr->mVSBot)
+                    return;
                 DrawRectangleRec(
                     Rectangle(mRec.x, mRec.y, rec_size / 2.0f, rec_size),
                     mUtilsColorInvert);
@@ -86,7 +88,9 @@ struct ObjBead : public Object {
 
     virtual void logic(float dt) {
         (void)dt;
-        if (mGame_ptr->mWindow_ptr == nullptr)
+        // Disable logic when no window and vsbot.
+        if (mGame_ptr->mWindow_ptr == nullptr ||
+            (mGame_ptr->mVSBot && mGame_ptr->mTurn == GameTurn::PLAYER2))
             return;
         if (CheckCollisionPointRec(mGame_ptr->mCursorPos, mRec)) {
             if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {

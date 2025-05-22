@@ -6,7 +6,7 @@
 #include "GameBot.hpp"
 #include "GameUtils.hpp"
 
-#define DEBUG_MODE
+// #define DEBUG_MODE
 
 Game::Game() {
     mTexMan = TextureManager();
@@ -26,7 +26,6 @@ Game::Game() {
     mScore = {0, 0};
     mBot = new GameBot(1.5);
     mBotCanMove = true;
-    // mBot->start_timer();
 }
 
 Game::~Game() {
@@ -41,6 +40,7 @@ void Game::init(Window *w) {
     int z_index = 1;
 
     mSouMan.load_sound("./assets/bead-placed.wav", "bead_placed");
+    // TODO: Refactor to be its own class
     mMusic = LoadMusicStream("./assets/background-music.mp3");
 
     mFont =
@@ -70,7 +70,7 @@ void Game::init(Window *w) {
 
     // Play the music.
     PlayMusicStream(mMusic);
-    SetMusicVolume(mMusic, 0.2f);
+    SetMusicVolume(mMusic, VOL_NORMAL);
 }
 
 void Game::handle_logic(float dt) {
@@ -80,7 +80,7 @@ void Game::handle_logic(float dt) {
 
     // If the current state not menu then decrase the volume more.
     if (current_state == GameState::INGAME || current_state == GameState::FINISHED)
-        SetMusicVolume(mMusic, 0.1f);
+        SetMusicVolume(mMusic, VOL_LOW);
 
     for (auto &d : mObjMan.mData) {
         if (current_state != mStateOrTag) {
@@ -155,7 +155,7 @@ void Game::handle_key(float dt) {
             mStateOrTag = GameState::MENU;
             _ingame_reset_state(this);
             _ingame_getdice(this);
-            SetMusicVolume(mMusic, 0.2f);
+            SetMusicVolume(mMusic, VOL_NORMAL);
         }
 
         if (mVSBot && mTurn == GameTurn::PLAYER2)

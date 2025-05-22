@@ -11,6 +11,9 @@
 #include <raylib.h>
 #include <array>
 
+#define VOL_NORMAL 0.2f
+#define VOL_LOW 0.1f
+
 struct Window;
 struct GameBot;
 
