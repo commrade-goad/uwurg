@@ -19,11 +19,11 @@
 - [x] Make new bead not cameout when not possible.
 - [x] Reset game state when exit (not tested yet)
 - [x] Win or Lose menu (RESTART BUTTON)
-
 - [x] Add point to the bot.
 - [x] Enemy AI (Maybe DONE?)
 - [x] Bot Doesnt know what todo when get extra turn (sometimes)
 - [x] Add little bit of delay for the enemy think (so the player can see what move they do.)
+- [x] Winning sound.
 
 ## BUG
 
@@ -32,6 +32,8 @@
 - [x] LockDown tidak bisa move -> Skip Turn
 - [x] Tempat extra turn salah
 - [x] music for the background
+- [x] Bug when bot turn bead still clickable.
+- [x] Bug when bot turn bead still render the index.
 
 ## Resource
 
@@ -41,10 +43,7 @@
 
 ## Currently Working On
 
-- [ ] Winning sound.
 - [ ] Sprite for the bead.
-- [x] Bug when bot turn bead still clickable.
-- [x] Bug when bot turn bead still render the index.
 
 ## IDK about this
 
