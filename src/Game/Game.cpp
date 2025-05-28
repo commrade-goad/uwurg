@@ -6,7 +6,9 @@
 #include "GameBot.hpp"
 #include "GameUtils.hpp"
 
-// #define DEBUG_MODE
+#define DEBUG_MODE
+
+auto winSound = std::pair<bool, ManagedSound*>(true, nullptr);
 
 Game::Game() {
     mTexMan = TextureManager();
@@ -22,10 +24,11 @@ Game::Game() {
 
     mTurn = GameTurn::PLAYER1;
     mPosMove = {};
-    mVSBot = false;
     mScore = {0, 0};
+    mVSBot = false;
     mBot = new GameBot(1.5);
     mBotCanMove = true;
+    winSound.first = true;
 }
 
 Game::~Game() {
@@ -40,6 +43,9 @@ void Game::init(Window *w) {
     int z_index = 1;
 
     mSouMan.load_sound("./assets/bead-placed.wav", "bead_placed");
+    mSouMan.load_sound("./assets/victory-96688.mp3", "victory");
+    winSound.second = mSouMan.get_sound("victory");
+    SetSoundVolume(winSound.second->mData, 0.2);
     // TODO: Refactor to be its own class
     mMusic = LoadMusicStream("./assets/background-music.mp3");
 
@@ -89,6 +95,11 @@ void Game::handle_logic(float dt) {
         }
         std::optional<GameTurn> winnning = game_check_win(this);
         if (winnning.has_value()) {
+            if (winSound.first) {
+                TraceLog(LOG_INFO, "Playing the winning sound");
+                winSound.second->play_sound();
+                winSound.first = false;
+            }
             sptr_t<Object> label = mObjMan.get_object("win_label");
             if (label != nullptr) {
                 if (auto labelCasted =
@@ -168,7 +179,7 @@ void Game::handle_key(float dt) {
 
 #ifdef DEBUG_MODE
         if (IsKeyReleased(KEY_G)) {
-            mScore[(int)mTurn] = 6;
+            mScore[(int)mTurn] = 7;
         }
 #endif
 
@@ -244,3 +255,7 @@ void Game::_sync_scale() {
 }
 
 void Game::exit_game() { mWantExit = true; }
+
+void set_winsound_playable(bool p) {
+    winSound.first = p;
+}

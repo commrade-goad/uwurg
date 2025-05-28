@@ -56,4 +56,6 @@ struct Game {
     void _sync_scale();
 };
 
+void set_winsound_playable(bool p);
+
 #endif // GAME_H_

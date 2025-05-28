@@ -292,6 +292,9 @@ void _create_finish_menu_object(Game *game, int &z_index) {
             _ingame_reset_state(game);
             _ingame_getdice(game);
             game->mPosMove = get_possible_move(game);
+            auto vic = game->mSouMan.get_sound("victory");
+            vic->stop_sound();
+            set_winsound_playable(true);
         }));
     restartBtn->mTag = GameState::FINISHED;
     z_index++;
@@ -302,6 +305,9 @@ void _create_finish_menu_object(Game *game, int &z_index) {
             _ingame_reset_state(game);
             game->mStateOrTag = GameState::MENU;
             SetMusicVolume(game->mMusic, VOL_NORMAL);
+            auto vic = game->mSouMan.get_sound("victory");
+            vic->stop_sound();
+            set_winsound_playable(true);
         }));
     mainMenuBtn->mTag = GameState::FINISHED;
     z_index++;
