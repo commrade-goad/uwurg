@@ -10,12 +10,13 @@ struct ManagedSound {
     Sound mData;
 
     ManagedSound(const char *name);
-    ~ManagedSound();
+    virtual ~ManagedSound();
 
     bool load_sound(const char *path);
     bool unload_sound();
     bool is_playing();
     void play_sound();
+    void stop_sound();
 };
 
 #endif // MANAGEDSOUND_H_

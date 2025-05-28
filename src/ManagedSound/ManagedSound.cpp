@@ -24,3 +24,4 @@ void ManagedSound::play_sound() {
 }
 
 bool ManagedSound::is_playing() { return IsSoundPlaying(mData); }
+void ManagedSound::stop_sound() { StopSound(mData); }
