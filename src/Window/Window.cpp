@@ -52,9 +52,11 @@ bool Window::start_window_loop() {
 
     mState = {};
     if (mState.read_from_file(CONFIG_PATH)) {
-        set_window_size(mState.mWindowSize);
-        _change_res_helper(&mGame);
-        if (mState.mIsFullscreen) _window_flag_helper(&mGame);
+        if (mState.mWindowSize.x > 100 || mState.mWindowSize.y > 100) {
+            set_window_size(mState.mWindowSize);
+            _change_res_helper(&mGame);
+            if (mState.mIsFullscreen) _window_flag_helper(&mGame);
+        }
     };
 
     while (!WindowShouldClose()) {
