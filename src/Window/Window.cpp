@@ -1,4 +1,5 @@
 #include "Window.hpp"
+#include "../Game/GameUtils.hpp"
 
 void Window::_apply_option(const char *title) {
     mName = title;
@@ -8,6 +9,7 @@ void Window::_apply_option(const char *title) {
     SetTargetFPS(mFPS);
     if (mExitKey <= -1) return;
     SetExitKey(mExitKey);
+
 }
 
 Window::Window(Vector2 size, const char *title) {
@@ -47,6 +49,14 @@ Vector2 *Window::get_window_size() { return &mSize; }
 bool Window::start_window_loop() {
     mGame.init(this);
     mGame.mWindow_ptr = this;
+
+    mState = {};
+    if (mState.read_from_file(CONFIG_PATH)) {
+        set_window_size(mState.mWindowSize);
+        _change_res_helper(&mGame);
+        if (mState.mIsFullscreen) _window_flag_helper(&mGame);
+    };
+
     while (!WindowShouldClose()) {
         if (mGame.mWantExit)
             break;
@@ -55,6 +65,12 @@ bool Window::start_window_loop() {
         _handle_logic(dt);
         _handle_drawing(dt);
     }
+
+    mState.mIsFullscreen = IsWindowFullscreen();
+    if (mState.mIsFullscreen) mState.mWindowSize = mOldSize;
+    else mState.mWindowSize = mSize;
+    mState.write_to_file(CONFIG_PATH);
+
     return true;
 }
 

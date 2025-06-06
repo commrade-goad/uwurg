@@ -40,6 +40,7 @@ set(FILE_IN
     src/Game/GameUtils.cpp
     src/Game/GamePlay.cpp
     src/Game/GameBot.cpp
+    src/State/State.cpp
     src/main.cpp
 )
 

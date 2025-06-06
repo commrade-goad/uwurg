@@ -572,6 +572,10 @@ void _window_res_helper(Game *game) {
         game->mWindow_ptr->set_window_size(Vector2(854, 480));
     else
         game->mWindow_ptr->set_window_size(Vector2(1280, 720));
+    _change_res_helper(game);
+}
+
+void _change_res_helper(Game *game) {
     _recalculate_all_pos(game);
     _change_text_from_obj(game, "fscreen_btn",
                           IsWindowFullscreen() ? "FULLSCREEN (E)"

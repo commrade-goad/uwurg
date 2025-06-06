@@ -2,8 +2,10 @@
 #define WINDOW_H_
 
 #define VERSION "0.0.9-dev"
+#define CONFIG_PATH "./savefile"
 
 #include "../Game/Game.hpp"
+#include "../State/State.hpp"
 #include <cstddef>
 #include <raylib.h>
 
@@ -17,6 +19,7 @@ struct Window {
     Color mDefaultBgColor;
 
     Game mGame;
+    PState mState;
 
     Vector2 mOldSize;
 

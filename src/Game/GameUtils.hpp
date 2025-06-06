@@ -23,6 +23,7 @@ void _change_text_from_obj(Game *game, const char *obj_name,
                            const char *new_str);
 void _recalculate_all_pos(Game *game);
 void _window_res_helper(Game *game);
+void _change_res_helper(Game *game);
 void _window_flag_helper(Game *game);
 
 void _start_game(Game *game, bool vsbot);

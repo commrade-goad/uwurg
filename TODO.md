@@ -24,6 +24,7 @@
 - [x] Bot Doesnt know what todo when get extra turn (sometimes)
 - [x] Add little bit of delay for the enemy think (so the player can see what move they do.)
 - [x] Winning sound.
+- [x] Save Mechanism?
 
 ## BUG
 
