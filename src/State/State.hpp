@@ -5,8 +5,8 @@
 
 struct PState {
 public:
-    bool mIsFullscreen;
     Vector2 mWindowSize;
+    bool mIsFullscreen;
 
     PState();
     ~PState() = default;

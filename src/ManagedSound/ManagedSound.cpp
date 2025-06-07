@@ -12,6 +12,7 @@ bool ManagedSound::load_sound(const char *path) {
         return false;
     return true;
 }
+
 bool ManagedSound::unload_sound() {
     if (!IsSoundValid(mData))
         return false;
