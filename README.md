@@ -7,8 +7,17 @@ a port of [turg](https://github.com/commrade-goad/turg) from C to C++ with for `
 - [raylib](https://github.com/raysan5/raylib)
 
 ## Build
+### Arch Linux
+Run : `sudo pacman -S base-devel clang glu cmake libx11 git`
+
+### Ubuntu
+Run : `sudo apt install -y libgl1-mesa-dev libglu1-mesa-dev libx11-dev libxcb1-dev libxau-dev libxdmcp-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev git build-essential clang`
+
+### Shared
 
 ```sh
+git clone https://github.com/commrade-goad/uwurg
+cd uwurg
 mkdir build
 cd build
 cmake -DCMAKE_BUILD_TYPE=Release .. #or `Debug` for debug build.
