@@ -11,7 +11,15 @@ a port of [turg](https://github.com/commrade-goad/turg) from C to C++ with for `
 Run : `sudo pacman -S base-devel clang glu cmake libx11 git libglvnd gcc-libs libxcb libxau libxdmcp libxcursor libxinerama libxrandr`
 
 ### Ubuntu
-Run : `sudo apt install -y libgl1-mesa-dev libglu1-mesa-dev libx11-dev libxcb1-dev libxau-dev libxdmcp-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev git build-essential clang`
+```bash
+sudo apt install -y libgl1-mesa-dev libglu1-mesa-dev libx11-dev libxcb1-dev libxau-dev libxdmcp-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libasound2-dev git build-essential clang
+```
+
+> **Note:**  
+> Disarankan install `cmake` via **Snap** supaya dapat versi terbaru (karena versi dari apt biasanya ketinggalan jauh):
+```bash
+sudo snap install cmake --classic
+```
 
 ### Shared
 
@@ -22,4 +30,5 @@ mkdir build
 cd build
 cmake -DCMAKE_BUILD_TYPE=Release .. #or `Debug` for debug build.
 make -j`nproc`
+,/uwurg
 ```
