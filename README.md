@@ -12,7 +12,7 @@ Run : `sudo pacman -S base-devel clang glu cmake libx11 git libglvnd gcc-libs li
 
 ### Ubuntu
 ```bash
-sudo apt install -y libgl1-mesa-dev libglu1-mesa-dev libx11-dev libxcb1-dev libxau-dev libxdmcp-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libasound2-dev git build-essential clang
+sudo apt install -y cmake libgl1-mesa-dev libglu1-mesa-dev libx11-dev libxcb1-dev libxau-dev libxdmcp-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libasound2-dev git build-essential clang
 ```
 
 > **Note:**  
@@ -30,5 +30,6 @@ mkdir build
 cd build
 cmake -DCMAKE_BUILD_TYPE=Release .. #or `Debug` for debug build.
 make -j`nproc`
-,/uwurg
+cd ..
+./build/uwurg
 ```
