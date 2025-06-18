@@ -7,12 +7,16 @@ a port of [turg](https://github.com/commrade-goad/turg) from C to C++ with for `
 - [raylib](https://github.com/raysan5/raylib)
 
 ## Build
+### Windows
+
+Findout yourself (cause it need Visual Studio to build the game, and it need 10GG+ size to setup)
+
 ### Arch Linux
 Run : `sudo pacman -S base-devel clang glu cmake libx11 git libglvnd gcc-libs libxcb libxau libxdmcp libxcursor libxinerama libxrandr`
 
 ### Ubuntu
 ```bash
-sudo apt install -y libgl1-mesa-dev libglu1-mesa-dev libx11-dev libxcb1-dev libxau-dev libxdmcp-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libasound2-dev git build-essential clang
+sudo apt install -y cmake libgl1-mesa-dev libglu1-mesa-dev libx11-dev libxcb1-dev libxau-dev libxdmcp-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libasound2-dev git build-essential clang
 ```
 
 > **Note:**  
@@ -30,5 +34,6 @@ mkdir build
 cd build
 cmake -DCMAKE_BUILD_TYPE=Release .. #or `Debug` for debug build.
 make -j`nproc`
-,/uwurg
+cd ..
+./build/uwurg
 ```
