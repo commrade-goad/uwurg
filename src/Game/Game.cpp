@@ -45,7 +45,8 @@ void Game::init(Window *w) {
     mSouMan.load_sound("./assets/bead-placed.wav", "bead_placed");
     mSouMan.load_sound("./assets/victory-96688.mp3", "victory");
     winSound.second = mSouMan.get_sound("victory");
-    SetSoundVolume(winSound.second->mData, 0.2);
+    if (winSound.second)
+        SetSoundVolume(winSound.second->mData, 0.2);
     // TODO: Refactor to be its own class
     mMusic = LoadMusicStream("./assets/background-music.mp3");
 
