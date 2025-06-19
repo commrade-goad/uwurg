@@ -2,6 +2,7 @@
 #include "../Object/ObjText.hpp"
 #include "../Shaders/ingameShaders.hpp"
 #include "../Shaders/menuShaders.hpp"
+#include "../Shaders/beadShaders.hpp"
 #include "../Window/Window.hpp"
 #include "GameBot.hpp"
 #include "GameUtils.hpp"
@@ -61,6 +62,7 @@ void Game::init(Window *w) {
 
     mSMan.add_shader_from_mem("menu", nullptr, menu_shaders);
     mSMan.add_shader_from_mem("ingame", nullptr, ingame_shaders);
+    mSMan.add_shader_from_mem("bead", nullptr, bead_shaders);
 
     _sync_scale();
 

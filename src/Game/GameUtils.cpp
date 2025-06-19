@@ -161,6 +161,7 @@ void _create_ingame_object(Game *game, int &z_index) {
     }
 
     // Create the bead
+    Shader *bead_shader = game->mSMan.get_shader("bead");
     for (int i = 0; i < 7; i++) {
         sptr_t<Object> test_bead = game->mObjMan.add_object(mk_sptr<ObjBead>(
             Rectangle{}, z_index, TextFormat("bead_p1_%d", i), board_obj,
@@ -171,6 +172,7 @@ void _create_ingame_object(Game *game, int &z_index) {
         auto a = std::dynamic_pointer_cast<ObjBead>(test_bead);
         a->mOnClick = [game, a]() { _ingame_bead_button_helper(a, game); };
         a->mSound = s;
+        if (bead_shader) a->mShader = bead_shader;
         z_index++;
     }
 
@@ -184,6 +186,7 @@ void _create_ingame_object(Game *game, int &z_index) {
         auto a = std::dynamic_pointer_cast<ObjBead>(test_bead);
         a->mOnClick = [game, a]() { _ingame_bead_button_helper(a, game); };
         a->mSound = s;
+        if (bead_shader) a->mShader = bead_shader;
         z_index++;
     }
 

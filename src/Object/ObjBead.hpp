@@ -40,6 +40,7 @@ struct ObjBead : public Object {
     bool mOut;
     GameTurn mGroup;
     ManagedSound *mSound;
+    Shader *mShader;
 
     std::function<void()> mOnClick = nullptr;
 
@@ -55,6 +56,7 @@ struct ObjBead : public Object {
         mIndex = atoi(name + jump_for) + 1;
         mUtilsColor = utils_color;
         mUtilsColorInvert = utils_color_invert;
+        mShader = nullptr;
     }
 
     virtual void render() {
@@ -69,11 +71,23 @@ struct ObjBead : public Object {
         mRec.height = 20 * mGame_ptr->mScale;
 
         if (mText != nullptr && mText->width > 0 && mText->height > 0) {
-            DrawTexturePro(*mText, Rectangle(0, 0, mText->width, mText->height),
-                           Rectangle{mRec.x + PADDING, mRec.y + PADDING, mRec.width - PADDING * 2, mRec.height - PADDING * 2},
-                           Vector2(0, 0), 0.0f, WHITE);
+
             int rec_size = 9 * mGame_ptr->mScale;
             if (mGame_ptr->mTurn == mGroup) {
+                static const Vector2 texel_size = {
+                    1.0f / (float)mText->width,
+                    1.0f / (float)mText->height
+                };
+                static int texelSizeLoc = GetShaderLocation(*mShader, "texelSize");
+                SetShaderValue(*mShader, texelSizeLoc, &texel_size, SHADER_UNIFORM_VEC2);
+                BeginShaderMode(*mShader);
+
+                DrawTexturePro(*mText, Rectangle(0, 0, mText->width, mText->height),
+                        Rectangle{mRec.x + PADDING, mRec.y + PADDING, mRec.width - PADDING * 2, mRec.height - PADDING * 2},
+                        Vector2(0, 0), 0.0f, WHITE);
+
+                EndShaderMode();
+
                 // Disable index rendering when vsbot and bot turn.
                 if (mGame_ptr->mTurn == GameTurn::PLAYER2 && mGame_ptr->mVSBot)
                     return;
@@ -83,6 +97,10 @@ struct ObjBead : public Object {
                 DrawTextPro(mGame_ptr->mFont, TextFormat("%d", mIndex),
                             Vector2(mRec.x, mRec.y), Vector2(0, 0), 0.0f,
                             rec_size, 10, mUtilsColor);
+            } else {
+                DrawTexturePro(*mText, Rectangle(0, 0, mText->width, mText->height),
+                        Rectangle{mRec.x + PADDING, mRec.y + PADDING, mRec.width - PADDING * 2, mRec.height - PADDING * 2},
+                        Vector2(0, 0), 0.0f, WHITE);
             }
         } else {
             DrawRectangleRec(mRec, RED);
