@@ -10,6 +10,8 @@
 #include <cstring>
 #include <functional>
 
+#define PADDING 10
+
 struct ObjBead : public Object {
   private:
     Vector2 _xy_gen_helper() {
@@ -68,7 +70,8 @@ struct ObjBead : public Object {
 
         if (mText != nullptr && mText->width > 0 && mText->height > 0) {
             DrawTexturePro(*mText, Rectangle(0, 0, mText->width, mText->height),
-                           mRec, Vector2(0, 0), 0.0f, WHITE);
+                           Rectangle{mRec.x + PADDING, mRec.y + PADDING, mRec.width - PADDING * 2, mRec.height - PADDING * 2},
+                           Vector2(0, 0), 0.0f, WHITE);
             int rec_size = 9 * mGame_ptr->mScale;
             if (mGame_ptr->mTurn == mGroup) {
                 // Disable index rendering when vsbot and bot turn.

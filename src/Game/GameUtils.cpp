@@ -122,11 +122,11 @@ void _position_menu_object(Game *game) {
 
 void _create_ingame_object(Game *game, int &z_index) {
     Texture2D *bead_white_txt =
-        game->mTexMan.load_texture("black_bead", "./assets/catto.png");
+        game->mTexMan.load_texture("black_bead", "./assets/bead1_real_real.png");
     Texture2D *bead_black_txt =
-        game->mTexMan.load_texture("white_bead", "./assets/white.png");
+        game->mTexMan.load_texture("white_bead", "./assets/bead2_real_real.png");
     Texture2D *board_txt =
-        game->mTexMan.load_texture("board_txt", "./assets/board.png");
+        game->mTexMan.load_texture("board_txt", "./assets/board_real_real.png");
     Texture2D *dice_txt =
         game->mTexMan.load_texture("dice_txt", "./assets/nayeon.png");
 
