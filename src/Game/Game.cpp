@@ -1,15 +1,15 @@
 #include "Game.hpp"
 #include "../Object/ObjText.hpp"
+#include "../Shaders/beadShaders.hpp"
 #include "../Shaders/ingameShaders.hpp"
 #include "../Shaders/menuShaders.hpp"
-#include "../Shaders/beadShaders.hpp"
 #include "../Window/Window.hpp"
 #include "GameBot.hpp"
 #include "GameUtils.hpp"
 
 #define DEBUG_MODE
 
-auto winSound = std::pair<bool, ManagedSound*>(true, nullptr);
+auto winSound = std::pair<bool, ManagedSound *>(true, nullptr);
 
 Game::Game() {
     mTexMan = TextureManager();
@@ -88,7 +88,8 @@ void Game::handle_logic(float dt) {
     GameState current_state = mStateOrTag;
 
     // If the current state not menu then decrase the volume more.
-    if (current_state == GameState::INGAME || current_state == GameState::FINISHED)
+    if (current_state == GameState::INGAME ||
+        current_state == GameState::FINISHED)
         SetMusicVolume(mMusic, VOL_LOW);
 
     for (auto &d : mObjMan.mData) {
@@ -240,6 +241,12 @@ void Game::handle_key(float dt) {
         break;
     }
     case GameState::FINISHED: {
+        if (IsKeyReleased(KEY_E)) {
+            _finish_restart_game(this);
+        }
+        if (IsKeyReleased(KEY_Q)) {
+            _finish_exit_main(this);
+        }
         break;
     }
     default:
@@ -259,6 +266,4 @@ void Game::_sync_scale() {
 
 void Game::exit_game() { mWantExit = true; }
 
-void set_winsound_playable(bool p) {
-    winSound.first = p;
-}
+void set_winsound_playable(bool p) { winSound.first = p; }

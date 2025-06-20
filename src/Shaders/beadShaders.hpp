@@ -27,7 +27,7 @@ const char *bead_shaders=
 "    }\n"
 
 "    if (outline > 0.0) {\n"
-"        finalColor = vec4(1.0); // White outline\n"
+"        finalColor = vec4(1.0, 1.0, 1.0, 0.7); // White outline\n"
 "    } else {\n"
 "        finalColor = vec4(0.0); // Transparent\n"
 "    }\n"

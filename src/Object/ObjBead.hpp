@@ -74,12 +74,6 @@ struct ObjBead : public Object {
 
             int rec_size = 9 * mGame_ptr->mScale;
             if (mGame_ptr->mTurn == mGroup) {
-                static const Vector2 texel_size = {
-                    1.0f / (float)mText->width,
-                    1.0f / (float)mText->height
-                };
-                static int texelSizeLoc = GetShaderLocation(*mShader, "texelSize");
-                SetShaderValue(*mShader, texelSizeLoc, &texel_size, SHADER_UNIFORM_VEC2);
                 BeginShaderMode(*mShader);
 
                 DrawTexturePro(*mText, Rectangle(0, 0, mText->width, mText->height),

@@ -28,6 +28,9 @@ void _window_flag_helper(Game *game);
 
 void _start_game(Game *game, bool vsbot);
 
+void _finish_restart_game(Game *game);
+void _finish_exit_main(Game *game);
+
 // IN-GAME FUNCTION
 void _ingame_next_turn(Game *game);
 void _ingame_getdice(Game *game);

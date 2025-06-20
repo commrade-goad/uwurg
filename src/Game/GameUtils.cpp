@@ -121,10 +121,10 @@ void _position_menu_object(Game *game) {
 }
 
 void _create_ingame_object(Game *game, int &z_index) {
-    Texture2D *bead_white_txt =
-        game->mTexMan.load_texture("black_bead", "./assets/bead1_real_real.png");
-    Texture2D *bead_black_txt =
-        game->mTexMan.load_texture("white_bead", "./assets/bead2_real_real.png");
+    Texture2D *bead_white_txt = game->mTexMan.load_texture(
+        "black_bead", "./assets/bead1_real_real.png");
+    Texture2D *bead_black_txt = game->mTexMan.load_texture(
+        "white_bead", "./assets/bead2_real_real.png");
     Texture2D *board_txt =
         game->mTexMan.load_texture("board_txt", "./assets/board_real_real.png");
     Texture2D *dice_txt =
@@ -161,6 +161,7 @@ void _create_ingame_object(Game *game, int &z_index) {
     }
 
     // Create the bead
+    bool done = false;
     Shader *bead_shader = game->mSMan.get_shader("bead");
     for (int i = 0; i < 7; i++) {
         sptr_t<Object> test_bead = game->mObjMan.add_object(mk_sptr<ObjBead>(
@@ -169,10 +170,25 @@ void _create_ingame_object(Game *game, int &z_index) {
 
         test_bead->mTag = GameState::INGAME;
         test_bead->mText = bead_white_txt;
+
         auto a = std::dynamic_pointer_cast<ObjBead>(test_bead);
         a->mOnClick = [game, a]() { _ingame_bead_button_helper(a, game); };
         a->mSound = s;
-        if (bead_shader) a->mShader = bead_shader;
+        if (bead_shader)
+            a->mShader = bead_shader;
+
+        // Only need to be called once.
+        // Set the needed stuff for the shaders
+        if (!done) {
+            static const Vector2 texel_size = {1.0f / (float)a->mText->width,
+                                               1.0f / (float)a->mText->height};
+            static int texelSizeLoc =
+                GetShaderLocation(*a->mShader, "texelSize");
+            SetShaderValue(*a->mShader, texelSizeLoc, &texel_size,
+                           SHADER_UNIFORM_VEC2);
+            done = true;
+        }
+
         z_index++;
     }
 
@@ -186,7 +202,8 @@ void _create_ingame_object(Game *game, int &z_index) {
         auto a = std::dynamic_pointer_cast<ObjBead>(test_bead);
         a->mOnClick = [game, a]() { _ingame_bead_button_helper(a, game); };
         a->mSound = s;
-        if (bead_shader) a->mShader = bead_shader;
+        if (bead_shader)
+            a->mShader = bead_shader;
         z_index++;
     }
 
@@ -215,8 +232,9 @@ void _create_ingame_object(Game *game, int &z_index) {
     static const char *newBeadBtnString = "New Bead(N)";
 
     sptr_t<Object> newP1BeadBtn = game->mObjMan.add_object(mk_sptr<ObjButton>(
-        Rectangle{}, z_index, "new_bead_button", newBeadBtnString, WHITE, BLACK,
-        font_size, 10, [game]() { game_new_bead_helper(game); }));
+        Rectangle{}, z_index, "new_bead_button", newBeadBtnString,
+        GetColor(0x153CB4FF), WHITE, font_size, 10,
+        [game]() { game_new_bead_helper(game); }));
     newP1BeadBtn->mTag = GameState::INGAME;
     z_index++;
 
@@ -228,12 +246,12 @@ void _create_ingame_object(Game *game, int &z_index) {
     z_index++;
 
     // Create the skip turn button
-    sptr_t<Object> newSkipButton = game->mObjMan.add_object(
-        mk_sptr<ObjBtnSkip>(Rectangle{}, z_index, "skip_turn_button",
-                            "Skip turn", WHITE, BLACK, font_size, 10, [game]() {
-                                _ingame_getdice(game);
-                                game_change_turn(game);
-                            }));
+    sptr_t<Object> newSkipButton = game->mObjMan.add_object(mk_sptr<ObjBtnSkip>(
+        Rectangle{}, z_index, "skip_turn_button", "Skip turn",
+        GetColor(0x153CB4FF), WHITE, font_size, 10, [game]() {
+            _ingame_getdice(game);
+            game_change_turn(game);
+        }));
     newSkipButton->mTag = GameState::INGAME;
     z_index++;
 }
@@ -289,29 +307,16 @@ void _create_finish_menu_object(Game *game, int &z_index) {
 
     // Create button
     sptr_t<Object> restartBtn = game->mObjMan.add_object(mk_sptr<ObjButton>(
-        Rectangle{}, z_index, "restart_state_btn", "Restart",
-        GetColor(0x153CB4FF), WHITE, font_button_size, 10, [game]() {
-            game->mStateOrTag = GameState::INGAME;
-            _ingame_reset_state(game);
-            _ingame_getdice(game);
-            game->mPosMove = get_possible_move(game);
-            auto vic = game->mSouMan.get_sound("victory");
-            vic->stop_sound();
-            set_winsound_playable(true);
-        }));
+        Rectangle{}, z_index, "restart_state_btn", "Restart (E)",
+        GetColor(0x153CB4FF), WHITE, font_button_size, 10,
+        [game]() { _finish_restart_game(game); }));
     restartBtn->mTag = GameState::FINISHED;
     z_index++;
 
     sptr_t<Object> mainMenuBtn = game->mObjMan.add_object(mk_sptr<ObjButton>(
-        Rectangle{}, z_index, "back_menu_btn", "Back to the Menu",
-        GetColor(0x153CB4FF), WHITE, font_button_size, 10, [game]() {
-            _ingame_reset_state(game);
-            game->mStateOrTag = GameState::MENU;
-            SetMusicVolume(game->mMusic, VOL_NORMAL);
-            auto vic = game->mSouMan.get_sound("victory");
-            vic->stop_sound();
-            set_winsound_playable(true);
-        }));
+        Rectangle{}, z_index, "back_menu_btn", "Back to the Menu (Q)",
+        GetColor(0x153CB4FF), WHITE, font_button_size, 10,
+        [game]() { _finish_exit_main(game); }));
     mainMenuBtn->mTag = GameState::FINISHED;
     z_index++;
 }
@@ -556,9 +561,7 @@ inline void _ingame_next_turn(Game *game) {
                                                    : GameTurn::PLAYER1;
 }
 
-void _ingame_getdice(Game *game) {
-    game->mDice = GetRandomValue(0, 4);
-}
+void _ingame_getdice(Game *game) { game->mDice = GetRandomValue(0, 4); }
 
 void _window_flag_helper(Game *game) {
     game->mWindow_ptr->toggle_fullscreen();
@@ -638,4 +641,22 @@ void _ingame_reset_state(Game *game) {
     if (auto p2lc = std::dynamic_pointer_cast<ObjScore>(p2l)) {
         p2lc->update_label();
     }
+}
+
+void _finish_restart_game(Game *game) {
+    game->mStateOrTag = GameState::INGAME;
+    _ingame_reset_state(game);
+    _ingame_getdice(game);
+    game->mPosMove = get_possible_move(game);
+    auto vic = game->mSouMan.get_sound("victory");
+    vic->stop_sound();
+    set_winsound_playable(true);
+}
+void _finish_exit_main(Game *game) {
+    _ingame_reset_state(game);
+    game->mStateOrTag = GameState::MENU;
+    SetMusicVolume(game->mMusic, VOL_NORMAL);
+    auto vic = game->mSouMan.get_sound("victory");
+    vic->stop_sound();
+    set_winsound_playable(true);
 }
