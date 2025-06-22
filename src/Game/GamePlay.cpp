@@ -14,7 +14,7 @@ PossibleMove::PossibleMove(sptr_t<Object> bead, int possibleMove) {
     mBead = bead;
     mNewPos = possibleMove;
     mExtraTurn = false;
-    mType = MOVEBEAD;
+    mType = MoveType::MOVEBEAD;
     mEnBead = nullptr;
 }
 
@@ -23,7 +23,7 @@ PossibleMove::PossibleMove(sptr_t<Object> bead, int possibleMove,
     mBead = bead;
     mNewPos = possibleMove;
     mExtraTurn = ExtraTurn;
-    mType = MOVEBEAD;
+    mType = MoveType::MOVEBEAD;
     mEnBead = nullptr;
 }
 
@@ -181,7 +181,7 @@ bool game_new_bead_helper(Game *game) {
     bool extra_turn;
     for (const auto &pmove : game->mPosMove) {
         extra_turn = pmove.mExtraTurn;
-        if (pmove.mType == NEWBEAD) {
+        if (pmove.mType == MoveType::NEWBEAD) {
             if (sptr_t<ObjBead> cobj =
                     std::dynamic_pointer_cast<ObjBead>(pmove.mBead)) {
                 cobj->mOut = true;

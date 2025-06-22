@@ -7,7 +7,7 @@
 #include <optional>
 #include <vector>
 
-enum MoveType {
+enum class MoveType {
     NEWBEAD,
     MOVEBEAD,
     FINISH,

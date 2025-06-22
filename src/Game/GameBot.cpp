@@ -82,7 +82,7 @@ void GameBot::bot_move() {
 bool GameBot::bot_think() {
     if (!mGame_ptr->mBotCanMove)
         return false;
-    static const MoveType moveRank[3] = {FINISH, MOVEBEAD, NEWBEAD};
+    static const MoveType moveRank[3] = {MoveType::FINISH, MoveType::MOVEBEAD, MoveType::NEWBEAD};
 
     if (!mGame_ptr) {
         TraceLog(LOG_FATAL, "Game pointer is null");

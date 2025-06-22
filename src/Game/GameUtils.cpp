@@ -646,7 +646,9 @@ void _start_game(Game *game, bool vsbot) {
 
 void _ingame_bead_button_helper(sptr_t<ObjBead> bead, Game *game) {
     for (const auto &move : game->mPosMove) {
-        if (move.mType == MOVEBEAD && move.mBead == bead) {
+        if ((move.mType == MoveType::MOVEBEAD ||
+             move.mType == MoveType::FINISH) &&
+            move.mBead == bead) {
             size_t jump_for = strlen("bead_p1_");
             const int num = std::atoi(move.mBead->mName.c_str() + jump_for);
             game_move_bead_helper(game, num);
