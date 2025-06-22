@@ -1,7 +1,9 @@
 #include "State.hpp"
 #include <cstdio>
 
-PState::PState() {}
+PState::PState() {
+    mIsFullscreen = false;
+}
 
 bool PState::write_to_file(const char *file_path) {
     FILE *f = fopen(file_path, "wb");

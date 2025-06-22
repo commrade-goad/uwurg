@@ -69,7 +69,7 @@ struct ObjButton : public Object {
     // TODO: make calculated_rec apply mRec
     virtual void logic(float dt) override {
         (void)dt;
-        if (mGame_ptr->mWindow_ptr == nullptr)
+        if (mGame_ptr->mWindow_ptr == nullptr || !mShow)
             return;
         Rectangle calculated_rec =
             Rectangle(mRec.x - mPad, mRec.y - mPad, mRec.width + (mPad * 2),

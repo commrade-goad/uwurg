@@ -43,6 +43,7 @@ struct Game {
 
     GameBot *mBot;
     bool mBotCanMove;
+    bool mFirstTime;
 
     Game();
     ~Game();

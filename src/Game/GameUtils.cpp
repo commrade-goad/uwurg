@@ -5,6 +5,7 @@
 #include "../Object/ObjButton.hpp"
 #include "../Object/ObjDiceRender.hpp"
 #include "../Object/ObjScore.hpp"
+#include "../Object/ObjSlide.hpp"
 #include "../Object/ObjText.hpp"
 #include "../Object/ObjTurnIndicator.hpp"
 #include "../Window/Window.hpp"
@@ -58,6 +59,7 @@ void _create_play_menu_object(Game *game, int &z_index) {
         Rectangle{}, z_index, "vs_bot", vsbot_str, GetColor(0x153CB4FF), WHITE,
         button_font_size, 10, [game]() { _start_game(game, true); }));
     vsbot_but_obj->mTag = GameState::PLAYMENU;
+    vsbot_but_obj->mShow = false;
     z_index++;
 
     sptr_t<Object> vsplayer_but_obj = game->mObjMan.add_object(
@@ -65,6 +67,7 @@ void _create_play_menu_object(Game *game, int &z_index) {
                            GetColor(0x153CB4FF), WHITE, button_font_size, 10,
                            [game]() { _start_game(game, false); }));
     vsplayer_but_obj->mTag = GameState::PLAYMENU;
+    vsplayer_but_obj->mShow = false;
     z_index++;
 
     sptr_t<Object> back_button = game->mObjMan.add_object(
@@ -72,6 +75,22 @@ void _create_play_menu_object(Game *game, int &z_index) {
                            GetColor(0xE93479FF), WHITE, button_font_size, 10,
                            [game]() { game->mStateOrTag = GameState::MENU; }));
     back_button->mTag = GameState::PLAYMENU;
+    back_button->mShow = false;
+    z_index++;
+
+    sptr_t<Object> slide = game->mObjMan.add_object(
+        mk_sptr<ObjSlide>(Rectangle{}, z_index, "slide"));
+    slide->mTag = GameState::PLAYMENU;
+    if (auto s = std::dynamic_pointer_cast<ObjSlide>(slide)) {
+        Texture2D *text1 =
+            game->mTexMan.load_texture("slide1", "./assets/1.png");
+        Texture2D *text2 =
+            game->mTexMan.load_texture("slide2", "./assets/2.png");
+        if (text1 && text2) {
+            s->add_slide(text1);
+            s->add_slide(text2);
+        }
+    }
     z_index++;
 }
 
@@ -363,7 +382,16 @@ void _position_play_menu_object(Game *game) {
     sptr_t<Object> vsbot = game->mObjMan.get_object("vs_bot");
     sptr_t<Object> vsplayer = game->mObjMan.get_object("vs_player");
     sptr_t<Object> back = game->mObjMan.get_object("second-back-btn");
+    sptr_t<Object> slide = game->mObjMan.get_object("slide");
     Vector2 *wsize = game->mWindow_ptr->get_window_size();
+
+    if (auto s = std::dynamic_pointer_cast<ObjSlide>(slide)) {
+        if (!game->mFirstTime)
+            s->mShow = false;
+
+        if (s->mShow)
+            s->mRec = Rectangle{0, 0, wsize->x, wsize->y};
+    }
 
     if (auto vsbot_btn = std::dynamic_pointer_cast<ObjButton>(vsbot)) {
         vsbot_btn->mSize = 10 * game->mScale;

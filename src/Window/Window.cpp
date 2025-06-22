@@ -55,9 +55,10 @@ bool Window::start_window_loop() {
         if (mState.mWindowSize.x > 100 || mState.mWindowSize.y > 100) {
             set_window_size(mState.mWindowSize);
             _change_res_helper(&mGame);
-            if (mState.mIsFullscreen) _window_flag_helper(&mGame);
         }
-    };
+        if (mState.mIsFullscreen) _window_flag_helper(&mGame);
+        mGame.mFirstTime = false;
+    }
 
     while (!WindowShouldClose()) {
         if (mGame.mWantExit)

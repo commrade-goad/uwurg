@@ -1,5 +1,6 @@
 #include "Game.hpp"
 #include "../Object/ObjText.hpp"
+#include "../Object/ObjSlide.hpp"
 #include "../Shaders/beadShaders.hpp"
 #include "../Shaders/ingameShaders.hpp"
 #include "../Shaders/menuShaders.hpp"
@@ -30,6 +31,7 @@ Game::Game() {
     mBot = new GameBot(1.5);
     mBotCanMove = true;
     winSound.first = true;
+    mFirstTime = true;
 }
 
 Game::~Game() {
@@ -205,11 +207,20 @@ void Game::handle_key(float dt) {
     }
 
     case GameState::PLAYMENU: {
-        if (IsKeyReleased(KEY_E)) {
-            _start_game(this, true);
-        }
-        if (IsKeyReleased(KEY_Q)) {
-            _start_game(this, false);
+        if (!mFirstTime) {
+            if (IsKeyReleased(KEY_E)) {
+                _start_game(this, true);
+            }
+            if (IsKeyReleased(KEY_Q)) {
+                _start_game(this, false);
+            }
+        } else {
+            if (IsKeyReleased(KEY_SPACE)) {
+                if (auto s = mObjMan.get_object("slide")) {
+                    sptr_t<ObjSlide> sd = std::dynamic_pointer_cast<ObjSlide>(sd);
+                    sd->_next_index();
+                }
+            }
         }
         if (IsKeyReleased(KEY_ESCAPE)) {
             mStateOrTag = GameState::MENU;
