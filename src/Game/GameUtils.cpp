@@ -18,6 +18,7 @@ void _create_menu_object(Game *game, int &z_index) {
     static const char *play_button = "PLAY (P)";
     static const char *settings_button = "SETTINGS (S)";
     static const char *exit_button = "EXIT (Esc)";
+    static const char *help_button = " ? ";
 
     sptr_t<Object> title_obj = game->mObjMan.add_object(
         mk_sptr<ObjText>(Rectangle{}, z_index, "title", title_name,
@@ -29,7 +30,7 @@ void _create_menu_object(Game *game, int &z_index) {
     sptr_t<Object> play_b_obj = game->mObjMan.add_object(mk_sptr<ObjButton>(
         Rectangle{}, z_index, "play_obj", play_button, GetColor(0x153CB4FF),
         WHITE, button_font_size, 10,
-        [game]() { game->mStateOrTag = GameState::PLAYMENU; }));
+        [game]() { game->change_state(GameState::PLAYMENU); }));
     play_b_obj->mTag = GameState::MENU;
     z_index++;
 
@@ -37,7 +38,7 @@ void _create_menu_object(Game *game, int &z_index) {
     sptr_t<Object> settings_b_obj = game->mObjMan.add_object(mk_sptr<ObjButton>(
         Rectangle{}, z_index, "settings_obj", settings_button,
         GetColor(0x153CB4FF), WHITE, button_font_size, 10,
-        [game]() { game->mStateOrTag = GameState::SETTINGS; }));
+        [game]() { game->change_state(GameState::SETTINGS); }));
     settings_b_obj->mTag = GameState::MENU;
     z_index++;
 
@@ -46,6 +47,15 @@ void _create_menu_object(Game *game, int &z_index) {
         Rectangle{}, z_index, "exit_obj", exit_button, GetColor(0xE93479FF),
         WHITE, button_font_size, 10, [game]() { game->exit_game(); }));
     exit_b_obj->mTag = GameState::MENU;
+    z_index++;
+
+    // Create help button
+    sptr_t<Object> help_b_obj = game->mObjMan.add_object(mk_sptr<ObjButton>(
+        Rectangle{}, z_index, "help_obj", help_button, GetColor(0xE93479FF),
+        WHITE, button_font_size, 10,
+        [game]() { game->change_state(GameState::TUTORIAL); }));
+    help_b_obj->mTag = GameState::MENU | GameState::PLAYMENU |
+                       GameState::TUTORIAL | GameState::SETTINGS;
     z_index++;
 }
 
@@ -59,7 +69,6 @@ void _create_play_menu_object(Game *game, int &z_index) {
         Rectangle{}, z_index, "vs_bot", vsbot_str, GetColor(0x153CB4FF), WHITE,
         button_font_size, 10, [game]() { _start_game(game, true); }));
     vsbot_but_obj->mTag = GameState::PLAYMENU;
-    vsbot_but_obj->mShow = false;
     z_index++;
 
     sptr_t<Object> vsplayer_but_obj = game->mObjMan.add_object(
@@ -67,30 +76,13 @@ void _create_play_menu_object(Game *game, int &z_index) {
                            GetColor(0x153CB4FF), WHITE, button_font_size, 10,
                            [game]() { _start_game(game, false); }));
     vsplayer_but_obj->mTag = GameState::PLAYMENU;
-    vsplayer_but_obj->mShow = false;
     z_index++;
 
     sptr_t<Object> back_button = game->mObjMan.add_object(
         mk_sptr<ObjButton>(Rectangle{}, z_index, "second-back-btn", back_txt,
                            GetColor(0xE93479FF), WHITE, button_font_size, 10,
-                           [game]() { game->mStateOrTag = GameState::MENU; }));
+                           [game]() { game->change_state(GameState::MENU); }));
     back_button->mTag = GameState::PLAYMENU;
-    back_button->mShow = false;
-    z_index++;
-
-    sptr_t<Object> slide = game->mObjMan.add_object(
-        mk_sptr<ObjSlide>(Rectangle{}, z_index, "slide"));
-    slide->mTag = GameState::PLAYMENU;
-    if (auto s = std::dynamic_pointer_cast<ObjSlide>(slide)) {
-        Texture2D *text1 =
-            game->mTexMan.load_texture("slide1", "./assets/1.png");
-        Texture2D *text2 =
-            game->mTexMan.load_texture("slide2", "./assets/2.png");
-        if (text1 && text2) {
-            s->add_slide(text1);
-            s->add_slide(text2);
-        }
-    }
     z_index++;
 }
 
@@ -100,6 +92,7 @@ void _position_menu_object(Game *game) {
     sptr_t<Object> play_btn = game->mObjMan.get_object("play_obj");
     sptr_t<Object> sett_btn = game->mObjMan.get_object("settings_obj");
     sptr_t<Object> exit_btn = game->mObjMan.get_object("exit_obj");
+    sptr_t<Object> help_btn = game->mObjMan.get_object("help_obj");
 
     if (auto titleText = std::dynamic_pointer_cast<ObjText>(title)) {
         titleText->mSize = 16 * game->mScale;
@@ -136,6 +129,15 @@ void _position_menu_object(Game *game) {
                                  (10 * 4) + game->mScale * 4,
                             .width = (float)textSize,
                             .height = (float)exitButton->mSize};
+    }
+
+    if (auto helpBtn = std::dynamic_pointer_cast<ObjButton>(help_btn)) {
+        helpBtn->mSize = 10 * game->mScale;
+        auto textSize = helpBtn->get_width();
+        helpBtn->mRec = {.x = (wsize->x - textSize) - PADDING,
+                         .y = (wsize->y - textSize) - PADDING,
+                         .width = (float)textSize,
+                         .height = (float)helpBtn->mSize};
     }
 }
 
@@ -309,7 +311,7 @@ void _create_settings_object(Game *game, int &z_index) {
     sptr_t<Object> back_button = game->mObjMan.add_object(
         mk_sptr<ObjButton>(Rectangle{}, z_index, "btm_btn", back_txt,
                            GetColor(0xE93479FF), WHITE, button_font_size, 10,
-                           [game]() { game->mStateOrTag = GameState::MENU; }));
+                           [game]() { game->change_state(GameState::MENU); }));
     back_button->mTag = GameState::SETTINGS;
     z_index++;
 }
@@ -382,16 +384,7 @@ void _position_play_menu_object(Game *game) {
     sptr_t<Object> vsbot = game->mObjMan.get_object("vs_bot");
     sptr_t<Object> vsplayer = game->mObjMan.get_object("vs_player");
     sptr_t<Object> back = game->mObjMan.get_object("second-back-btn");
-    sptr_t<Object> slide = game->mObjMan.get_object("slide");
     Vector2 *wsize = game->mWindow_ptr->get_window_size();
-
-    if (auto s = std::dynamic_pointer_cast<ObjSlide>(slide)) {
-        if (!game->mFirstTime)
-            s->mShow = false;
-
-        if (s->mShow)
-            s->mRec = Rectangle{0, 0, wsize->x, wsize->y};
-    }
 
     if (auto vsbot_btn = std::dynamic_pointer_cast<ObjButton>(vsbot)) {
         vsbot_btn->mSize = 10 * game->mScale;
@@ -562,6 +555,31 @@ void _position_ingame_object(Game *game) {
     }
 }
 
+void _create_help_object(Game *game, int &z_index) {
+    sptr_t<Object> slide = game->mObjMan.add_object(
+        mk_sptr<ObjSlide>(Rectangle{}, z_index, "slide"));
+    slide->mTag = GameState::TUTORIAL;
+    if (auto s = std::dynamic_pointer_cast<ObjSlide>(slide)) {
+        Texture2D *text1 =
+            game->mTexMan.load_texture("slide1", "./assets/1.png");
+        Texture2D *text2 =
+            game->mTexMan.load_texture("slide2", "./assets/2.png");
+        if (text1 && text2) {
+            s->add_slide(text1);
+            s->add_slide(text2);
+        }
+    }
+    z_index++;
+}
+void _position_help_object(Game *game) {
+    sptr_t<Object> slide = game->mObjMan.get_object("slide");
+    Vector2 *wsize = game->mWindow_ptr->get_window_size();
+    if (auto s = std::dynamic_pointer_cast<ObjSlide>(slide)) {
+        if (s->mShow)
+            s->mRec = Rectangle{0, 0, wsize->x, wsize->y};
+    }
+}
+
 void _change_text_from_obj(Game *game, const char *obj_name,
                            const char *new_str) {
     sptr_t<Object> obj = game->mObjMan.get_object(obj_name);
@@ -580,6 +598,7 @@ void _recalculate_all_pos(Game *game) {
     _position_settings_object(game);
     _position_play_menu_object(game);
     _position_finish_menu_object(game);
+    _position_help_object(game);
 
     _vsbot_label_toggle(game);
 }
@@ -619,7 +638,7 @@ void _change_res_helper(Game *game) {
 }
 
 void _start_game(Game *game, bool vsbot) {
-    game->mStateOrTag = GameState::INGAME;
+    game->change_state(GameState::INGAME);
     game->mVSBot = vsbot;
     _vsbot_label_toggle(game);
     game->mPosMove = get_possible_move(game);
@@ -672,7 +691,7 @@ void _ingame_reset_state(Game *game) {
 }
 
 void _finish_restart_game(Game *game) {
-    game->mStateOrTag = GameState::INGAME;
+    game->change_state(GameState::INGAME);
     _ingame_reset_state(game);
     _ingame_getdice(game);
     game->mPosMove = get_possible_move(game);
@@ -682,7 +701,7 @@ void _finish_restart_game(Game *game) {
 }
 void _finish_exit_main(Game *game) {
     _ingame_reset_state(game);
-    game->mStateOrTag = GameState::MENU;
+    game->change_state(GameState::MENU);
     SetMusicVolume(game->mMusic, VOL_NORMAL);
     auto vic = game->mSouMan.get_sound("victory");
     vic->stop_sound();

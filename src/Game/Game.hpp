@@ -28,6 +28,7 @@ struct Game {
     Music mMusic;
 
     GameState mStateOrTag;
+    GameState mOldStateOrTag;
     int mScale;
 
     Vector2 mCursorPos;
@@ -43,7 +44,6 @@ struct Game {
 
     GameBot *mBot;
     bool mBotCanMove;
-    bool mFirstTime;
 
     Game();
     ~Game();
@@ -52,6 +52,8 @@ struct Game {
     void handle_logic(float dt);
     void handle_drawing(float dt);
     void handle_key(float dt);
+    void change_state(GameState new_state);
+    void revert_state();
     void exit_game();
 
     void _sync_scale();

@@ -1,6 +1,5 @@
 #include "Game.hpp"
 #include "../Object/ObjText.hpp"
-#include "../Object/ObjSlide.hpp"
 #include "../Shaders/beadShaders.hpp"
 #include "../Shaders/ingameShaders.hpp"
 #include "../Shaders/menuShaders.hpp"
@@ -19,6 +18,7 @@ Game::Game() {
     mSouMan = SoundManager();
     mWindow_ptr = nullptr;
     mStateOrTag = GameState::MENU;
+    mOldStateOrTag = mStateOrTag;
     mScale = 0;
     mFont = Font();
     mCursorPos = Vector2();
@@ -31,7 +31,6 @@ Game::Game() {
     mBot = new GameBot(1.5);
     mBotCanMove = true;
     winSound.first = true;
-    mFirstTime = true;
 }
 
 Game::~Game() {
@@ -73,6 +72,7 @@ void Game::init(Window *w) {
     _create_settings_object(this, z_index);
     _create_play_menu_object(this, z_index);
     _create_finish_menu_object(this, z_index);
+    _create_help_object(this, z_index);
 
     _recalculate_all_pos(this);
 
@@ -135,6 +135,7 @@ void Game::handle_logic(float dt) {
 void Game::handle_drawing(float dt) {
     (void)dt;
 
+    // TODO use better way.
     const char *shaders_str =
         (mStateOrTag == GameState::INGAME || mStateOrTag == GameState::FINISHED)
             ? "ingame"
@@ -169,7 +170,7 @@ void Game::handle_key(float dt) {
     case GameState::INGAME: {
 
         if (IsKeyReleased(KEY_ESCAPE)) {
-            mStateOrTag = GameState::MENU;
+            change_state(GameState::MENU);
             _ingame_reset_state(this);
             _ingame_getdice(this);
             SetMusicVolume(mMusic, VOL_NORMAL);
@@ -207,32 +208,23 @@ void Game::handle_key(float dt) {
     }
 
     case GameState::PLAYMENU: {
-        if (!mFirstTime) {
-            if (IsKeyReleased(KEY_E)) {
-                _start_game(this, true);
-            }
-            if (IsKeyReleased(KEY_Q)) {
-                _start_game(this, false);
-            }
-        } else {
-            if (IsKeyReleased(KEY_SPACE)) {
-                if (auto s = mObjMan.get_object("slide")) {
-                    sptr_t<ObjSlide> sd = std::dynamic_pointer_cast<ObjSlide>(sd);
-                    sd->_next_index();
-                }
-            }
+        if (IsKeyReleased(KEY_E)) {
+            _start_game(this, true);
+        }
+        if (IsKeyReleased(KEY_Q)) {
+            _start_game(this, false);
         }
         if (IsKeyReleased(KEY_ESCAPE)) {
-            mStateOrTag = GameState::MENU;
+            change_state(GameState::MENU);
         }
         break;
     }
     case GameState::MENU: {
         if (IsKeyReleased(KEY_P)) {
-            mStateOrTag = GameState::PLAYMENU;
+            change_state(GameState::PLAYMENU);
         }
         if (IsKeyReleased(KEY_S)) {
-            mStateOrTag = GameState::SETTINGS;
+            change_state(GameState::SETTINGS);
         }
         if (IsKeyReleased(KEY_ESCAPE)) {
             exit_game();
@@ -247,7 +239,7 @@ void Game::handle_key(float dt) {
             _window_res_helper(this);
         }
         if (IsKeyReleased(KEY_ESCAPE)) {
-            mStateOrTag = GameState::MENU;
+            change_state(GameState::MENU);
         }
         break;
     }
@@ -257,6 +249,12 @@ void Game::handle_key(float dt) {
         }
         if (IsKeyReleased(KEY_Q)) {
             _finish_exit_main(this);
+        }
+        break;
+    }
+    case GameState::TUTORIAL: {
+        if (IsKeyReleased(KEY_ESCAPE)) {
+            revert_state();
         }
         break;
     }
@@ -273,6 +271,15 @@ void Game::_sync_scale() {
         mScale = 4;
     if (wsize->y >= 1080)
         mScale = 6;
+}
+
+void Game::change_state(GameState new_state) {
+    mOldStateOrTag = mStateOrTag;
+    mStateOrTag = new_state;
+}
+
+void Game::revert_state() {
+    mStateOrTag = mOldStateOrTag;
 }
 
 void Game::exit_game() { mWantExit = true; }

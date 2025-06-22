@@ -57,7 +57,6 @@ bool Window::start_window_loop() {
             _change_res_helper(&mGame);
         }
         if (mState.mIsFullscreen) _window_flag_helper(&mGame);
-        mGame.mFirstTime = false;
     }
 
     while (!WindowShouldClose()) {

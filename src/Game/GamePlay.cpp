@@ -260,6 +260,6 @@ std::optional<GameTurn> game_check_win(Game *game) {
 
     if (winning_player < 0)
         return {};
-    game->mStateOrTag = GameState::FINISHED;
+    game->change_state(GameState::FINISHED);
     return (GameTurn)winning_player;
 }
