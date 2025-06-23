@@ -69,7 +69,7 @@ void GameBot::bot_move() {
     if (!move.mExtraTurn)
         game_change_turn(mGame_ptr);
     else {
-        TraceLog(LOG_INFO, "Bot get an extra turn .");
+        TraceLog(LOG_INFO, "Bot get an extra turn.");
         mGame_ptr->mPosMove = get_possible_move(mGame_ptr);
 
         if (mGame_ptr->mVSBot && mGame_ptr->mTurn == GameTurn::PLAYER2) {

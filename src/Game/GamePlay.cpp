@@ -161,6 +161,8 @@ void game_change_turn(Game *game) {
         game->mTurn = GameTurn::PLAYER1;
     game->mPosMove = get_possible_move(game);
 
+    if (game->mPosMove.size() < 1) game->mDice = 0;
+
     if (game->mVSBot && game->mTurn == GameTurn::PLAYER2) {
         game->mBotCanMove = false;
         game->mBot->start_timer();
