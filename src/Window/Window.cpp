@@ -9,7 +9,6 @@ void Window::_apply_option(const char *title) {
     SetTargetFPS(mFPS);
     if (mExitKey <= -1) return;
     SetExitKey(mExitKey);
-
 }
 
 Window::Window(Vector2 size, const char *title) {
@@ -34,6 +33,7 @@ Window::Window(Vector2 size, const char *title, size_t fps, int exit_key) {
 }
 
 Window::~Window() {
+    UnloadImage(mAppIcon);
     CloseWindow();
     CloseAudioDevice();
 }
@@ -122,4 +122,9 @@ void Window::toggle_fullscreen() {
         this->set_window_size(mOldSize);
     }
     ToggleFullscreen();
+}
+
+void Window::set_app_icon(const char *path) {
+    mAppIcon = LoadImage(path);
+    SetWindowIcon(mAppIcon);
 }

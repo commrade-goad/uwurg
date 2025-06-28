@@ -22,6 +22,7 @@ struct Window {
     PState mState;
 
     Vector2 mOldSize;
+    Image mAppIcon;
 
     void _handle_drawing(float dt);
     void _handle_key(float dt);
@@ -52,6 +53,8 @@ struct Window {
     size_t get_exit_key();
 
     const char *get_name();
+
+    void set_app_icon(const char *path);
 };
 
 #endif // WINDOW_H_

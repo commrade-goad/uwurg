@@ -7,7 +7,7 @@
 #include "GameBot.hpp"
 #include "GameUtils.hpp"
 
-#define DEBUG_MODE
+/* #define DEBUG_MODE */
 
 auto winSound = std::pair<bool, ManagedSound *>(true, nullptr);
 
@@ -44,6 +44,7 @@ void Game::init(Window *w) {
     mBot->mGame_ptr = this;
     int z_index = 1;
 
+    mWindow_ptr->set_app_icon("./assets/nayeon.png");
     mSouMan.load_sound("./assets/bead-placed.wav", "bead_placed");
     mSouMan.load_sound("./assets/victory-96688.mp3", "victory");
     winSound.second = mSouMan.get_sound("victory");
