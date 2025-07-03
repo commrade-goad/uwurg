@@ -3,10 +3,6 @@ cmake_minimum_required(VERSION 3.24)
 project(uwurg)
 set(CMAKE_CXX_STANDARD 20)
 
-# set to use clang/llvm
-set(CMAKE_CXX_COMPILER, clang++)
-set(CMAKE_C_COMPILER, clang)
-
 include(FetchContent)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -45,18 +41,20 @@ set(FILE_IN
     src/main.cpp
 )
 
-add_executable(${PROJECT_NAME} ${FILE_IN})
-target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
-target_include_directories(${PROJECT_NAME} PRIVATE ${raylib_SOURCE_DIR}/src)
-
 if(NOT CMAKE_BUILD_TYPE STREQUAL "Release")
     add_compile_definitions(DEBUG_MODE)
 endif()
 
-if(UNIX AND NOT APPLE)
-    target_link_options(${PROJECT_NAME} PRIVATE -static-libgcc -static-libstdc++)
+if(WIN32)
+    add_executable(${PROJECT_NAME} WIN32 ${FILE_IN})
+    set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
+else()
+    add_executable(${PROJECT_NAME} ${FILE_IN})
 endif()
 
-if(WIN32)
-    target_link_options(${PROJECT_NAME} PRIVATE "/SUBSYSTEM:WINDOWS")
+target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
+target_include_directories(${PROJECT_NAME} PRIVATE ${raylib_SOURCE_DIR}/src)
+
+if(UNIX AND NOT APPLE)
+    target_link_options(${PROJECT_NAME} PRIVATE -static-libgcc -static-libstdc++)
 endif()
