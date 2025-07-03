@@ -1,7 +1,7 @@
 #ifndef WINDOW_H_
 #define WINDOW_H_
 
-#define VERSION "1.0.0-rc-1"
+#define VERSION "1.0.0"
 #define CONFIG_PATH "./savefile"
 
 #include "../Game/Game.hpp"
