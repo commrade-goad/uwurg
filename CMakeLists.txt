@@ -17,8 +17,9 @@ set(USE_STATIC_LIBS ON CACHE BOOL "" FORCE)
 set(GLFW_BUILD_WAYLAND OFF CACHE BOOL "" FORCE)
 set(PLATFORM Desktop)
 
-# SET(CMAKE_CXX_FLAGS -ggdb)
-add_compile_options(-Wall -Wextra -pedantic)
+if(NOT WIN32)
+    add_compile_options(-Wall -Wextra -pedantic)
+endif()
 
 FetchContent_Declare(
     raylib
@@ -48,6 +49,14 @@ add_executable(${PROJECT_NAME} ${FILE_IN})
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
 target_include_directories(${PROJECT_NAME} PRIVATE ${raylib_SOURCE_DIR}/src)
 
+if(NOT CMAKE_BUILD_TYPE STREQUAL "Release")
+    add_compile_definitions(DEBUG_MODE)
+endif()
+
 if(UNIX AND NOT APPLE)
     target_link_options(${PROJECT_NAME} PRIVATE -static-libgcc -static-libstdc++)
+endif()
+
+if(WIN32)
+    target_link_options(${PROJECT_NAME} PRIVATE "/SUBSYSTEM:WINDOWS")
 endif()

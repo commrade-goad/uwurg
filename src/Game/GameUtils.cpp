@@ -658,7 +658,7 @@ void _ingame_bead_button_helper(sptr_t<ObjBead> bead, Game *game) {
 
 void _ingame_reset_state(Game *game) {
     game->mTurn = GameTurn::PLAYER1;
-    game->mVSBot = false;
+    // game->mVSBot = false;
     game->mScore = {0, 0};
     game->mPosMove = {};
 
