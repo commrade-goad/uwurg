@@ -49,7 +49,7 @@ Vector2 *Window::get_window_size() { return &mSize; }
 
 bool Window::start_window_loop() {
 #ifdef PTEST
-    auto start = pstart;
+    auto start = pstart();
 #endif
 
     mGame.init(this);

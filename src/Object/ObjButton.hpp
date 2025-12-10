@@ -79,7 +79,7 @@ struct ObjButton : public Object {
         if (CheckCollisionPointRec(mGame_ptr->mCursorPos, calculated_rec)) {
             if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
 #ifdef PTEST
-                auto start = pstart;
+                auto start = pstart();
 #endif
                 mOnClick();
 #ifdef PTEST
