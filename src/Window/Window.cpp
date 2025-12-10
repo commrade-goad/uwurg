@@ -1,5 +1,6 @@
 #include "Window.hpp"
 #include "../Game/GameUtils.hpp"
+#include "../def.hpp"
 
 void Window::_apply_option(const char *title) {
     mName = title;
@@ -47,6 +48,10 @@ void Window::set_window_size(Vector2 size) {
 Vector2 *Window::get_window_size() { return &mSize; }
 
 bool Window::start_window_loop() {
+#ifdef PTEST
+    auto start = pstart;
+#endif
+
     mGame.init(this);
     mGame.mWindow_ptr = this;
 
@@ -59,6 +64,10 @@ bool Window::start_window_loop() {
         if (mState.mIsFullscreen) _window_flag_helper(&mGame);
     }
 
+#ifdef PTEST
+    pend("FIRST_LAUNCH", start);
+#endif
+
     while (!WindowShouldClose()) {
         if (mGame.mWantExit)
             break;
@@ -68,6 +77,7 @@ bool Window::start_window_loop() {
         _handle_drawing(dt);
     }
 
+    // saving to a file
     mState.mIsFullscreen = IsWindowFullscreen();
     if (mState.mIsFullscreen) mState.mWindowSize = mOldSize;
     else mState.mWindowSize = mSize;

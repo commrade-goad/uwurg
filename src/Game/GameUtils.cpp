@@ -1,5 +1,6 @@
 #include "GameUtils.hpp"
 #include "../Object/ObjBead.hpp"
+#include "../def.hpp"
 #include "../Object/ObjBeadBtnMan.hpp"
 #include "../Object/ObjBtnSkip.hpp"
 #include "../Object/ObjButton.hpp"
@@ -9,6 +10,7 @@
 #include "../Object/ObjText.hpp"
 #include "../Object/ObjTurnIndicator.hpp"
 #include "../Window/Window.hpp"
+
 
 void _create_menu_object(Game *game, int &z_index) {
     // Create title
@@ -147,9 +149,9 @@ void _create_ingame_object(Game *game, int &z_index) {
     Texture2D *bead_black_txt = game->mTexMan.load_texture(
         "white_bead", "./assets/bead2_real_real.png");
     Texture2D *board_txt =
-        game->mTexMan.load_texture("board_txt", "./assets/board_real_real.png");
+        game->mTexMan.load_texture("board_txt", "assets/board_real_real.png");
     Texture2D *dice_txt =
-        game->mTexMan.load_texture("dice_txt", "./assets/nayeon.png");
+        game->mTexMan.load_texture("dice_txt", "assets/nayeon.png");
 
     Color bead_color[2] = {
         GetColor(0xffffffaa),
@@ -561,9 +563,9 @@ void _create_help_object(Game *game, int &z_index) {
     slide->mTag = GameState::TUTORIAL;
     if (auto s = std::dynamic_pointer_cast<ObjSlide>(slide)) {
         Texture2D *text1 =
-            game->mTexMan.load_texture("slide1", "./assets/1.png");
+            game->mTexMan.load_texture("slide1", "assets/1.png");
         Texture2D *text2 =
-            game->mTexMan.load_texture("slide2", "./assets/2.png");
+            game->mTexMan.load_texture("slide2", "assets/2.png");
         if (text1 && text2) {
             s->add_slide(text1);
             s->add_slide(text2);
@@ -593,6 +595,7 @@ void _change_text_from_obj(Game *game, const char *obj_name,
 }
 
 void _recalculate_all_pos(Game *game) {
+    // TODO: here
     _position_ingame_object(game);
     _position_menu_object(game);
     _position_settings_object(game);

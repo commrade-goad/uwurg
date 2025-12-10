@@ -3,8 +3,10 @@
 
 // TODO: Make padding autoapply so it didnt need to be edited on rendering only
 #include "../Game/Game.hpp"
+#include "../def.hpp"
 #include "Object.hpp"
 #include <functional>
+
 
 struct ObjButton : public Object {
   public:
@@ -75,8 +77,15 @@ struct ObjButton : public Object {
             Rectangle(mRec.x - mPad, mRec.y - mPad, mRec.width + (mPad * 2),
                       mRec.height + (mPad * 2));
         if (CheckCollisionPointRec(mGame_ptr->mCursorPos, calculated_rec)) {
-            if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON))
+            if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
+#ifdef PTEST
+                auto start = pstart;
+#endif
                 mOnClick();
+#ifdef PTEST
+                pend("DELAY_AFTER_BUTTON_PRESSED", start);
+#endif
+            }
             mHovered = true;
         } else {
             mHovered = false;

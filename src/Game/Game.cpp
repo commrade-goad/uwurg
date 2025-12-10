@@ -1,4 +1,5 @@
 #include "Game.hpp"
+#include "../def.hpp"
 #include "../Object/ObjText.hpp"
 #include "../Shaders/beadShaders.hpp"
 #include "../Shaders/ingameShaders.hpp"
@@ -51,10 +52,10 @@ void Game::init(Window *w) {
     if (winSound.second)
         SetSoundVolume(winSound.second->mData, 0.2);
     // TODO: Refactor to be its own class
-    mMusic = LoadMusicStream("./assets/background-music.mp3");
+    mMusic = LoadMusicStream("assets/background-music.mp3");
 
     mFont =
-        LoadFontEx("./assets/Pixelify_Sans/PixelifySans-VariableFont_wght.ttf",
+        LoadFontEx("assets/Pixelify_Sans/PixelifySans-VariableFont_wght.ttf",
                    96, NULL, 95);
     if (mFont.texture.id == 0)
         TraceLog(LOG_FATAL,
@@ -169,12 +170,19 @@ void Game::handle_key(float dt) {
         break;
     }
     case GameState::INGAME: {
-
         if (IsKeyReleased(KEY_ESCAPE)) {
+#ifdef PTEST
+            auto start = pstart();
+#endif
+
             change_state(GameState::MENU);
             _ingame_reset_state(this);
             _ingame_getdice(this);
             SetMusicVolume(mMusic, VOL_NORMAL);
+
+#ifdef PTEST
+            pend("DELAY_AFTER_KEYPRESS", start);
+#endif
         }
 
         if (mVSBot && mTurn == GameTurn::PLAYER2)
@@ -182,7 +190,13 @@ void Game::handle_key(float dt) {
 
         if (IsKeyReleased(KEY_N)) {
             // TODO: Handle error
+#ifdef PTEST
+            auto start = pstart();
+#endif
             game_new_bead_helper(this);
+#ifdef PTEST
+            pend("DELAY_AFTER_KEYPRESS", start);
+#endif
         }
 
 #ifdef DEBUG_MODE
@@ -194,68 +208,152 @@ void Game::handle_key(float dt) {
         // TODO: Handle error
         static const int start_at = 49;
         for (int i = KEY_ONE; i <= KEY_SEVEN; i++) {
+#ifdef PTEST
+            auto start = pstart();
+#endif
             if (IsKeyReleased(i)) {
                 game_move_bead_helper(this, i - start_at);
             }
+#ifdef PTEST
+            pend("DELAY_AFTER_KEYPRESS", start);
+#endif
         }
 
         if (IsKeyReleased(KEY_SPACE)) {
+#ifdef PTEST
+            auto start = pstart();
+#endif
             if (mDice <= 0 || mPosMove.empty()) {
                 _ingame_getdice(this);
                 game_change_turn(this);
             }
+#ifdef PTEST
+            pend("DELAY_AFTER_KEYPRESS", start);
+#endif
         }
         break;
     }
 
     case GameState::PLAYMENU: {
         if (IsKeyReleased(KEY_E)) {
+#ifdef PTEST
+            auto start = pstart();
+#endif
             _start_game(this, true);
+#ifdef PTEST
+            pend("DELAY_AFTER_KEYPRESS", start);
+#endif
         }
         if (IsKeyReleased(KEY_Q)) {
+#ifdef PTEST
+            auto start = pstart();
+#endif
             _start_game(this, false);
+#ifdef PTEST
+            pend("DELAY_AFTER_KEYPRESS", start);
+#endif
         }
         if (IsKeyReleased(KEY_ESCAPE)) {
+#ifdef PTEST
+            auto start = pstart();
+#endif
             change_state(GameState::MENU);
+#ifdef PTEST
+            pend("DELAY_AFTER_KEYPRESS", start);
+#endif
         }
         break;
     }
     case GameState::MENU: {
         if (IsKeyReleased(KEY_P)) {
+#ifdef PTEST
+            auto start = pstart();
+#endif
             change_state(GameState::PLAYMENU);
+#ifdef PTEST
+            pend("DELAY_AFTER_KEYPRESS", start);
+#endif
         }
         if (IsKeyReleased(KEY_S)) {
+#ifdef PTEST
+            auto start = pstart();
+#endif
             change_state(GameState::SETTINGS);
+#ifdef PTEST
+            pend("DELAY_AFTER_KEYPRESS", start);
+#endif
         }
         if (IsKeyReleased(KEY_ESCAPE)) {
+#ifdef PTEST
+            auto start = pstart();
+#endif
             exit_game();
+#ifdef PTEST
+            pend("DELAY_AFTER_KEYPRESS", start);
+#endif
         }
         break;
     }
     case GameState::SETTINGS: {
         if (IsKeyReleased(KEY_E)) {
+#ifdef PTEST
+            auto start = pstart();
+#endif
             _window_flag_helper(this);
+#ifdef PTEST
+            pend("DELAY_AFTER_KEYPRESS", start);
+#endif
         }
         if (IsKeyReleased(KEY_Q)) {
+#ifdef PTEST
+            auto start = pstart();
+#endif
             _window_res_helper(this);
+#ifdef PTEST
+            pend("DELAY_AFTER_KEYPRESS", start);
+#endif
         }
         if (IsKeyReleased(KEY_ESCAPE)) {
+#ifdef PTEST
+            auto start = pstart();
+#endif
             change_state(GameState::MENU);
+#ifdef PTEST
+            pend("DELAY_AFTER_KEYPRESS", start);
+#endif
         }
         break;
     }
     case GameState::FINISHED: {
         if (IsKeyReleased(KEY_E)) {
+#ifdef PTEST
+            auto start = pstart();
+#endif
             _finish_restart_game(this);
+#ifdef PTEST
+            pend("DELAY_AFTER_KEYPRESS", start);
+#endif
         }
         if (IsKeyReleased(KEY_Q)) {
+#ifdef PTEST
+            auto start = pstart();
+#endif
             _finish_exit_main(this);
+#ifdef PTEST
+            pend("DELAY_AFTER_KEYPRESS", start);
+#endif
         }
         break;
     }
     case GameState::TUTORIAL: {
         if (IsKeyReleased(KEY_ESCAPE)) {
+#ifdef PTEST
+            auto start = pstart();
+#endif
             revert_state();
+#ifdef PTEST
+            pend("DELAY_AFTER_KEYPRESS", start);
+#endif
         }
         break;
     }
