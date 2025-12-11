@@ -595,7 +595,9 @@ void _change_text_from_obj(Game *game, const char *obj_name,
 }
 
 void _recalculate_all_pos(Game *game) {
-    // TODO: here
+    #ifdef PTEST
+    auto start = pstart();
+    #endif
     _position_ingame_object(game);
     _position_menu_object(game);
     _position_settings_object(game);
@@ -604,6 +606,9 @@ void _recalculate_all_pos(Game *game) {
     _position_help_object(game);
 
     _vsbot_label_toggle(game);
+    #ifdef PTEST
+    pend("RECALCULATE_LAYOUT", start);
+    #endif
 }
 
 inline void _ingame_next_turn(Game *game) {

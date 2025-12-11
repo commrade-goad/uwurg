@@ -69,12 +69,18 @@ bool Window::start_window_loop() {
 #endif
 
     while (!WindowShouldClose()) {
+#ifdef PTEST
+        auto start = pstart();
+#endif
         if (mGame.mWantExit)
             break;
         float dt = GetFrameTime();
         _handle_key(dt);
         _handle_logic(dt);
         _handle_drawing(dt);
+#ifdef PTEST
+        pend("TOTAL_UPDATE_AND_RENDER_TIME", start);
+#endif
     }
 
     // saving to a file

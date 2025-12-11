@@ -1,5 +1,6 @@
 #include "GamePlay.hpp"
 #include "../Object/ObjBead.hpp"
+#include "../def.hpp"
 #include "Game.hpp"
 #include "GameBot.hpp"
 #include "GameUtils.hpp"
@@ -170,12 +171,18 @@ void game_change_turn(Game *game) {
 }
 
 void move_bot_wrapper(Game *game) {
+#ifdef PTEST
+    auto start = pstart();
+#endif
     if (game->mBot->bot_think()) {
         game->mBot->bot_move();
     } else if (game->mDice <= 0 || game->mPosMove.empty()) {
         _ingame_getdice(game);
         game_change_turn(game);
     }
+#ifdef PTEST
+    pend("BOT_THINK_AND_MOVE", start);
+#endif
 }
 
 bool game_new_bead_helper(Game *game) {

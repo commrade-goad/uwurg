@@ -87,6 +87,9 @@ void Game::init(Window *w) {
 }
 
 void Game::handle_logic(float dt) {
+#ifdef PTEST
+    auto start = pstart();
+#endif
     // To keep the stream alive it seems.
     UpdateMusicStream(mMusic);
     GameState current_state = mStateOrTag;
@@ -132,10 +135,17 @@ void Game::handle_logic(float dt) {
         if (has_flag(d->mTag, mStateOrTag))
             d->logic(dt);
     }
+
+#ifdef PTEST
+    pend("TOTAL_UPDATE_TIME", start);
+#endif
 }
 
 void Game::handle_drawing(float dt) {
     (void)dt;
+#ifdef PTEST
+    auto start = pstart();
+#endif
 
     // TODO use better way.
     const char *shaders_str =
@@ -160,6 +170,10 @@ void Game::handle_drawing(float dt) {
             d->render();
     }
     _render_version(this);
+
+#ifdef PTEST
+    pend("TOTAL_RENDER_TIME", start);
+#endif
 }
 
 void Game::handle_key(float dt) {
@@ -181,7 +195,7 @@ void Game::handle_key(float dt) {
             SetMusicVolume(mMusic, VOL_NORMAL);
 
 #ifdef PTEST
-            pend("DELAY_AFTER_KEYPRESS", start);
+            pend("DELAY_AFTER_KEY_PRESSED", start);
 #endif
         }
 
@@ -195,7 +209,7 @@ void Game::handle_key(float dt) {
 #endif
             game_new_bead_helper(this);
 #ifdef PTEST
-            pend("DELAY_AFTER_KEYPRESS", start);
+            pend("DELAY_AFTER_KEY_PRESSED", start);
 #endif
         }
 
@@ -215,7 +229,7 @@ void Game::handle_key(float dt) {
                 game_move_bead_helper(this, i - start_at);
             }
 #ifdef PTEST
-            pend("DELAY_AFTER_KEYPRESS", start);
+            pend("DELAY_AFTER_KEY_PRESSED", start);
 #endif
         }
 
@@ -228,7 +242,7 @@ void Game::handle_key(float dt) {
                 game_change_turn(this);
             }
 #ifdef PTEST
-            pend("DELAY_AFTER_KEYPRESS", start);
+            pend("DELAY_AFTER_KEY_PRESSED", start);
 #endif
         }
         break;
@@ -241,7 +255,7 @@ void Game::handle_key(float dt) {
 #endif
             _start_game(this, true);
 #ifdef PTEST
-            pend("DELAY_AFTER_KEYPRESS", start);
+            pend("DELAY_AFTER_KEY_PRESSED", start);
 #endif
         }
         if (IsKeyReleased(KEY_Q)) {
@@ -250,7 +264,7 @@ void Game::handle_key(float dt) {
 #endif
             _start_game(this, false);
 #ifdef PTEST
-            pend("DELAY_AFTER_KEYPRESS", start);
+            pend("DELAY_AFTER_KEY_PRESSED", start);
 #endif
         }
         if (IsKeyReleased(KEY_ESCAPE)) {
@@ -259,7 +273,7 @@ void Game::handle_key(float dt) {
 #endif
             change_state(GameState::MENU);
 #ifdef PTEST
-            pend("DELAY_AFTER_KEYPRESS", start);
+            pend("DELAY_AFTER_KEY_PRESSED", start);
 #endif
         }
         break;
@@ -271,7 +285,7 @@ void Game::handle_key(float dt) {
 #endif
             change_state(GameState::PLAYMENU);
 #ifdef PTEST
-            pend("DELAY_AFTER_KEYPRESS", start);
+            pend("DELAY_AFTER_KEY_PRESSED", start);
 #endif
         }
         if (IsKeyReleased(KEY_S)) {
@@ -280,7 +294,7 @@ void Game::handle_key(float dt) {
 #endif
             change_state(GameState::SETTINGS);
 #ifdef PTEST
-            pend("DELAY_AFTER_KEYPRESS", start);
+            pend("DELAY_AFTER_KEY_PRESSED", start);
 #endif
         }
         if (IsKeyReleased(KEY_ESCAPE)) {
@@ -289,7 +303,7 @@ void Game::handle_key(float dt) {
 #endif
             exit_game();
 #ifdef PTEST
-            pend("DELAY_AFTER_KEYPRESS", start);
+            pend("DELAY_AFTER_KEY_PRESSED", start);
 #endif
         }
         break;
@@ -301,7 +315,7 @@ void Game::handle_key(float dt) {
 #endif
             _window_flag_helper(this);
 #ifdef PTEST
-            pend("DELAY_AFTER_KEYPRESS", start);
+            pend("DELAY_AFTER_KEY_PRESSED", start);
 #endif
         }
         if (IsKeyReleased(KEY_Q)) {
@@ -310,7 +324,7 @@ void Game::handle_key(float dt) {
 #endif
             _window_res_helper(this);
 #ifdef PTEST
-            pend("DELAY_AFTER_KEYPRESS", start);
+            pend("DELAY_AFTER_KEY_PRESSED", start);
 #endif
         }
         if (IsKeyReleased(KEY_ESCAPE)) {
@@ -319,7 +333,7 @@ void Game::handle_key(float dt) {
 #endif
             change_state(GameState::MENU);
 #ifdef PTEST
-            pend("DELAY_AFTER_KEYPRESS", start);
+            pend("DELAY_AFTER_KEY_PRESSED", start);
 #endif
         }
         break;
@@ -331,7 +345,7 @@ void Game::handle_key(float dt) {
 #endif
             _finish_restart_game(this);
 #ifdef PTEST
-            pend("DELAY_AFTER_KEYPRESS", start);
+            pend("DELAY_AFTER_KEY_PRESSED", start);
 #endif
         }
         if (IsKeyReleased(KEY_Q)) {
@@ -340,7 +354,7 @@ void Game::handle_key(float dt) {
 #endif
             _finish_exit_main(this);
 #ifdef PTEST
-            pend("DELAY_AFTER_KEYPRESS", start);
+            pend("DELAY_AFTER_KEY_PRESSED", start);
 #endif
         }
         break;
@@ -352,7 +366,7 @@ void Game::handle_key(float dt) {
 #endif
             revert_state();
 #ifdef PTEST
-            pend("DELAY_AFTER_KEYPRESS", start);
+            pend("DELAY_AFTER_KEY_PRESSED", start);
 #endif
         }
         break;
@@ -373,8 +387,14 @@ void Game::_sync_scale() {
 }
 
 void Game::change_state(GameState new_state) {
+#ifdef PTEST
+    auto start = pstart();
+#endif
     mOldStateOrTag = mStateOrTag;
     mStateOrTag = new_state;
+#ifdef PTEST
+    pend("CHANGE_STATE_TIME", start);
+#endif
 }
 
 void Game::revert_state() {
