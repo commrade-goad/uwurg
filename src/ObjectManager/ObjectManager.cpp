@@ -30,9 +30,10 @@ sptr_t<Object> ObjectManager::add_object(sptr_t<Object> obj) {
 void ObjectManager::rem_object(sptr_t<Object> obj) {
     for (size_t i = 0; i < mData.size(); i++) {
         auto &d = mData[i];
-        if (d == obj)
+        if (d == obj) {
             mData.erase(mData.begin() + i);
-        break;
+            break;
+        }
     }
 }
 
@@ -43,9 +44,10 @@ void ObjectManager::rem_object(size_t z_index) {
 void ObjectManager::rem_object(std::string &name) {
     for (size_t i = 0; i < mData.size(); i++) {
         auto &d = mData[i];
-        if (d->mName == name)
+        if (d->mName == name) {
             mData.erase(mData.begin() + i);
-        break;
+            break;
+        }
     }
 }
 
