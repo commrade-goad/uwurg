@@ -22,9 +22,8 @@ static std::chrono::time_point<std::chrono::steady_clock> pstart() {
     do {                                                                                \
         auto now = std::chrono::steady_clock::now();                                    \
         double loadms = std::chrono::duration<double, std::milli>(now - start).count(); \
-        TraceLog(LOG_INFO, "PTEST: %s: %lf ms", str, loadms);                              \
+        TraceLog(LOG_INFO, "PTEST: %s: %lf ms", str, loadms);                           \
     } while(0)
 #endif
-
 
 #endif // DEF_HPP_

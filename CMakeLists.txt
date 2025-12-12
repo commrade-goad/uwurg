@@ -58,3 +58,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${raylib_SOURCE_DIR}/src)
 if(UNIX AND NOT APPLE)
     target_link_options(${PROJECT_NAME} PRIVATE -static-libgcc -static-libstdc++)
 endif()
+
+# Add the tests subdirectory
+add_subdirectory(tests)
